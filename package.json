@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@firebase/auth": "^1.5.0",
     "@firebase/firestore": "^4.4.0",
     "firebase": "^10.0.0",
     "next": "13.4.6",

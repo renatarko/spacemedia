@@ -1,5 +1,6 @@
 import Form from "@/components/register/form";
 import { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Login | Media Space",
@@ -16,11 +17,13 @@ export default function Login() {
           Your contacts your way!
         </h4>
 
-        <img
+        <Image
           src="/image2.png"
           alt="image 2"
           className="absolute left-[-4rem] bottom-0 w-[25rem]"
           draggable={false}
+          width={500}
+          height={500}
         />
       </article>
 

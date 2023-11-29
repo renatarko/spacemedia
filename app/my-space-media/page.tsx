@@ -1,21 +1,27 @@
-"use client";
+// type MySpaceMediaProps = {
+//   params: {
+//     slug: string;
+//   };
+// };
 
-import { useAuth } from "@/context/authGoogle";
-import Home from "../page";
+import Links from "@/components/links";
+import NavBar from "@/components/navbar";
 
 export default function MySpaceMedia() {
-  const { signed, user } = useAuth();
-
-  if (!signed) {
-    return <Home />;
-  }
-
-  console.log(signed, user);
-
   return (
-    <>
-      <div>My Space Media</div>
-      <h1>Olá, {user?.name}</h1>
-    </>
+    <main className="mt-36 px-20 relative">
+      <NavBar />
+      <div className="w-full justify-between flex items-center">
+        <h1 className="text-blue-500">My Media Space</h1>
+
+        <div className="flex gap-16 items-center">
+          <p className="text-gray-400">http://mediaspace/my-link-name</p>
+          <button className="bg-blue-600 shadow-sm text-white p-2 rounded-md font-bold">
+            + Create my link name
+          </button>
+        </div>
+      </div>
+      <Links />
+    </main>
   );
 }

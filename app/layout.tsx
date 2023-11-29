@@ -1,5 +1,6 @@
 "use client";
 
+import Header from "@/components/header";
 import { AuthGoogleProvider } from "@/context/authGoogle";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -19,7 +20,10 @@ export default function RootLayout({
   return (
     <AuthGoogleProvider>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <Header />
+          {children}
+        </body>
       </html>
     </AuthGoogleProvider>
   );

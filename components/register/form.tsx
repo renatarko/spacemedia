@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/context/authGoogle";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function Form() {
@@ -18,10 +19,12 @@ export default function Form() {
         onClick={signWithGoogle}
         className="flex items-center text-lg hover:shadow-lg shadow duration-150 justify-center gap-4 mb-12 w-full bg-white text-blue-500 font-bold py-3 rounded-md"
       >
-        <img
+        <Image
           src="/google.png"
           alt="google logo"
           className="w-8 h-8 rounded-full"
+          width={100}
+          height={100}
         />
         Sign in with Google
       </button>

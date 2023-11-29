@@ -5,6 +5,7 @@ import { useAuth } from "@/context/authGoogle";
 export default function Links() {
   const { user } = useAuth();
   console.log({ user });
+
   // const local = localStorage.getItem("@Auth:user");
   // const userLocal = JSON.parse(local!);
   // console.log({ userLocal });

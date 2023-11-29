@@ -7,14 +7,14 @@ import { createContext, useContext, useState } from "react";
 
 const provider = new GoogleAuthProvider();
 
-type User = {
+type UserContext = {
   name: string;
   email: string;
   avatar: string;
 };
 
 export type AuthContext = {
-  user: User | null;
+  user: UserContext | null;
   signWithGoogle: () => void;
   signed: boolean;
 };
@@ -22,7 +22,11 @@ export type AuthContext = {
 export const AuthGoogleContext = createContext({} as AuthContext);
 
 export const AuthGoogleProvider = ({ children }: any) => {
-  const [user, setUser] = useState<User>({ name: "", email: "", avatar: "" });
+  const [user, setUser] = useState<UserContext>({
+    name: "",
+    email: "",
+    avatar: "",
+  });
   const router = useRouter();
 
   const signWithGoogle = () => {
@@ -39,6 +43,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
         });
 
         localStorage.setItem("@Auth:token", token!);
+        localStorage.setItem("@Auth:user", JSON.stringify(userAuth));
         redirectUserAuth(userAuth);
       })
       .catch((error) => {
@@ -49,12 +54,15 @@ export const AuthGoogleProvider = ({ children }: any) => {
         const email = error.customData.email;
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log(errorCode);
       });
   };
 
   const redirectUserAuth = (user: any) => {
+    console.log("redirect", user);
+    const slug = user.name;
     if (user) {
-      router.push("/my-space-media");
+      router.push(`/my-space-media`);
     }
 
     return;

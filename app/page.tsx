@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -10,9 +11,12 @@ export default function Home() {
           have all your contacts linked.
         </h2>
 
-        <button className="bg-blue-600 text-white rounded-md mt-12 py-2 px-8">
+        <Link
+          href="/login"
+          className="bg-blue-600 text-white rounded-md mt-12 py-3 px-8"
+        >
           Start now
-        </button>
+        </Link>
       </div>
 
       <div className="absolute right-0 top-28">

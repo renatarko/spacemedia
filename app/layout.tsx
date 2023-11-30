@@ -3,6 +3,7 @@
 import Header from "@/components/header";
 import { AuthGoogleProvider } from "@/context/authGoogle";
 import { Inter } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,13 +19,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthGoogleProvider>
-      <html lang="en">
-        <body className={inter.className}>
-          <Header />
-          {children}
-        </body>
-      </html>
-    </AuthGoogleProvider>
+    <>
+      <AuthGoogleProvider>
+        <html lang="en">
+          <body className={inter.className}>
+            <Toaster
+              toastOptions={{
+                position: "bottom-right",
+                style: {
+                  background: "#2563EB",
+                  color: "#ffff",
+                },
+              }}
+            />
+            <Header />
+            {children}
+          </body>
+        </html>
+      </AuthGoogleProvider>
+    </>
   );
 }

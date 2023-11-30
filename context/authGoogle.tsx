@@ -1,76 +1,190 @@
 "use client";
 
 import { auth } from "@/config/firebase";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { createUser } from "@/functions/createUserDB";
+import { UserContext } from "@/types/user";
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const provider = new GoogleAuthProvider();
 
-type UserContext = {
-  name: string;
-  email: string;
-  avatar: string;
-};
+const LOCAL_AUTH_TOKEN = "@Auth:token";
+const LOCAL_AUTH_USER = "@Auth:user";
 
 export type AuthContext = {
-  user: UserContext | null;
-  signWithGoogle: () => void;
+  user: UserContext | null | undefined;
+  loginWithGoogle: () => void;
+  loginWithEmailAndPassword: (email: string, password: string) => void;
+  signUpWithEmailAndPassword: (
+    email: string,
+    password: string
+  ) => Promise<void>;
+  logout: () => Promise<void>;
+  notify: (message: string) => void;
   signed: boolean;
 };
 
 export const AuthGoogleContext = createContext({} as AuthContext);
 
 export const AuthGoogleProvider = ({ children }: any) => {
-  const [user, setUser] = useState<UserContext>({
-    name: "",
-    email: "",
-    avatar: "",
-  });
+  const [user, setUser] = useState<UserContext | null>(null);
   const router = useRouter();
 
-  const signWithGoogle = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
-        const userAuth = result.user;
-
-        setUser({
-          name: userAuth.displayName!,
-          email: userAuth.email!,
-          avatar: userAuth.photoURL!,
-        });
-
-        localStorage.setItem("@Auth:token", token!);
-        localStorage.setItem("@Auth:user", JSON.stringify(userAuth));
-        redirectUserAuth(userAuth);
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(errorCode);
-      });
+  const setUserState = (auth_user: UserContext) => {
+    setUser({
+      name: auth_user.name,
+      email: auth_user.email,
+      avatar: auth_user.avatar,
+    });
   };
 
-  const redirectUserAuth = (user: any) => {
+  const setUserInLocalStorage = (auth_user: UserContext, token: string) => {
+    localStorage.setItem(LOCAL_AUTH_TOKEN, token!);
+    localStorage.setItem(LOCAL_AUTH_USER, JSON.stringify(auth_user));
+  };
+
+  const loginWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential?.accessToken;
+      const userAuth = result.user;
+
+      setUser({
+        name: userAuth.displayName!,
+        email: userAuth.email!,
+        avatar: userAuth.photoURL!,
+      });
+
+      const auth_user = {
+        name: userAuth.displayName!,
+        email: userAuth.email!,
+        avatar: userAuth.photoURL!,
+      };
+
+      setUserInLocalStorage(auth_user, token!);
+      await createUser(auth_user);
+      redirectUserAuth(auth_user);
+    } catch (error: any) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+    }
+  };
+
+  const loginWithEmailAndPassword = async (email: string, password: string) => {
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      const credential = result;
+      const user = credential.user;
+      const token = await user.getIdToken();
+
+      const auth_user = {
+        name: user.displayName!,
+        email: user.email!,
+        avatar: user.photoURL,
+      };
+
+      setUserState(auth_user);
+      setUserInLocalStorage(auth_user, token);
+      redirectUserAuth(auth_user);
+
+      alert("user logged with email and password");
+    } catch (error: any) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorMessage);
+      toast.error(errorMessage);
+    }
+  };
+
+  const signUpWithEmailAndPassword = async (
+    email: string,
+    password: string
+  ) => {
+    try {
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const credential = result;
+      const user = credential.user;
+      const token = await user.getIdToken();
+
+      const auth_user = {
+        name: user.displayName!,
+        email: user.email!,
+        avatar: user.photoURL!,
+      };
+
+      setUserState(auth_user);
+      setUserInLocalStorage(auth_user, token);
+      createUser(auth_user);
+
+      alert("user created");
+    } catch (error: any) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      toast.error(errorMessage);
+      console.log(errorMessage);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      localStorage.clear();
+      setUser(() => null);
+      router.push("/");
+    } catch (error: any) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorMessage);
+    }
+  };
+
+  const redirectUserAuth = (user: UserContext) => {
     console.log("redirect", user);
     const slug = user.name;
     if (user) {
-      router.push(`/my-space-media`);
+      router.push(`/my-media-space`);
     }
 
     return;
   };
 
+  const notify = (message: string) => toast(message);
+
+  useEffect(() => {
+    const localStore = localStorage.getItem("@Auth:user");
+    const isUser = JSON.parse(localStore!);
+    console.log({ isUser });
+    if (isUser) {
+      setUser(isUser);
+    }
+  }, []);
+
   return (
     <AuthGoogleContext.Provider
-      value={{ signWithGoogle, user, signed: !!user }}
+      value={{
+        loginWithGoogle,
+        loginWithEmailAndPassword,
+        signUpWithEmailAndPassword,
+        logout,
+        user,
+        signed: user !== null,
+        notify,
+      }}
     >
       {children}
     </AuthGoogleContext.Provider>

@@ -3,7 +3,7 @@
 import { useAuth } from "@/context/authGoogle";
 
 export default function Links() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   console.log({ user });
 
   // const local = localStorage.getItem("@Auth:user");
@@ -19,6 +19,8 @@ export default function Links() {
           name.
         </h2>
       </article>
+
+      <button onClick={logout}>Sign out</button>
 
       {/* <Image
         src={userLocal!.photoURL}

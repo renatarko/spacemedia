@@ -51,7 +51,7 @@ export default function PreviewProvider({ children }: any) {
   const [title, setTitle] = useState("Renata Karolina");
   const [subtitle, setSubtitle] = useState("renata_rko");
   const [career, setCareer] = useState("Software Developer");
-  const [image, setImage] = useState("/image.png");
+  const [image, setImage] = useState("/Logo.png");
   const [links, setLinks] = useState(LINKS);
   const [colors, setColors] = useState({
     color: "#000",

@@ -40,7 +40,9 @@ export default function Phone() {
         ))}
       </ul>
 
-      <p className="text-blue-500 font-bold text-sm mt-12">media space</p>
+      <p className="text-blue-500 font-bold absolute m-2 bottom-0 text-sm mt-12">
+        media space
+      </p>
     </aside>
   );
 }

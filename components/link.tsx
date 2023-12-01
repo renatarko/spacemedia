@@ -1,8 +1,8 @@
 export type LinkProps = {
   children: string;
-  background?: string;
-  color?: string;
-  icon?: React.ReactNode;
+  background: string;
+  color: string;
+  icon: React.ReactNode | any;
   path: string;
 };
 

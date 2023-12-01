@@ -5,6 +5,7 @@ import { usePreview } from "@/context/preview";
 import { Instagram, Plus } from "lucide-react";
 import { useState } from "react";
 import Input from "./input";
+import { LinkProps } from "./link";
 
 export default function Links() {
   const { user, logout } = useAuth();
@@ -21,7 +22,13 @@ export default function Links() {
     setColors,
   } = usePreview();
 
-  const [linkPrev, setLinkPrev] = useState(null);
+  const [linkPrev, setLinkPrev] = useState<LinkProps>({
+    children: "",
+    icon: <Plus />,
+    path: "",
+    background: "#fff",
+    color: "#fff",
+  });
 
   const handleInput = (e: any) => {
     const { value, name } = e.target;
@@ -42,7 +49,6 @@ export default function Links() {
       },
     ]);
   };
-  console.log({ linkPrev });
 
   return (
     <div className="w-full flex flex-col items-center">

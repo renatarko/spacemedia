@@ -10,7 +10,7 @@ export default function Header() {
   console.log("header - usuario logado?", signed);
 
   return (
-    <header className="flex z-50 justify-between fixed top-0 left-0 right-0 items-center py-8 px-16 bg-white">
+    <header className="flex z-50 justify-between items-center py-8 px-16 bg-white">
       <Link href={"/"} className="font-extrabold text-blue-500 text-lg">
         media space
       </Link>

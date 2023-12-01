@@ -1,7 +1,7 @@
 "use client";
 
-import Header from "@/components/header";
 import { AuthGoogleProvider } from "@/context/authGoogle";
+import PreviewProvider from "@/context/preview";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
@@ -19,10 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <AuthGoogleProvider>
-        <html lang="en">
-          <body className={inter.className}>
+    <html lang="en">
+      <body className={inter.className}>
+        <AuthGoogleProvider>
+          <PreviewProvider>
             <Toaster
               toastOptions={{
                 position: "bottom-right",
@@ -32,11 +32,13 @@ export default function RootLayout({
                 },
               }}
             />
-            <Header />
-            {children}
-          </body>
-        </html>
-      </AuthGoogleProvider>
-    </>
+            {/* <Header /> */}
+            <main className="relative flex flex-col justify-between">
+              {children}
+            </main>
+          </PreviewProvider>
+        </AuthGoogleProvider>
+      </body>
+    </html>
   );
 }

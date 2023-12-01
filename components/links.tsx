@@ -32,8 +32,10 @@ export default function Links() {
 
   const handleInput = (e: any) => {
     const { value, name } = e.target;
-    setLinkPrev({ ...linkPrev, [name]: value });
+    setLinkPrev({ ...linkPrev, children: value, path: value });
   };
+
+  console.log({ linkPrev });
 
   const pushLink = () => {
     if (!linkPrev) return;
@@ -41,8 +43,8 @@ export default function Links() {
     setLinks([
       ...links,
       {
-        path: linkPrev.links,
-        children: linkPrev.links,
+        path: linkPrev.children,
+        children: linkPrev.path,
         icon: <Instagram />,
         color: "",
         background: "",
@@ -101,7 +103,7 @@ export default function Links() {
             label="Links"
             labelFor="links"
             onChange={handleInput}
-            value={linkPrev?.name}
+            value={linkPrev?.path}
           />
 
           <label htmlFor="color">Color</label>

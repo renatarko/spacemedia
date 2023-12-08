@@ -1,6 +1,13 @@
 import { db } from "@/config/firebase";
 import { Link, User } from "@/types/types";
-import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  QueryDocumentSnapshot,
+  arrayUnion,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 export const createUser = async (_user: User, uid: string) => {
   try {
@@ -36,10 +43,19 @@ export async function saveLinkNameMutation(uid: string, linkName: string) {
 }
 
 export async function AddLinkOnLinksMutation(uid: string, link: Link) {
+  const converter = <T>() => ({
+    toFirestore: (data: Partial<T>) => data,
+    fromFirestore: (snap: QueryDocumentSnapshot) => snap.data() as T,
+  });
+
   try {
-    const docRef = doc(db, "users", uid!);
-    await updateDoc(docRef, { links: arrayUnion(link) }, { merge: true });
-    // await addDoc(collection(db, "users"), { linkName: linkName });
+    const docRef = doc(db, "users", uid).withConverter(converter<User>());
+
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists) return null;
+
+    await updateDoc(docRef, { links: arrayUnion(link) });
+
     console.log("link name created successfully");
   } catch (e) {
     console.error("Error adding document: ", e);

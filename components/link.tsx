@@ -1,15 +1,15 @@
 export type LinkProps = {
-  children: string;
-  background: string;
-  color: string;
-  icon: React.ReactNode | any;
-  path: string;
+  children?: string;
+  background?: string;
+  color?: string;
+  icon?: React.ReactNode | any;
+  url?: string;
 };
 
 export default function Link({
   children,
   icon,
-  path,
+  url,
   background,
   color,
 }: LinkProps) {
@@ -21,7 +21,7 @@ export default function Link({
         `}
       style={{ background: background, color: color }}
       target="_blank"
-      href={path}
+      href={url}
     >
       {icon && (
         <span

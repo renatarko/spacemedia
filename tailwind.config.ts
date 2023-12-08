@@ -8,6 +8,24 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        mediaSpace: "4rem, 1fr",
+      },
+      colors: {
+        blue: {
+          "50": "#ecfdff",
+          "100": "#d0f7fd",
+          "200": "#a7effa",
+          "300": "#6ae1f6",
+          "400": "#26c9ea",
+          "500": "#0bc2ea",
+          "600": "#0b89af",
+          "700": "#106f8e",
+          "800": "#175a73",
+          "900": "#174a62",
+          "950": "#093143",
+        },
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

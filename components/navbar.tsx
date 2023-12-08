@@ -1,7 +1,16 @@
 "use client";
 
 import { useAuth } from "@/context/authGoogle";
-import { Home, Link, LogOut, MenuIcon, User2 } from "lucide-react";
+import {
+  Home,
+  Link as LinkIcon,
+  LogOut,
+  MenuIcon,
+  Smartphone,
+  User2,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -12,8 +21,8 @@ const navLinks = [
     name: "Home",
   },
   {
-    path: "/link",
-    icon: <Link />,
+    path: "/my-media-space/add-links",
+    icon: <LinkIcon />,
     name: "Add link",
   },
   {
@@ -21,11 +30,16 @@ const navLinks = [
     icon: <User2 />,
     name: "Profile",
   },
+  {
+    path: "/media-space/renata_rko",
+    icon: <Smartphone />,
+    name: "View",
+  },
 ];
 
 export default function NavBar() {
   const pathname = usePathname();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const [open, setOpen] = useState(false);
 
@@ -44,34 +58,60 @@ export default function NavBar() {
           open
             ? "opacity-0 pointer-events-auto left-[-2rem]"
             : "translate-x-[0.03rem] duration-200 pointer-events-auto"
-        } min-w-min flex flex-col justify-between text-white gap-6 z-20 items-center py-16 bg-blue-500 h-full absolute sm:fixed left-0`}
+        } w-full flex flex-col justify-between text-white gap-6 z-20 items-center py-16 bg-blue-700 h-full`}
       >
         <div>
           {navLinks.map((link) => (
-            <div
+            <Link
+              href={link.path}
               key={link.name}
-              className={`flex group justify-center items-center cursor-pointer before:w-1 before:left-1 relative py-4 before:absolute duration-200 hover:before:opacity-100 before:h-full before:bg-white before:opacity-0 px-6 ${
-                pathname === link.path && "before:opacity-100 bg-blue-600/40"
+              className={`flex group w-full justify-center items-center cursor-pointer relative py-4 duration-200 px-4 ${
+                pathname === link.path && "bg-blue-800 text-blue-500"
               }`}
             >
               {link.icon}
-              <span className="absolute group-hover:opacity-100 opacity-0 min-w-max group-hover:translate-x-2 duration-150 bg-blue-500 left-[4.5rem] p-1 rounded-md before:w-3 before:top-2 before:h-3 before:absolute pointer-events-none before:bg-blue-500 before:z-[-1] before:rounded-sm z-10 before:left-[-1.1rem] before:rotate-45">
+              <span
+                className={`absolute group-hover:opacity-100 opacity-0 min-w-max group-hover:translate-x-2 duration-150 text-white bg-blue-800 left-[4rem] py-1 px-2 rounded-md before:w-3 before:top-2 before:h-3 before:absolute pointer-events-none  before:z-[-1] before:rounded-sm z-10 before:left-[-1.1rem] before:rotate-45 ${
+                  pathname === link.path
+                    ? "before:bg-blue-800"
+                    : "before:bg-blue-700"
+                }`}
+              >
                 {link.name}
               </span>
-            </div>
+            </Link>
           ))}
         </div>
 
-        <button
-          onClick={logout}
-          className={`flex group justify-center items-center cursor-pointer before:w-1 before:left-1 relative py-4 before:absolute duration-200 hover:before:opacity-100 before:h-full before:bg-white before:opacity-0 px-6 `}
-        >
-          <LogOut />
-          <span className="absolute group-hover:opacity-100 opacity-0 min-w-max group-hover:translate-x-2 duration-150 bg-blue-500 left-[4.5rem] p-1 rounded-md before:w-3 before:top-2 before:h-3 before:absolute pointer-events-none before:bg-blue-500 before:z-[-1] before:rounded-sm z-10 before:left-[-1.1rem] before:rotate-45">
-            Logout
-          </span>
-        </button>
-        <p className="text-sm">2023</p>
+        <Link href="/renata-developer">Link</Link>
+
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-9 h-9 overflow-hidden rounded-full border-4 border-white">
+            {user?.avatar ? (
+              <Image
+                className="w-full"
+                width={200}
+                height={200}
+                src={user?.avatar}
+                alt={`Profile image ${user.name}`}
+              />
+            ) : (
+              <p className="w-full">RK</p>
+            )}
+          </div>
+
+          <button
+            onClick={logout}
+            className={`flex group justify-center items-center cursor-pointer before:w-1 before:left-1 relative py-4 before:absolute duration-200 hover:before:opacity-100 before:h-full before:bg-white before:opacity-0 px-6 `}
+          >
+            <LogOut />
+            <span
+              className={`absolute group-hover:opacity-100 opacity-0 min-w-max group-hover:translate-x-2 duration-150 text-white bg-blue-800 left-[4rem] py-1 px-2 rounded-md before:w-3 before:top-2 before:h-3 before:absolute pointer-events-none  before:z-[-1] before:rounded-sm z-10 before:left-[-1.1rem] before:rotate-45 before:bg-blue-700`}
+            >
+              Sign out
+            </span>
+          </button>
+        </div>
       </nav>
     </>
   );

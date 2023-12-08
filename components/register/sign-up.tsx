@@ -194,7 +194,9 @@ export default function SignUp() {
 
         <button
           type="button"
-          onClick={() => signUpWithEmailAndPassword(user.email, user.password)}
+          onClick={() =>
+            signUpWithEmailAndPassword(user.name, user.email, user.password)
+          }
           className="mt-16 mb-12 w-full bg-white text-blue-500 font-bold py-3 rounded-md shadow hover:shadow-lg duration-150"
         >
           Sign up

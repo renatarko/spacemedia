@@ -1,7 +1,8 @@
 "use client";
 
 import { auth } from "@/config/firebase";
-import { User, UserContext } from "@/types/types";
+import { createUser } from "@/functions/mutation";
+import { User } from "@/types/types";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -18,8 +19,10 @@ const provider = new GoogleAuthProvider();
 const LOCAL_AUTH_TOKEN = "@Auth:token";
 const LOCAL_AUTH_USER = "@Auth:user";
 
+type userContext = Omit<User, "links" | "career">;
+
 export type AuthContext = {
-  user: UserContext | null | undefined;
+  user: userContext | null | undefined;
   loginWithGoogle: () => void;
   loginWithEmailAndPassword: (email: string, password: string) => void;
   signUpWithEmailAndPassword: (
@@ -35,13 +38,13 @@ export type AuthContext = {
 export const AuthGoogleContext = createContext({} as AuthContext);
 
 export const AuthGoogleProvider = ({ children }: any) => {
-  const [user, setUser] = useState<UserContext | null>(null);
+  const [user, setUser] = useState<Omit<User, "links"> | null>(null);
   const currentUser = auth.currentUser?.getIdToken();
   // const token = currentUser?.then((result) => console.log(result));
 
   const router = useRouter();
 
-  const setUserState = (auth_user: User) => {
+  const setUserState = (auth_user: userContext) => {
     setUser({
       name: auth_user.name,
       email: auth_user.email,
@@ -49,7 +52,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
     });
   };
 
-  const setUserInLocalStorage = (auth_user: User, token: string) => {
+  const setUserInLocalStorage = (auth_user: userContext, token: string) => {
     localStorage.setItem(LOCAL_AUTH_TOKEN, token!);
     localStorage.setItem(LOCAL_AUTH_USER, JSON.stringify(auth_user));
   };
@@ -74,7 +77,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
         avatar: userAuth.photoURL!,
       };
 
-      // setUserInLocalStorage(auth_user, token!);
+      setUserInLocalStorage(auth_user, token!);
       // await createUser(auth_user, uid);
       // redirectUserAuth(auth_user);
     } catch (error: any) {
@@ -130,11 +133,12 @@ export const AuthGoogleProvider = ({ children }: any) => {
         name,
         email: user.email!,
         avatar: user.photoURL!,
+        links: [],
       };
 
-      // setUserState(auth_user);
-      // setUserInLocalStorage(auth_user, token);
-      // await createUser(auth_user, user.uid);
+      setUserState(auth_user);
+      setUserInLocalStorage(auth_user, token);
+      await createUser(auth_user, user.uid);
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;

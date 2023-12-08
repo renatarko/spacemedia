@@ -53,28 +53,28 @@ export default function Links() {
             />
           </div>
 
-          {/* <Input
+          <Input
             type="text"
             name="title"
             labelFor="title"
             label="Title"
             value={user?.name}
             onChange={(e) => setUser({ ...user, name: e.target.value })}
-          /> */}
-          {/* <Input
+          />
+          <Input
             type="text"
             label="Career"
             labelFor="career"
             onChange={(e) => setUser({ ...user, career: e.target.value })}
             value={user?.career}
-          /> */}
-          {/* <Input
+          />
+          <Input
             type="text"
             label="Subtitle"
             labelFor="subtitle"
-            onChange={(e) => setSubtitle(e.target.value)}
+            onChange={(e) => setUser({ ...user, career: e.target.value })}
             value={user?.name}
-          /> */}
+          />
 
           <div className="flex items-center gap-3">
             <Input

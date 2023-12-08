@@ -1,4 +1,3 @@
-import AddLink from "@/components/addLink";
 import { db } from "@/config/firebase";
 import { collection, getDocs } from "firebase/firestore";
 
@@ -26,7 +25,7 @@ export default async function AddLinksPage() {
   // console.log(links);
   return (
     <>
-      <AddLink />
+      {/* <AddLink /> */}
       {/* {links?.map((link, i) => (
           <div key={i}>
             {link?.name}

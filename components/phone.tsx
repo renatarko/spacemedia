@@ -5,8 +5,6 @@ import { Link as LinkDB } from "@/types/types";
 import Image from "next/image";
 import Link from "./link";
 import LinkName from "./linkName";
-import image from "next/image";
-import { title } from "process";
 
 type PhoneProps = {
   data: {
@@ -20,7 +18,7 @@ type PhoneProps = {
 };
 
 export default function Phone({ data }: PhoneProps) {
-  const { links, colors } = usePreview();
+  const { links, colors, user } = usePreview();
   return (
     <div className="h-full px-12 flex flex-col items-center  w-full ">
       <LinkName linkNameSaved={data.linkName} />
@@ -31,17 +29,17 @@ export default function Phone({ data }: PhoneProps) {
           style={{ background: colors.bg }}
         />
         <Image
-          src={image}
+          src={"/image.png"}
           alt={`image`}
           className="w-24 h-24 rounded-full border-4 border-white mt-8 z-10 shadow-lg"
           width={300}
           height={300}
         />
         <div className="flex flex-col items-center z-10 mt-8">
-          <h1 className="text-2xl font-bold">{title}</h1>
-          <h2 className="text-xl">{career}</h2>
+          <h1 className="text-2xl font-bold">{user?.name}</h1>
+          <h2 className="text-xl">{user?.career}</h2>
 
-          <p className="mt-4 text-lg font-bold">@{subtitle}</p>
+          <p className="mt-4 text-lg font-bold">@{user?.name}</p>
         </div>
 
         <ul className="flex flex-col gap-4 mt-8 w-full">

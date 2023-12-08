@@ -1,5 +1,5 @@
 import Link, { LinkProps } from "@/components/link";
-import { getUserByLinkName } from "@/functions/query";
+import { getUserByLinkNameQuery } from "@/functions/query";
 import Image from "next/image";
 
 type MediaSpaceProps = {
@@ -11,7 +11,7 @@ type MediaSpaceProps = {
 export default async function MediaSpace({
   params: { slug },
 }: MediaSpaceProps) {
-  const user = await getUserByLinkName(slug);
+  const user = await getUserByLinkNameQuery(slug);
 
   return (
     <main
@@ -38,7 +38,7 @@ export default async function MediaSpace({
           {user?.links?.map((link: LinkProps, i: any) => (
             <Link
               key={i}
-              path={link?.path}
+              url={link?.url}
               icon={link?.icon}
               background={link.background}
               color={link.color}

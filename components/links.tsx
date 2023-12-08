@@ -1,38 +1,26 @@
 "use client";
 
-import { useAuth } from "@/context/authGoogle";
 import { usePreview } from "@/context/preview";
-import { Instagram, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import Input from "./input";
 import { LinkProps } from "./link";
 
 export default function Links() {
-  const { user, logout } = useAuth();
-  const {
-    title,
-    setTitle,
-    subtitle,
-    setSubtitle,
-    career,
-    setCareer,
-    links,
-    setLinks,
-    colors,
-    setColors,
-  } = usePreview();
+  // const { user, logout } = useAuth();
+  const { links, setLinks, colors, setColors, user, setUser } = usePreview();
 
   const [linkPrev, setLinkPrev] = useState<LinkProps>({
     children: "",
     icon: <Plus />,
-    path: "",
+    url: "",
     background: "#fff",
     color: "#fff",
   });
 
   const handleInput = (e: any) => {
     const { value, name } = e.target;
-    setLinkPrev({ ...linkPrev, children: value, path: value });
+    setLinkPrev({ ...linkPrev, children: value, url: value });
   };
 
   console.log({ linkPrev });
@@ -40,16 +28,16 @@ export default function Links() {
   const pushLink = () => {
     if (!linkPrev) return;
 
-    setLinks([
-      ...links,
-      {
-        path: linkPrev.children,
-        children: linkPrev.path,
-        icon: <Instagram />,
-        color: "",
-        background: "",
-      },
-    ]);
+    // setLinks([
+    //   ...links,
+    //   {
+    //     path: linkPrev.children,
+    //     children: linkPrev.url,
+    //     icon: <Instagram />,
+    //     color: "",
+    //     background: "",
+    //   },
+    // ]);
   };
 
   return (
@@ -65,28 +53,28 @@ export default function Links() {
             />
           </div>
 
-          <Input
+          {/* <Input
             type="text"
             name="title"
             labelFor="title"
             label="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <Input
+            value={user?.name}
+            onChange={(e) => setUser({ ...user, name: e.target.value })}
+          /> */}
+          {/* <Input
             type="text"
             label="Career"
             labelFor="career"
-            onChange={(e) => setCareer(e.target.value)}
-            value={career}
-          />
-          <Input
+            onChange={(e) => setUser({ ...user, career: e.target.value })}
+            value={user?.career}
+          /> */}
+          {/* <Input
             type="text"
             label="Subtitle"
             labelFor="subtitle"
             onChange={(e) => setSubtitle(e.target.value)}
-            value={subtitle}
-          />
+            value={user?.name}
+          /> */}
 
           <div className="flex items-center gap-3">
             <Input
@@ -95,7 +83,7 @@ export default function Links() {
               label="Links"
               labelFor="links"
               onChange={handleInput}
-              value={linkPrev?.path}
+              value={linkPrev?.url}
             />
 
             <label htmlFor="color">Color</label>

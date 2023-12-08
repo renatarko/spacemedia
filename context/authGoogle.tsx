@@ -1,8 +1,7 @@
 "use client";
 
 import { auth } from "@/config/firebase";
-import { createUser } from "@/functions/mutation";
-import { User } from "@/types/types";
+import { User, UserContext } from "@/types/types";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -20,7 +19,7 @@ const LOCAL_AUTH_TOKEN = "@Auth:token";
 const LOCAL_AUTH_USER = "@Auth:user";
 
 export type AuthContext = {
-  user: User | null | undefined;
+  user: UserContext | null | undefined;
   loginWithGoogle: () => void;
   loginWithEmailAndPassword: (email: string, password: string) => void;
   signUpWithEmailAndPassword: (
@@ -36,7 +35,7 @@ export type AuthContext = {
 export const AuthGoogleContext = createContext({} as AuthContext);
 
 export const AuthGoogleProvider = ({ children }: any) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserContext | null>(null);
   const currentUser = auth.currentUser?.getIdToken();
   // const token = currentUser?.then((result) => console.log(result));
 
@@ -75,9 +74,9 @@ export const AuthGoogleProvider = ({ children }: any) => {
         avatar: userAuth.photoURL!,
       };
 
-      setUserInLocalStorage(auth_user, token!);
-      await createUser(auth_user, uid);
-      redirectUserAuth(auth_user);
+      // setUserInLocalStorage(auth_user, token!);
+      // await createUser(auth_user, uid);
+      // redirectUserAuth(auth_user);
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -99,9 +98,9 @@ export const AuthGoogleProvider = ({ children }: any) => {
         avatar: user.photoURL,
       };
 
-      setUserState(auth_user);
-      setUserInLocalStorage(auth_user, token);
-      redirectUserAuth(auth_user);
+      // setUserState(auth_user);
+      // setUserInLocalStorage(auth_user, token);
+      // redirectUserAuth(auth_user);
 
       alert("user logged with email and password");
     } catch (error: any) {
@@ -133,9 +132,9 @@ export const AuthGoogleProvider = ({ children }: any) => {
         avatar: user.photoURL!,
       };
 
-      setUserState(auth_user);
-      setUserInLocalStorage(auth_user, token);
-      await createUser(auth_user, user.uid);
+      // setUserState(auth_user);
+      // setUserInLocalStorage(auth_user, token);
+      // await createUser(auth_user, user.uid);
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;

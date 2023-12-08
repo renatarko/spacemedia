@@ -6,6 +6,8 @@ export type User = {
   links: Link[];
 };
 
+export type UserContext = Omit<User, "links">;
+
 export type Link = {
   name?: string;
   url?: string;

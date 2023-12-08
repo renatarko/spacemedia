@@ -1,10 +1,14 @@
 import { LinkProps } from "@/components/link";
+import { auth } from "@/config/firebase";
+import { getUserDataQuery } from "@/functions/query";
+import { User } from "@/types/types";
 import { Instagram } from "lucide-react";
 import {
   Dispatch,
   SetStateAction,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from "react";
 
@@ -19,19 +23,12 @@ const LINKS = [
 ];
 
 type PreviewContextProps = {
-  title: string;
-  subtitle: string;
-  career: string;
-  image: string;
   links: LinkProps[];
   colors: { color: string; background: string; bg: string };
+  user: User | null;
   setColors: Dispatch<
     SetStateAction<{ color: string; background: string; bg: string }>
   >;
-  setTitle: Dispatch<SetStateAction<string>>;
-  setSubtitle: Dispatch<SetStateAction<string>>;
-  setCareer: Dispatch<SetStateAction<string>>;
-  setImage: Dispatch<SetStateAction<string>>;
   setLinks: Dispatch<
     SetStateAction<
       {
@@ -43,37 +40,49 @@ type PreviewContextProps = {
       }[]
     >
   >;
+  setUser: Dispatch<SetStateAction<User | null>>;
 };
 
 const PreviewContext = createContext({} as PreviewContextProps);
 
 export default function PreviewProvider({ children }: any) {
-  const [title, setTitle] = useState("Renata Karolina");
-  const [subtitle, setSubtitle] = useState("renata_rko");
-  const [career, setCareer] = useState("Software Developer");
-  const [image, setImage] = useState("/Logo.png");
   const [links, setLinks] = useState(LINKS);
   const [colors, setColors] = useState({
     color: "#000",
     background: "#c3cef6ed",
     bg: "#ffff",
   });
+  const [user, setUser] = useState<User | null>(null);
+
+  const getUser = async () => {
+    const uid = auth.currentUser?.uid;
+    try {
+      const user = await getUserDataQuery(uid!);
+      if (!user) return;
+
+      setUser({
+        name: user.name,
+        email: "",
+        avatar: user.avatar,
+        career: user.career,
+      });
+      setLinks(user.links);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <PreviewContext.Provider
       value={{
-        title,
-        setTitle,
-        subtitle,
-        setSubtitle,
-        career,
-        setCareer,
-        image,
-        setImage,
         links,
         setLinks,
         colors,
         setColors,
+        user,
+        setUser,
       }}
     >
       {children}

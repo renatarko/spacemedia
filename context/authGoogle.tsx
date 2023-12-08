@@ -1,8 +1,8 @@
 "use client";
 
 import { auth } from "@/config/firebase";
-import { createUser } from "@/functions/createUserDB";
-import { UserContext } from "@/types/user";
+import { createUser } from "@/functions/mutation";
+import { User } from "@/types/types";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -20,10 +20,11 @@ const LOCAL_AUTH_TOKEN = "@Auth:token";
 const LOCAL_AUTH_USER = "@Auth:user";
 
 export type AuthContext = {
-  user: UserContext | null | undefined;
+  user: User | null | undefined;
   loginWithGoogle: () => void;
   loginWithEmailAndPassword: (email: string, password: string) => void;
   signUpWithEmailAndPassword: (
+    name: string,
     email: string,
     password: string
   ) => Promise<void>;
@@ -35,10 +36,13 @@ export type AuthContext = {
 export const AuthGoogleContext = createContext({} as AuthContext);
 
 export const AuthGoogleProvider = ({ children }: any) => {
-  const [user, setUser] = useState<UserContext | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const currentUser = auth.currentUser?.getIdToken();
+  // const token = currentUser?.then((result) => console.log(result));
+
   const router = useRouter();
 
-  const setUserState = (auth_user: UserContext) => {
+  const setUserState = (auth_user: User) => {
     setUser({
       name: auth_user.name,
       email: auth_user.email,
@@ -46,7 +50,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
     });
   };
 
-  const setUserInLocalStorage = (auth_user: UserContext, token: string) => {
+  const setUserInLocalStorage = (auth_user: User, token: string) => {
     localStorage.setItem(LOCAL_AUTH_TOKEN, token!);
     localStorage.setItem(LOCAL_AUTH_USER, JSON.stringify(auth_user));
   };
@@ -57,6 +61,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential?.accessToken;
       const userAuth = result.user;
+      const uid = userAuth.uid;
 
       setUser({
         name: userAuth.displayName!,
@@ -71,7 +76,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
       };
 
       setUserInLocalStorage(auth_user, token!);
-      await createUser(auth_user);
+      await createUser(auth_user, uid);
       redirectUserAuth(auth_user);
     } catch (error: any) {
       const errorCode = error.code;
@@ -108,6 +113,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
   };
 
   const signUpWithEmailAndPassword = async (
+    name: string,
     email: string,
     password: string
   ) => {
@@ -122,16 +128,14 @@ export const AuthGoogleProvider = ({ children }: any) => {
       const token = await user.getIdToken();
 
       const auth_user = {
-        name: user.displayName!,
+        name,
         email: user.email!,
         avatar: user.photoURL!,
       };
 
       setUserState(auth_user);
       setUserInLocalStorage(auth_user, token);
-      createUser(auth_user);
-
-      alert("user created");
+      await createUser(auth_user, user.uid);
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -153,7 +157,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
     }
   };
 
-  const redirectUserAuth = (user: UserContext) => {
+  const redirectUserAuth = (user: User) => {
     console.log("redirect", user);
     const slug = user.name;
     if (user) {

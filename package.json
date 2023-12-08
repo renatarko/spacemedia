@@ -16,7 +16,8 @@
     "next": "13.4.6",
     "react": "^18",
     "react-dom": "^18",
-    "react-hot-toast": "^2.4.1"
+    "react-hot-toast": "^2.4.1",
+    "remask": "^1.2.2"
   },
   "devDependencies": {
     "@types/node": "^20",

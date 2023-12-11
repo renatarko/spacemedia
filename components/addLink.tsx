@@ -13,12 +13,15 @@ import Button from "./button";
 type AddLinkProps = {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  field?: any;
 };
 
-export default function AddLink({ open, setOpen }: AddLinkProps) {
+export default function AddLink({ open, setOpen, field }: AddLinkProps) {
   const [link, setLink] = useState<Link | null>({} as Link);
   const [disabled, setDisabled] = useState(true);
   const [linksSaved, setLinksSaved] = useState<Link[] | []>([]);
+
+  console.log(open, field);
 
   const handleInputLink = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -48,7 +51,7 @@ export default function AddLink({ open, setOpen }: AddLinkProps) {
     <>
       {open && (
         <>
-          <div className="flex flex-col z-50 mx-8 gap-8 absolute shadow-xlg rounded-lg right-0 left-0 bg-white py-6 px-10">
+          <div className="flex flex-col z-50 mx-8 gap-8 top-[30%] absolute shadow-xlg rounded-lg right-0 left-0 bg-white py-6 px-10">
             <h3 className="font-bold ml-2">
               Select the link type, assign a name, and insert the link.
             </h3>
@@ -72,7 +75,7 @@ export default function AddLink({ open, setOpen }: AddLinkProps) {
               name="name"
               label="Name"
               labelFor="link"
-              value={link?.name}
+              value={field ? field.name : link?.name}
               onChange={(e) => {
                 handleInputLink(e);
               }}
@@ -87,7 +90,7 @@ export default function AddLink({ open, setOpen }: AddLinkProps) {
                   handleInputLink(e);
                   setDisabled(false);
                 }}
-                value={link?.url || ""}
+                value={field ? field.url : link?.url}
               />
             ) : link?.type === "Email" ? (
               <Input
@@ -96,7 +99,7 @@ export default function AddLink({ open, setOpen }: AddLinkProps) {
                 labelFor="url"
                 type="email"
                 required
-                value={link?.url || ""}
+                value={field ? field.url : link?.url}
                 onChange={(e) => {
                   handleInputLink(e);
                   setDisabled(false);
@@ -108,7 +111,7 @@ export default function AddLink({ open, setOpen }: AddLinkProps) {
                 label="URL"
                 labelFor="url"
                 type="text"
-                value={link?.url || ""}
+                value={field ? field.url : link?.url}
                 onChange={(e) => {
                   handleInputLink(e);
                   setDisabled(false);
@@ -139,7 +142,7 @@ export default function AddLink({ open, setOpen }: AddLinkProps) {
 
       <button
         onClick={() => setOpen(true)}
-        className="mt-3 p-2 w-max bg-blue-100/50 self-center text-blue-600 rounded-full hover:bg-blue-100 duration-150"
+        className="mt-3 m-2 p-2 absolute bottom-0 w-max bg-blue-100/50 self-center text-blue-600 rounded-full hover:bg-blue-100 duration-150"
       >
         <Plus />
       </button>

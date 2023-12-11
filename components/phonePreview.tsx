@@ -3,13 +3,13 @@
 import { usePreview } from "@/context/preview";
 import { Link as LinkDB } from "@/types/types";
 import { DocumentData } from "firebase/firestore";
-import Image from "next/image";
 import Link from "./link";
 import LinkName from "./linkName";
 
 type User = {
-  name: string;
+  title: string;
   avatar: string;
+  nickname: string;
   linkName: string;
   background?: string;
   career?: string;
@@ -21,10 +21,10 @@ type PhonePreviewProps = {
 };
 
 export default function PhonePreview({ data }: PhonePreviewProps) {
-  const { links, colors, user } = usePreview();
+  const { links, colors, userPreview } = usePreview();
 
   return (
-    <div className="h-full px-12 flex flex-col items-center  w-full ">
+    <div className="h-full md:px-12 px-1 flex flex-col items-center  w-full ">
       <LinkName linkNameSaved={data?.linkName} />
 
       <aside className="px-6 overflow-x-hidden mt-20 relative pb-8 h-[44rem] overflow-y-auto border-[12px] sm:border-[12px] lg:w-[75%] w-full flex flex-col items-center rounded-2xl border-gray-700">
@@ -32,19 +32,23 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
           className={`absolute top-0 bottom-0 left-0 right-0 border-4 border-gray-600 z-[-1]`}
           style={{ background: data?.background }}
         />
-        <Image
-          src={data?.avatar}
+        <img
+          src={data?.avatar ? data.avatar : userPreview.avatar!}
           alt={`image`}
           className="w-24 h-24 rounded-full border-4 border-white mt-8 z-10 shadow-lg"
-          width={300}
-          height={300}
+          // width={300}
+          // height={300}
         />
         <div className="flex flex-col items-center z-10 mt-8">
-          <h1 className="text-2xl font-bold">{user?.name}</h1>
-          <h2 className="text-xl">{user?.career}</h2>
+          <h1 className="text-2xl font-bold">
+            {data?.title ? data.title : userPreview.title}
+          </h1>
+          <h2 className="text-xl">
+            {data?.career ? data.career : userPreview.career}
+          </h2>
 
           <p className="mt-4 text-base font-bold text-gray-500">
-            @{user?.name}
+            @{data?.nickname ? data.nickname : userPreview?.nickname}
           </p>
         </div>
 

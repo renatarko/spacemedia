@@ -1,12 +1,14 @@
 export type User = {
   name: string;
   email: string;
+  title: string;
+  nickname: string;
   avatar: string | null;
   career?: string | undefined;
   links: Link[];
 };
 
-export type UserContext = Omit<User, "links">;
+export type UserContext = Omit<User, "title" | "nickname" | "links">;
 
 export type Link = {
   name?: string;

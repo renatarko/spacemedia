@@ -19,7 +19,7 @@ export default async function MySpaceMedia() {
         <h1 className="text-blue-500">My Media Space</h1>
       </div> */}
       {/* <main className="mt-16 relative w-full mb-8 grid md:grid-cols-2 grid-cols-1 gap-4"> */}
-      <Profile user={user} />
+      <Profile userRef={user} />
 
       <PhonePreview data={user} />
       {/* <Phone data={user} /> */}

@@ -58,7 +58,7 @@ export default function NavBar() {
           open
             ? "opacity-0 pointer-events-auto left-[-2rem]"
             : "translate-x-[0.03rem] duration-200 pointer-events-auto"
-        } w-full flex flex-col justify-between text-white gap-6 z-20 items-center py-16 bg-blue-700 h-full`}
+        } sm:w-full max-w-max left-0 flex flex-col justify-between text-white gap-6 z-20 items-center py-16 bg-blue-700 h-full fixed sm:relative`}
       >
         <div>
           {navLinks.map((link) => (

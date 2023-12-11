@@ -8,7 +8,8 @@ import { LinkProps } from "./link";
 
 export default function Links() {
   // const { user, logout } = useAuth();
-  const { links, setLinks, colors, setColors, user, setUser } = usePreview();
+  const { links, setLinks, colors, setColors, userPreview, setUserPreview } =
+    usePreview();
 
   const [linkPrev, setLinkPrev] = useState<LinkProps>({
     children: "",
@@ -53,28 +54,34 @@ export default function Links() {
             />
           </div>
 
-          {/* <Input
+          <Input
             type="text"
             name="title"
             labelFor="title"
             label="Title"
-            value={user?.name}
-            onChange={(e) => setUser({ ...user, name: e.target.value })}
-          /> */}
-          {/* <Input
+            value={userPreview?.title}
+            onChange={(e) =>
+              setUserPreview({ ...userPreview, title: e.target.value })
+            }
+          />
+          <Input
             type="text"
             label="Career"
             labelFor="career"
-            onChange={(e) => setUser({ ...user, career: e.target.value })}
-            value={user?.career}
-          /> */}
-          {/* <Input
-            type="text"
-            label="Subtitle"
-            labelFor="subtitle"
-            onChange={(e) => setSubtitle(e.target.value)}
-            value={user?.name}
-          /> */}
+            onChange={(e) =>
+              setUserPreview({ ...userPreview, career: e.target.value })
+            }
+            value={userPreview?.career}
+          />
+          <Input
+            type="nickname"
+            label="Nickname"
+            labelFor="nickname"
+            onChange={(e) =>
+              setUserPreview({ ...userPreview, nickname: e.target.value })
+            }
+            value={userPreview?.nickname}
+          />
 
           <div className="flex items-center gap-3">
             <Input

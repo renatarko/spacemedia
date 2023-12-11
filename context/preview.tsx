@@ -22,10 +22,17 @@ const LINKS = [
   },
 ];
 
+const initialValue = {
+  title: "",
+  avatar: "",
+  career: "",
+  nickname: "",
+};
+
 type PreviewContextProps = {
   links: LinkProps[];
   colors: { color: string; background: string; bg: string };
-  user: Omit<User, "links"> | null;
+  userPreview: Omit<User, "name" | "links" | "email">;
   setColors: Dispatch<
     SetStateAction<{ color: string; background: string; bg: string }>
   >;
@@ -40,7 +47,9 @@ type PreviewContextProps = {
       }[]
     >
   >;
-  setUser: Dispatch<SetStateAction<Omit<User, "links"> | null>>;
+  setUserPreview: Dispatch<
+    SetStateAction<Omit<User, "name" | "links" | "email">>
+  >;
 };
 
 const PreviewContext = createContext({} as PreviewContextProps);
@@ -52,7 +61,8 @@ export default function PreviewProvider({ children }: any) {
     background: "#c3cef6ed",
     bg: "#ffff",
   });
-  const [user, setUser] = useState<Omit<User, "links"> | null>(null);
+  const [userPreview, setUserPreview] =
+    useState<Omit<User, "name" | "links" | "email">>(initialValue);
 
   const getUser = async () => {
     const uid = auth.currentUser?.uid;
@@ -60,11 +70,11 @@ export default function PreviewProvider({ children }: any) {
       const user = await getUserDataQuery(uid!);
       if (!user) return;
 
-      setUser({
-        name: user.name,
-        email: "",
+      setUserPreview({
         avatar: user.avatar,
         career: user.career,
+        nickname: "",
+        title: "",
       });
       setLinks(user.links);
     } catch (error) {}
@@ -81,8 +91,8 @@ export default function PreviewProvider({ children }: any) {
         setLinks,
         colors,
         setColors,
-        user,
-        setUser,
+        userPreview,
+        setUserPreview,
       }}
     >
       {children}

@@ -8,6 +8,17 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+.customScrollNav::-webkit-scrollbar {
+  width: 5px;
+}
+.customScrollNav::-webkit-scrollbar-thumb {
+  background: #a7effa;
+  opacity: 0.2;
+}
+.customScrollNav::-webkit-scrollbar-track {
+  background: #e0e4e6;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;

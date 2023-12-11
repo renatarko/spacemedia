@@ -1,6 +1,7 @@
 "use client";
 
 import { auth } from "@/config/firebase";
+import { createUser } from "@/functions/mutation";
 import { User, UserContext } from "@/types/types";
 import {
   GoogleAuthProvider,
@@ -41,7 +42,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
 
   const router = useRouter();
 
-  const setUserState = (auth_user: User) => {
+  const setUserState = (auth_user: UserContext) => {
     setUser({
       name: auth_user.name,
       email: auth_user.email,
@@ -49,7 +50,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
     });
   };
 
-  const setUserInLocalStorage = (auth_user: User, token: string) => {
+  const setUserInLocalStorage = (auth_user: UserContext, token: string) => {
     localStorage.setItem(LOCAL_AUTH_TOKEN, token!);
     localStorage.setItem(LOCAL_AUTH_USER, JSON.stringify(auth_user));
   };
@@ -74,7 +75,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
         avatar: userAuth.photoURL!,
       };
 
-      // setUserInLocalStorage(auth_user, token!);
+      setUserInLocalStorage(auth_user, token!);
       // await createUser(auth_user, uid);
       // redirectUserAuth(auth_user);
     } catch (error: any) {
@@ -130,11 +131,12 @@ export const AuthGoogleProvider = ({ children }: any) => {
         name,
         email: user.email!,
         avatar: user.photoURL!,
+        links: [],
       };
 
-      // setUserState(auth_user);
-      // setUserInLocalStorage(auth_user, token);
-      // await createUser(auth_user, user.uid);
+      setUserState(auth_user);
+      setUserInLocalStorage(auth_user, token);
+      await createUser(auth_user, user.uid);
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;

@@ -3,9 +3,9 @@
 import { useAuth } from "@/context/authGoogle";
 import {
   Home,
-  Link as LinkIcon,
   LogOut,
   MenuIcon,
+  PaintBucket,
   Smartphone,
   User2,
 } from "lucide-react";
@@ -21,9 +21,9 @@ const navLinks = [
     name: "Home",
   },
   {
-    path: "/my-media-space/add-links",
-    icon: <LinkIcon />,
-    name: "Add link",
+    path: "/my-media-space/appearance",
+    icon: <PaintBucket />,
+    name: "Appearance",
   },
   {
     path: "/my-media-space",
@@ -31,7 +31,7 @@ const navLinks = [
     name: "Profile",
   },
   {
-    path: "/media-space/renata_rko",
+    path: "/renata-developer-1",
     icon: <Smartphone />,
     name: "View",
   },
@@ -83,7 +83,7 @@ export default function NavBar() {
           ))}
         </div>
 
-        <Link href="/renata-developer">Link</Link>
+        <Link href="/renata-developer-1">Link</Link>
 
         <div className="flex flex-col items-center gap-4">
           <div className="w-9 h-9 overflow-hidden rounded-full border-4 border-white">

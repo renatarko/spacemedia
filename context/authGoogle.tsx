@@ -131,7 +131,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
         name,
         email: user.email!,
         avatar: user.photoURL!,
-        links: [],
+        // links: [],
       };
 
       setUserState(auth_user);

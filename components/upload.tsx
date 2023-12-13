@@ -40,8 +40,6 @@ export default function Upload({ user }: DocumentData) {
     isDragAccept,
   } = useDropzone({ onDrop });
 
-  console.log(file);
-
   const saveImageOnStorage = async () => {
     if (file === null) return;
     const uid = auth.currentUser?.uid;
@@ -50,7 +48,7 @@ export default function Upload({ user }: DocumentData) {
       const storageRef = ref(storage, file.name);
       await saveAvatarMutation(uid!, url);
       setFile(null);
-      setUserPreview({ ...user, avatar: "" });
+      setUserPreview({ ...userPreview, avatar: "" });
 
       return uploadBytes(storageRef, file);
     } catch (error) {
@@ -78,8 +76,6 @@ export default function Upload({ user }: DocumentData) {
       return <p className="text-red-500">Arquivo não suportado</p>;
     }
   }
-
-  console.log({ user });
 
   return (
     <div className="self-center flex flex-col gap-2 relative">
@@ -121,7 +117,7 @@ export default function Upload({ user }: DocumentData) {
         )}
       </div>
 
-      {file !== undefined && (
+      {file !== null && (
         <button
           title="Save this image as Avatar"
           onClick={saveImageOnStorage}

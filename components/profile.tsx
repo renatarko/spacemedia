@@ -3,7 +3,7 @@
 import { auth, db } from "@/config/firebase";
 import { usePreview } from "@/context/preview";
 import { DocumentData, doc, setDoc } from "firebase/firestore";
-import { Link as LinkIcon } from "lucide-react";
+import { LinkIcon } from "lucide-react";
 import { useState } from "react";
 import AddLink from "./addLink";
 import Button from "./button";
@@ -27,9 +27,11 @@ type ProfileProps = {
 };
 
 export default function Profile({ userRef }: ProfileProps) {
-  const { userPreview, setUserPreview } = usePreview();
+  const { userPreview, setUserPreview, links } = usePreview();
   const [open, setOpen] = useState(false);
   const uid = auth.currentUser?.uid;
+
+  console.log({ userRef });
 
   return (
     <>
@@ -50,7 +52,7 @@ export default function Profile({ userRef }: ProfileProps) {
           design.
         </h2> */}
         <div className="flex flex-col customScrollNav overflow-y-auto md:px-12 px-1 h:[35rem] sm:h-[47rem] mt-8 divide pb-6 divide-y-2 divide-gray-400/20">
-          {userRef?.linkName ? (
+          {userRef?.linkName.content ? (
             <div className="flex flex-col gap-4 w-full rounded-lg">
               <Upload user={userRef} />
 
@@ -63,9 +65,16 @@ export default function Profile({ userRef }: ProfileProps) {
                   <input
                     id="title"
                     className="bg-transparent text-gray-950 outline-none flex items-center gap-2 mt-1 placeholder:text-sm placeholder:text-gray-400"
-                    value={userRef.title ? userRef.title : userPreview.title}
+                    value={
+                      userRef.title.content
+                        ? userRef.title.content
+                        : userPreview.title.content
+                    }
                     onChange={(e) =>
-                      setUserPreview({ ...userPreview, title: e.target.value })
+                      setUserPreview({
+                        ...userPreview,
+                        title: { content: e.target.value },
+                      })
                     }
                     placeholder="ex: Renata K."
                     onBlur={async () => {
@@ -73,7 +82,7 @@ export default function Profile({ userRef }: ProfileProps) {
                         const docRef = doc(db, "users", uid!);
                         await setDoc(
                           docRef,
-                          { title: userPreview.title },
+                          { title: { content: userPreview.title.content } },
                           { merge: true }
                         );
                       } catch (error) {
@@ -93,16 +102,23 @@ export default function Profile({ userRef }: ProfileProps) {
                   <input
                     id="career"
                     className="bg-transparent text-gray-950 outline-none flex items-center gap-2 mt-1 placeholder:text-sm placeholder:text-gray-400"
-                    value={userRef.career ? userRef.career : userPreview.career}
+                    value={
+                      userRef.career.content
+                        ? userRef.career.content
+                        : userPreview.career.content
+                    }
                     onChange={(e) =>
-                      setUserPreview({ ...userPreview, career: e.target.value })
+                      setUserPreview({
+                        ...userPreview,
+                        career: { content: e.target.value },
+                      })
                     }
                     onBlur={async () => {
                       try {
                         const docRef = doc(db, "users", uid!);
                         await setDoc(
                           docRef,
-                          { career: userPreview.career },
+                          { career: { content: userPreview.career.content } },
                           { merge: true }
                         );
                       } catch (error) {
@@ -124,12 +140,14 @@ export default function Profile({ userRef }: ProfileProps) {
                     id="nickname"
                     className="bg-transparent text-gray-950 outline-none flex items-center gap-2 mt-1 placeholder:text-sm placeholder:text-gray-400"
                     value={
-                      userRef.nickname ? userRef.nickname : userPreview.nickname
+                      userRef.nickname.content
+                        ? userRef.nickname.content
+                        : userPreview.nickname
                     }
                     onChange={(e) =>
                       setUserPreview({
                         ...userPreview,
-                        nickname: e.target.value,
+                        nickname: { content: e.target.value },
                       })
                     }
                     placeholder="@renata_rko"
@@ -138,7 +156,7 @@ export default function Profile({ userRef }: ProfileProps) {
                         const docRef = doc(db, "users", uid!);
                         await setDoc(
                           docRef,
-                          { nickname: userPreview.nickname },
+                          { nickname: { title: userPreview.nickname } },
                           { merge: true }
                         );
                       } catch (error) {
@@ -160,13 +178,18 @@ export default function Profile({ userRef }: ProfileProps) {
 
           {/* <input placeholder="name" onChange={(e) => setUser({...user, name: e.target.value})} /> */}
 
-          {userRef?.links.length === 0 && (
+          {userRef?.link.links.length === 0 && (
             <Button onClick={() => setOpen(true)} icon={<LinkIcon size={20} />}>
               create link
             </Button>
           )}
 
-          {userRef?.links.length && <LinkList links={userRef?.links} />}
+          {userRef?.link.links.length && (
+            <LinkList links={userRef?.link.links} />
+          )}
+          {/* // ) : (
+          //   <LinkList links={links} />
+          // )} */}
 
           <AddLink open={open} setOpen={setOpen} />
         </div>

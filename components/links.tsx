@@ -50,7 +50,7 @@ export default function Links() {
             <input
               id="bg"
               type="color"
-              onChange={(e) => setColors({ ...colors, bg: e.target.value })}
+              // onChange={(e) => setColors({ ...colors, bg: e.target.value })}
             />
           </div>
 
@@ -59,9 +59,12 @@ export default function Links() {
             name="title"
             labelFor="title"
             label="Title"
-            value={userPreview?.title}
+            value={userPreview?.title.content}
             onChange={(e) =>
-              setUserPreview({ ...userPreview, title: e.target.value })
+              setUserPreview({
+                ...userPreview,
+                title: { content: e.target.value },
+              })
             }
           />
           <Input
@@ -69,18 +72,24 @@ export default function Links() {
             label="Career"
             labelFor="career"
             onChange={(e) =>
-              setUserPreview({ ...userPreview, career: e.target.value })
+              setUserPreview({
+                ...userPreview,
+                career: { content: e.target.value },
+              })
             }
-            value={userPreview?.career}
+            value={userPreview?.career.content}
           />
           <Input
             type="nickname"
             label="Nickname"
             labelFor="nickname"
             onChange={(e) =>
-              setUserPreview({ ...userPreview, nickname: e.target.value })
+              setUserPreview({
+                ...userPreview,
+                nickname: { content: e.target.value },
+              })
             }
-            value={userPreview?.nickname}
+            value={userPreview?.nickname.content}
           />
 
           <div className="flex items-center gap-3">
@@ -98,7 +107,7 @@ export default function Links() {
               type="color"
               name="color"
               id="color"
-              onChange={(e) => setColors({ ...colors, color: e.target.value })}
+              // onChange={(e) => setColors({ ...colors, color: e.target.value })}
             />
 
             <label htmlFor="background">Background</label>
@@ -106,9 +115,9 @@ export default function Links() {
               type="color"
               name="background"
               id="background"
-              onChange={(e) =>
-                setColors({ ...colors, background: e.target.value })
-              }
+              // onChange={(e) =>
+              //   setColors({ ...colors, background: e.target.value })
+              // }
             />
 
             <button

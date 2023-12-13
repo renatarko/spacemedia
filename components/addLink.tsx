@@ -2,21 +2,25 @@
 
 import Input from "@/components/input";
 import { auth } from "@/config/firebase";
+import { usePreview } from "@/context/preview";
 import { mediasType } from "@/functions/constant";
 import { AddLinkOnLinksMutation } from "@/functions/mutation";
 import { Link } from "@/types/types";
 import { Plus } from "lucide-react";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import toast from "react-hot-toast";
+import { mask, unmask } from "remask";
 import Button from "./button";
 
 type AddLinkProps = {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  field?: any;
+  field?: Link;
 };
 
 export default function AddLink({ open, setOpen, field }: AddLinkProps) {
+  const { links, setLinks } = usePreview();
+
   const [link, setLink] = useState<Link | null>({} as Link);
   const [disabled, setDisabled] = useState(true);
   const [linksSaved, setLinksSaved] = useState<Link[] | []>([]);
@@ -26,6 +30,7 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
   const handleInputLink = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLink({ ...link, [name]: value });
+    setLinks({ ...links, [name]: value });
   };
 
   const saveLink = async () => {
@@ -36,8 +41,14 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
       return;
     }
 
+    const data = {
+      name: link.name,
+      type: link.type,
+      url: unmask(link.url!),
+    };
+
     try {
-      await AddLinkOnLinksMutation(uid!, link);
+      await AddLinkOnLinksMutation(uid!, data);
       setLink(null);
       setLinksSaved([...linksSaved, link]);
       setOpen(false);
@@ -81,18 +92,26 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
               }}
             />
 
-            {link?.type === "Phone" || link?.type === "WhatsApp" ? (
+            {link?.type === "phone" || link?.type === "whatsapp" ? (
               <Input
                 name="url"
-                label="URL"
+                label={
+                  link.type === "phone" || link.type === "whatsapp"
+                    ? "Phone number"
+                    : ""
+                }
                 labelFor="url"
                 onChange={(e) => {
                   handleInputLink(e);
                   setDisabled(false);
                 }}
-                value={field ? field.url : link?.url}
+                value={
+                  field
+                    ? mask(field.url!, "99 99999-9999")
+                    : mask(link.url!, "99 99999-9999")
+                }
               />
-            ) : link?.type === "Email" ? (
+            ) : link?.type === "email" ? (
               <Input
                 name="url"
                 label="URL"

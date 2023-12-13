@@ -51,12 +51,24 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
         </div>
 
         <div className="flex flex-col items-center z-10 mt-8">
-          <h1 className="text-2xl font-bold" style={{ color: colors.title }}>
+          <h1
+            className="text-2xl font-bold"
+            style={{
+              color: colors.title.color,
+              fontSize: colors.title.size ? colors.title.size : "1.5rem",
+            }}
+          >
             {data?.title.content
               ? data.title.content
               : userPreview.title.content}
           </h1>
-          <h2 className="text-xl" style={{ color: colors.career }}>
+          <h2
+            className="text-xl"
+            style={{
+              color: colors.career.color,
+              fontSize: colors.career.size ? colors.career.size : "1.25rem",
+            }}
+          >
             {data?.career.content
               ? data.career.content
               : userPreview.career.content}
@@ -64,7 +76,14 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
 
           <p
             className="mt-4 text-base font-bold text-gray-500"
-            style={{ color: colors.nickname }}
+            style={{
+              color: colors.nickname.color,
+              fontSize: `${
+                data?.title.size
+                  ? data.title.size + "px"
+                  : colors.title.size + "px"
+              } `,
+            }}
           >
             @
             {data?.nickname.content
@@ -82,12 +101,14 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
                   link={link}
                   // icon={""}
                   background={
-                    data.link.background
-                      ? data.link.background
-                      : colors.link_background
+                    colors.link.background
+                      ? colors.link.background
+                      : data.link.background
+                    // ? data.link.background
+                    // : colors.link_background
                   }
                   color={
-                    colors.link_color ? colors.link_color : data.link.color
+                    colors.link.color ? colors.link.color : data.link.color
                   }
                 />
 
@@ -102,6 +123,8 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
                   // icon={""}
                   background={""}
                   color={""}
+                  size={link.size}
+                  weight={link.size}
                 />
                 // </Link>
               ))}
@@ -109,7 +132,7 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
 
         <p
           className="font-light absolute m-2 bottom-0 text-sm mt-12"
-          style={{ color: colors.title }}
+          style={{ color: colors.title.color }}
         >
           media space
         </p>

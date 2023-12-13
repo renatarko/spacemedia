@@ -39,7 +39,7 @@ export const createUser = async (_user: UserContext, uid: string) => {
 export async function saveLinkNameMutation(uid: string, linkName: string) {
   try {
     const docRef = doc(db, "users", uid!);
-    await setDoc(docRef, { linkName: linkName }, { merge: true });
+    await setDoc(docRef, { "linkName.content": linkName });
     // await addDoc(collection(db, "users"), { linkName: linkName });
     console.log("link name created successfully");
   } catch (e) {
@@ -76,9 +76,13 @@ export async function AddLinkOnLinksMutation(uid: string, link: Link) {
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists) return null;
 
-    await updateDoc(docRef, { links: arrayUnion(link) });
+    // await updateDoc(docRef, { links: arrayUnion(link) });
 
-    console.log("link name created successfully");
+    await updateDoc(docRef, {
+      "link.links": arrayUnion(link),
+    });
+
+    console.log("link created successfully");
   } catch (e) {
     console.error("Error adding document: ", e);
   }

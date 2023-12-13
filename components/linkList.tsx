@@ -3,7 +3,6 @@
 import { Link } from "@/types/types";
 import { Edit, LinkIcon } from "lucide-react";
 import { useState } from "react";
-import AddLink from "./addLink";
 
 type LinkListProps = {
   links: Link[];
@@ -42,7 +41,7 @@ export default function LinkList({ links }: LinkListProps) {
         ))}
       </ul>
 
-      {open && <AddLink open={open} setOpen={setOpen} field={field} />}
+      {/* {open && <AddLink open={open} setOpen={setOpen} field={field} />} */}
     </>
   );
 }

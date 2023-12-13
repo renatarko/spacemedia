@@ -1,21 +1,39 @@
 export type User = {
   name: string;
   email: string;
-  title: string;
-  nickname: string;
-  avatar: string | null;
-  career?: string | undefined;
-  links: Link[];
+  avatar?: string;
+  linkName: {
+    content: string;
+    color?: string;
+  };
+  title: {
+    content: string;
+    color?: string;
+  };
+  nickname: {
+    content: string;
+    color?: string;
+  };
+  career: {
+    content: string;
+    color?: string;
+  };
+  link: {
+    background?: string;
+    color?: string;
+    links: Link[];
+  };
+  // links: Link[];
 };
 
-export type UserContext = Omit<User, "title" | "nickname" | "links">;
+export type UserContext = Pick<User, "name" | "email" | "avatar">;
 
 export type Link = {
   name?: string;
   url?: string;
   type?: string;
-  background?: string;
-  color?: string;
+  // background?: string;
+  // color?: string;
 };
 
 export type Links = Link[];

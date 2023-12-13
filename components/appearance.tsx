@@ -4,7 +4,13 @@ import { auth, db } from "@/config/firebase";
 import { usePreview } from "@/context/preview";
 import { doc, getDoc, updateDoc } from "@firebase/firestore";
 import { ChangeEvent, useCallback, useState } from "react";
+import Select from "./Select";
 import Color from "./color";
+
+const titlesSizes = ["16", "24", "28", "32", "36"];
+const nicknameSizes = [12, 14, 16, 18, 20, 24];
+
+const fontWeight = ["normal", "bold"];
 
 export default function Appearance() {
   const { colors, setColors } = usePreview();
@@ -209,36 +215,168 @@ export default function Appearance() {
 
       <div className="pt-12">
         <h2 className="font-bold text-2xl mb-2">Texts</h2>
-        <Color
-          label="Title"
-          labelFor="title"
-          name="title.color"
-          onChange={(e) => {
-            handleChange(e);
-            setColors({ ...colors, title: e.target.value });
-          }}
-          value={colors.title}
-        />
-        <Color
-          label="Career"
-          labelFor="career"
-          name="career.color"
-          onChange={(e) => {
-            handleChange(e);
-            setColors({ ...colors, career: e.target.value });
-          }}
-          value={colors.career}
-        />
-        <Color
-          label="Nickname"
-          labelFor="nickname"
-          name="nickname.color"
-          onChange={(e) => {
-            setColors({ ...colors, nickname: e.target.value });
-            handleChange(e);
-          }}
-          value={colors.nickname}
-        />
+
+        <div className="mb-6">
+          <Color
+            label="Title"
+            labelFor="title"
+            name="title.color"
+            onChange={(e) => {
+              handleChange(e);
+              setColors({
+                ...colors,
+                title: {
+                  ...colors.title,
+                  color: e.target.value,
+                },
+              });
+            }}
+            value={colors.title.color}
+          />
+          <div className="flex mt-2  sm:justify-normal sm:gap-6 gap-0 justify-between items-center">
+            <Select
+              options={titlesSizes}
+              label="Font Size"
+              labelFor="fontSize"
+              name="title.size"
+              value={colors.title.size && colors.title.size}
+              onChange={(e) => {
+                setColors({
+                  ...colors,
+                  title: {
+                    ...colors.title,
+                    size: e.target.value,
+                  },
+                });
+                console.log(e.target.value);
+              }}
+            />
+
+            <Select
+              options={fontWeight}
+              label="Font Weight"
+              labelFor="fontWeight"
+              name="title.weight"
+              value={colors.title.weight && colors.title.weight}
+              onChange={(e) => {
+                setColors({
+                  ...colors,
+                  title: {
+                    ...colors.career,
+                    weight: e.target.value,
+                  },
+                });
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <Color
+            label="Career"
+            labelFor="career"
+            name="career.color"
+            onChange={(e) => {
+              handleChange(e);
+              setColors({
+                ...colors,
+                career: {
+                  ...colors.career,
+                },
+              });
+            }}
+            value={colors.career.color}
+          />
+          <div className="flex mt-2  sm:justify-normal sm:gap-6 gap-0 justify-between items-center">
+            <Select
+              options={titlesSizes}
+              label="Font Size"
+              labelFor="fontSize"
+              name="career.size"
+              value={colors.career.size && colors.career.size}
+              onChange={(e) => {
+                setColors({
+                  ...colors,
+                  career: {
+                    ...colors.career,
+                    size: e.target.value,
+                  },
+                });
+              }}
+            />
+
+            <Select
+              options={fontWeight}
+              label="Font Weight"
+              labelFor="fontWeight"
+              name="career.weight"
+              value={colors.career.weight && colors.career.weight}
+              onChange={(e) => {
+                setColors({
+                  ...colors,
+                  career: {
+                    ...colors.career,
+                    weight: e.target.value,
+                  },
+                });
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <Color
+            label="Nickname"
+            labelFor="nickname"
+            name="nickname.color"
+            onChange={(e) => {
+              setColors({
+                ...colors,
+                nickname: {
+                  ...colors.nickname,
+                  color: e.target.value,
+                },
+              });
+              handleChange(e);
+            }}
+            value={colors.nickname.color}
+          />
+          <div className="flex mt-2  sm:justify-normal sm:gap-6 gap-0 justify-between items-center">
+            <Select
+              options={nicknameSizes}
+              label="Font Size"
+              labelFor="fontSize"
+              name="nickname.size"
+              value={colors.nickname.size && colors.nickname.size}
+              onChange={(e) => {
+                setColors({
+                  ...colors,
+                  nickname: {
+                    ...colors.nickname,
+                    size: e.target.value,
+                  },
+                });
+              }}
+            />
+
+            <Select
+              options={fontWeight}
+              label="Font Weight"
+              labelFor="fontWeight"
+              name="nickname.weight"
+              value={colors.nickname.weight && colors.nickname.weight}
+              onChange={(e) => {
+                setColors({
+                  ...colors,
+                  nickname: {
+                    ...colors.nickname,
+                    weight: e.target.value,
+                  },
+                });
+              }}
+            />
+          </div>
+        </div>
       </div>
 
       <div className="pt-12">
@@ -249,9 +387,15 @@ export default function Appearance() {
           name="link.background"
           onChange={(e) => {
             handleChange(e);
-            setColors({ ...colors, link_background: e.target.value });
+            setColors({
+              ...colors,
+              link: {
+                ...colors.link,
+                background: e.target.value,
+              },
+            });
           }}
-          value={colors.link_background}
+          value={colors.link.background}
         />
         <Color
           label="Font color"
@@ -259,10 +403,52 @@ export default function Appearance() {
           name="link.color"
           onChange={(e) => {
             handleChange(e);
-            setColors({ ...colors, link_color: e.target.value });
+            setColors({
+              ...colors,
+              link: {
+                ...colors.link,
+                color: e.target.value,
+              },
+            });
           }}
-          value={colors.link_color}
+          value={colors.link.color}
         />
+
+        <div className="flex mt-2 sm:justify-normal sm:gap-6 gap-0 justify-between items-center">
+          <Select
+            options={nicknameSizes}
+            label="Font Size"
+            labelFor="linkFontSize"
+            name="link.size"
+            value={colors.link.size && colors.link.size}
+            onChange={(e) => {
+              setColors({
+                ...colors,
+                link: {
+                  ...colors.link,
+                  size: e.target.value,
+                },
+              });
+            }}
+          />
+
+          <Select
+            options={fontWeight}
+            label="Font Weight"
+            labelFor="fontWeight"
+            name="link.weight"
+            value={colors.link.weight && colors.link.weight}
+            onChange={(e) => {
+              setColors({
+                ...colors,
+                link: {
+                  ...colors.link,
+                  weight: e.target.value,
+                },
+              });
+            }}
+          />
+        </div>
       </div>
     </>
   );

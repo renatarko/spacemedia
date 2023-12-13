@@ -37,11 +37,10 @@ const initialValue = {
 
 const colorsInitialValue = {
   background: {},
-  title: "",
-  career: "",
-  nickname: "",
-  link_background: "",
-  link_color: "",
+  title: {},
+  career: {},
+  nickname: {},
+  link: {},
 };
 
 type PreviewContextProps = {
@@ -56,11 +55,30 @@ type PreviewContextProps = {
         secondColor?: string;
       };
     };
-    title: string;
-    career: string;
-    nickname: string;
-    link_background: string;
-    link_color: string;
+    title: {
+      content?: string;
+      size?: string | number;
+      weight?: string;
+      color?: string;
+    };
+    career: {
+      content?: string;
+      size?: string | number;
+      weight?: string;
+      color?: string;
+    };
+    nickname: {
+      content?: string;
+      size?: string | number;
+      weight?: string;
+      color?: string;
+    };
+    link: {
+      background?: string;
+      color?: string;
+      size?: string;
+      weight?: string;
+    };
   };
   userPreview: Pick<User, "avatar" | "career" | "title" | "nickname">;
   setColors: Dispatch<
@@ -74,11 +92,30 @@ type PreviewContextProps = {
           secondColor?: string;
         };
       };
-      title: string;
-      career: string;
-      nickname: string;
-      link_background: string;
-      link_color: string;
+      title: {
+        content?: string;
+        size?: string | number;
+        weight?: string;
+        color?: string;
+      };
+      career: {
+        content?: string;
+        size?: string | number;
+        weight?: string;
+        color?: string;
+      };
+      nickname: {
+        content?: string;
+        size?: string | number;
+        weight?: string;
+        color?: string;
+      };
+      link: {
+        background?: string;
+        color?: string;
+        size?: string;
+        weight?: string;
+      };
     }>
   >;
   setLinks: Dispatch<SetStateAction<linkProps[]>>;

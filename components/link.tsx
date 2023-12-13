@@ -1,5 +1,3 @@
-import { usePreview } from "@/context/preview";
-
 export type LinkProps = {
   children?: string;
   background?: string;
@@ -13,6 +11,8 @@ export type LinkProps = {
 export type linkProps = {
   background?: string;
   color?: string;
+  weight?: string;
+  size?: string;
   link: {
     type: string;
     name: string;
@@ -21,13 +21,23 @@ export type linkProps = {
   };
 };
 
-export default function Link({ link, background, color }: linkProps) {
-  const { colors } = usePreview();
+export default function Link({
+  link,
+  background,
+  color,
+  weight,
+  size,
+}: linkProps) {
   return (
     <a
       className={`w-full group flex items-center gap-2 p-3 rounded-lg hover:shadow-md duration-150 
         `}
-      style={{ background: background, color: color ? color : "#000" }}
+      style={{
+        background: background,
+        color: color ? color : "#000",
+        fontWeight: weight ? weight : "normal",
+        fontSize: size ? size : "16px",
+      }}
       target="_blank"
       href={link?.url ? link.url : "/"}
     >

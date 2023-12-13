@@ -8,7 +8,7 @@ export async function getUserByLinkNameQuery(slug: string) {
     const linkNameBySlug = query.docs
       .map((item) => item.data())
       .map((item) => item)
-      .filter((user) => user.linkName === slug);
+      .filter((user) => user.linkName?.content === slug);
     // console.log(quey.docs.map((item) => item.data()));
     // const userRef = collection(db, "users");
     // const user = query(userRef, where("linkName", "array-contains", slug));

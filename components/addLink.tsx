@@ -26,12 +26,9 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
   const [linksSaved, setLinksSaved] = useState<Link[] | []>([]);
   const [path, setPath] = useState("");
 
-  console.log(open, field);
-
   const handleInputLink = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLink((prevState) => {
-      console.log({ prevState });
       if (prevState) {
         return {
           ...prevState,
@@ -81,8 +78,6 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
       console.error("Error adding document: ", e);
     }
   };
-
-  console.log(path);
 
   return (
     <>

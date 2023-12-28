@@ -29,7 +29,6 @@ export async function getUserDataQuery(uid: string) {
     if (!docSnap.exists()) return;
 
     const user = docSnap.data();
-    console.log("query", { user });
     return user;
   } catch (error) {
     console.log("getUserQuery", { error });

@@ -1,6 +1,7 @@
 "use client";
 
 import { usePreview } from "@/context/preview";
+import { User } from "@/types/types";
 import { DocumentData } from "@firebase/firestore";
 import { useEffect } from "react";
 import Link from "./link";
@@ -27,7 +28,17 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
   const gradient = `linear-gradient(to ${colors.background?.direction}, ${colors.background?.gradient?.firstColor}, ${colors.background?.gradient?.secondColor})`;
 
   useEffect(() => {
-    setUserPreview(data);
+    const updatedState: Pick<
+      User,
+      "title" | "career" | "nickname" | "link" | "avatar"
+    > = {
+      title: data?.title,
+      career: data?.career,
+      nickname: data?.nickname,
+      link: data?.link,
+      avatar: data?.avatar,
+    };
+    setUserPreview(updatedState);
     setColors(data!.background);
     setLinks(data?.link.links);
   }, []);

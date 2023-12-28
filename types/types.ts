@@ -47,16 +47,16 @@ export type UserContext = Pick<User, "name" | "email" | "avatar">;
 // };
 
 export type Link = {
-  link: {
-    type?: string;
-    name?: string;
-    url?: string;
-    background?: string;
-    color?: string;
-    weight?: string;
-    size?: string;
-    icon?: string;
-  };
+  // link: {
+  type?: string;
+  name?: string;
+  url?: string;
+  background?: string;
+  color?: string;
+  weight?: string;
+  size?: string;
+  icon?: string;
+  // };
 };
 
 export type Links = Link[];

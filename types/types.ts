@@ -1,3 +1,5 @@
+import { DocumentData } from "firebase/firestore";
+
 export type User = {
   name: string;
   email: string;
@@ -9,37 +11,58 @@ export type User = {
   title: {
     content: string;
     color?: string;
+    size?: string;
+    weight?: string;
   };
   nickname: {
     content: string;
     color?: string;
+    size?: string;
+    weight?: string;
   };
   career: {
     content: string;
     color?: string;
+    size?: string;
+    weight?: string;
   };
   link: {
     background?: string;
     color?: string;
-    links: Link[];
+    size?: string;
+    weight?: string;
+    links?: Link[];
   };
   // links: Link[];
 };
 
 export type UserContext = Pick<User, "name" | "email" | "avatar">;
 
+// export type Link = {
+//   name?: string;
+//   url?: string;
+//   type?: string;
+//   background?: string;
+//   color?: string;
+// };
+
 export type Link = {
-  name?: string;
-  url?: string;
-  type?: string;
-  // background?: string;
-  // color?: string;
+  link: {
+    type?: string;
+    name?: string;
+    url?: string;
+    background?: string;
+    color?: string;
+    weight?: string;
+    size?: string;
+    icon?: string;
+  };
 };
 
 export type Links = Link[];
 
-export interface UserDocument {
-  user: User;
+export interface UserDocument extends DocumentData {
+  user: User | undefined;
 }
 
 export interface LinkDocument {

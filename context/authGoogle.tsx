@@ -63,6 +63,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
       const userAuth = result.user;
       const uid = userAuth.uid;
 
+      console.log({ result, credential, token });
       setUser({
         name: userAuth.displayName!,
         email: userAuth.email!,
@@ -82,7 +83,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorMessage);
-      toast.error(errorMessage);
+      toast.error(errorCode);
     }
   };
 

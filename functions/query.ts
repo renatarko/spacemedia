@@ -2,6 +2,7 @@ import { db } from "@/config/firebase";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
 export async function getUserByLinkNameQuery(slug: string) {
+  const uid = "pc1L66IOBDNViKBZjWA5LsPDIVi2";
   try {
     const query = await getDocs(collection(db, "users"));
 
@@ -23,12 +24,14 @@ export async function getUserDataQuery(uid: string) {
   try {
     const docRef = doc(db, "users", uid!);
     const docSnap = await getDoc(docRef);
+    console.log({ docSnap });
 
     if (!docSnap.exists()) return;
 
     const user = docSnap.data();
+    console.log("query", { user });
     return user;
   } catch (error) {
-    console.log(error);
+    console.log("getUserQuery", { error });
   }
 }

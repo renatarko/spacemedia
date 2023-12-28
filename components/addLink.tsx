@@ -21,16 +21,36 @@ type AddLinkProps = {
 export default function AddLink({ open, setOpen, field }: AddLinkProps) {
   const { links, setLinks } = usePreview();
 
-  const [link, setLink] = useState<Link | null>({} as Link);
+  const [link, setLink] = useState<Link | null>(null);
   const [disabled, setDisabled] = useState(true);
   const [linksSaved, setLinksSaved] = useState<Link[] | []>([]);
+  const [path, setPath] = useState("");
 
   console.log(open, field);
 
   const handleInputLink = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setLink({ ...link, [name]: value });
-    setLinks({ ...links, [name]: value });
+    setLink((prevState) => {
+      if (prevState) {
+        return {
+          link: {
+            ...prevState.link,
+            [name]: value,
+          },
+        };
+      }
+      return null;
+    });
+    // setLinks((prevState) => {
+    //   if (prevState) {
+    //     return [
+    //       ...prevState,
+    //       {link: {[name]: value}}
+    //     ]
+    //   }
+    // })
+    // setLinks([...links, {link: {...link, [name]:value}}])
+    // setLinks({ ...links, [name]: value });
   };
 
   const saveLink = async () => {
@@ -42,9 +62,11 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
     }
 
     const data = {
-      name: link.name,
-      type: link.type,
-      url: unmask(link.url!),
+      link: {
+        name: link.link.name,
+        type: link.link.type,
+        url: unmask(link.link.url!),
+      },
     };
 
     try {
@@ -57,6 +79,8 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
       console.error("Error adding document: ", e);
     }
   };
+
+  console.log(path);
 
   return (
     <>
@@ -71,7 +95,11 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
               id="select"
               className="mb-6 p-3 outline-none border border-[##0B6174/30] rounded-full cursor-pointer"
               onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-                setLink({ ...link, type: e.target.value });
+                setLink({
+                  ...link?.link,
+                  link: { ...link?.link, type: e.target.value },
+                });
+                setPath(e.target.value);
                 // setLink({ ...link, url: unMask("") });
               }}
             >
@@ -82,21 +110,27 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
               ))}
             </select>
 
+            {/* <Select
+              label="Select the link type"
+              labelFor="linkType"
+              options={mediasType}
+            /> */}
+
             <Input
               name="name"
               label="Name"
               labelFor="link"
-              value={field ? field.name : link?.name}
+              value={field ? field.link.name : link?.link?.name}
               onChange={(e) => {
                 handleInputLink(e);
               }}
             />
 
-            {link?.type === "phone" || link?.type === "whatsapp" ? (
+            {link?.link.type === "phone" || link?.link.type === "whatsapp" ? (
               <Input
                 name="url"
                 label={
-                  link.type === "phone" || link.type === "whatsapp"
+                  link.link.type === "phone" || link.link.type === "whatsapp"
                     ? "Phone number"
                     : ""
                 }
@@ -107,18 +141,18 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
                 }}
                 value={
                   field
-                    ? mask(field.url!, "99 99999-9999")
-                    : mask(link.url!, "99 99999-9999")
+                    ? mask(field.link.url!, "99 99999-9999")
+                    : mask(link.link.url!, "99 99999-9999")
                 }
               />
-            ) : link?.type === "email" ? (
+            ) : link?.link.type === "email" ? (
               <Input
                 name="url"
                 label="URL"
                 labelFor="url"
                 type="email"
                 required
-                value={field ? field.url : link?.url}
+                value={field ? field.link.url : link?.link.url}
                 onChange={(e) => {
                   handleInputLink(e);
                   setDisabled(false);
@@ -130,7 +164,7 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
                 label="URL"
                 labelFor="url"
                 type="text"
-                value={field ? field.url : link?.url}
+                value={field ? field.link.url : link?.link.url}
                 onChange={(e) => {
                   handleInputLink(e);
                   setDisabled(false);

@@ -73,7 +73,10 @@ export default function Profile({ userRef }: ProfileProps) {
                     onChange={(e) =>
                       setUserPreview({
                         ...userPreview,
-                        title: { content: e.target.value },
+                        title: {
+                          ...userPreview.title,
+                          content: e.target.value,
+                        },
                       })
                     }
                     placeholder="ex: Renata K."
@@ -110,7 +113,10 @@ export default function Profile({ userRef }: ProfileProps) {
                     onChange={(e) =>
                       setUserPreview({
                         ...userPreview,
-                        career: { content: e.target.value },
+                        career: {
+                          ...userPreview.career,
+                          content: e.target.value,
+                        },
                       })
                     }
                     onBlur={async () => {
@@ -142,12 +148,15 @@ export default function Profile({ userRef }: ProfileProps) {
                     value={
                       userRef.nickname.content
                         ? userRef.nickname.content
-                        : userPreview.nickname
+                        : userPreview.nickname.content
                     }
                     onChange={(e) =>
                       setUserPreview({
                         ...userPreview,
-                        nickname: { content: e.target.value },
+                        nickname: {
+                          ...userPreview.nickname,
+                          content: e.target.value,
+                        },
                       })
                     }
                     placeholder="@renata_rko"
@@ -156,7 +165,7 @@ export default function Profile({ userRef }: ProfileProps) {
                         const docRef = doc(db, "users", uid!);
                         await setDoc(
                           docRef,
-                          { nickname: { title: userPreview.nickname } },
+                          { nickname: { title: userPreview.nickname.content } },
                           { merge: true }
                         );
                       } catch (error) {

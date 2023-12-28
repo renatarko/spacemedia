@@ -31,10 +31,12 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
   const handleInputLink = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLink((prevState) => {
+      console.log({ prevState });
       if (prevState) {
         return {
+          ...prevState,
           link: {
-            ...prevState.link,
+            ...prevState,
             [name]: value,
           },
         };
@@ -63,14 +65,14 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
 
     const data = {
       link: {
-        name: link.link.name,
-        type: link.link.type,
-        url: unmask(link.link.url!),
+        name: link.name,
+        type: link.type,
+        url: unmask(link.url!),
       },
     };
 
     try {
-      await AddLinkOnLinksMutation(uid!, data);
+      await AddLinkOnLinksMutation(uid!, data.link);
       setLink(null);
       setLinksSaved([...linksSaved, link]);
       setOpen(false);
@@ -96,8 +98,8 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
               className="mb-6 p-3 outline-none border border-[##0B6174/30] rounded-full cursor-pointer"
               onChange={(e: ChangeEvent<HTMLSelectElement>) => {
                 setLink({
-                  ...link?.link,
-                  link: { ...link?.link, type: e.target.value },
+                  ...link,
+                  type: e.target.value,
                 });
                 setPath(e.target.value);
                 // setLink({ ...link, url: unMask("") });
@@ -120,17 +122,17 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
               name="name"
               label="Name"
               labelFor="link"
-              value={field ? field.link.name : link?.link?.name}
+              value={field ? field.name : link?.name}
               onChange={(e) => {
                 handleInputLink(e);
               }}
             />
 
-            {link?.link.type === "phone" || link?.link.type === "whatsapp" ? (
+            {link?.type === "phone" || link?.type === "whatsapp" ? (
               <Input
                 name="url"
                 label={
-                  link.link.type === "phone" || link.link.type === "whatsapp"
+                  link.type === "phone" || link.type === "whatsapp"
                     ? "Phone number"
                     : ""
                 }
@@ -141,18 +143,18 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
                 }}
                 value={
                   field
-                    ? mask(field.link.url!, "99 99999-9999")
-                    : mask(link.link.url!, "99 99999-9999")
+                    ? mask(field.url!, "99 99999-9999")
+                    : mask(link.url!, "99 99999-9999")
                 }
               />
-            ) : link?.link.type === "email" ? (
+            ) : link?.type === "email" ? (
               <Input
                 name="url"
                 label="URL"
                 labelFor="url"
                 type="email"
                 required
-                value={field ? field.link.url : link?.link.url}
+                value={field ? field.url : link?.url}
                 onChange={(e) => {
                   handleInputLink(e);
                   setDisabled(false);
@@ -164,7 +166,7 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
                 label="URL"
                 labelFor="url"
                 type="text"
-                value={field ? field.link.url : link?.link.url}
+                value={field ? field.url : link?.url}
                 onChange={(e) => {
                   handleInputLink(e);
                   setDisabled(false);

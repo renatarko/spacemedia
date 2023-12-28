@@ -21,16 +21,35 @@ type AddLinkProps = {
 export default function AddLink({ open, setOpen, field }: AddLinkProps) {
   const { links, setLinks } = usePreview();
 
-  const [link, setLink] = useState<Link | null>({} as Link);
+  const [link, setLink] = useState<Link | null>(null);
   const [disabled, setDisabled] = useState(true);
   const [linksSaved, setLinksSaved] = useState<Link[] | []>([]);
-
-  console.log(open, field);
+  const [path, setPath] = useState("");
 
   const handleInputLink = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setLink({ ...link, [name]: value });
-    setLinks({ ...links, [name]: value });
+    setLink((prevState) => {
+      if (prevState) {
+        return {
+          ...prevState,
+          link: {
+            ...prevState,
+            [name]: value,
+          },
+        };
+      }
+      return null;
+    });
+    // setLinks((prevState) => {
+    //   if (prevState) {
+    //     return [
+    //       ...prevState,
+    //       {link: {[name]: value}}
+    //     ]
+    //   }
+    // })
+    // setLinks([...links, {link: {...link, [name]:value}}])
+    // setLinks({ ...links, [name]: value });
   };
 
   const saveLink = async () => {
@@ -42,13 +61,15 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
     }
 
     const data = {
-      name: link.name,
-      type: link.type,
-      url: unmask(link.url!),
+      link: {
+        name: link.name,
+        type: link.type,
+        url: unmask(link.url!),
+      },
     };
 
     try {
-      await AddLinkOnLinksMutation(uid!, data);
+      await AddLinkOnLinksMutation(uid!, data.link);
       setLink(null);
       setLinksSaved([...linksSaved, link]);
       setOpen(false);
@@ -71,7 +92,11 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
               id="select"
               className="mb-6 p-3 outline-none border border-[##0B6174/30] rounded-full cursor-pointer"
               onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-                setLink({ ...link, type: e.target.value });
+                setLink({
+                  ...link,
+                  type: e.target.value,
+                });
+                setPath(e.target.value);
                 // setLink({ ...link, url: unMask("") });
               }}
             >
@@ -81,6 +106,12 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
                 </option>
               ))}
             </select>
+
+            {/* <Select
+              label="Select the link type"
+              labelFor="linkType"
+              options={mediasType}
+            /> */}
 
             <Input
               name="name"

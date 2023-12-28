@@ -1,7 +1,6 @@
-import { linkProps } from "@/components/link";
 import { auth } from "@/config/firebase";
 import { getUserDataQuery } from "@/functions/query";
-import { User } from "@/types/types";
+import { Link, User } from "@/types/types";
 import {
   Dispatch,
   SetStateAction,
@@ -33,6 +32,7 @@ const initialValue = {
     content: "",
     color: "",
   },
+  link: {},
 };
 
 const colorsInitialValue = {
@@ -44,7 +44,7 @@ const colorsInitialValue = {
 };
 
 type PreviewContextProps = {
-  links: linkProps[];
+  links: Link[];
   colors: {
     background: {
       color?: string;
@@ -80,7 +80,7 @@ type PreviewContextProps = {
       weight?: string;
     };
   };
-  userPreview: Pick<User, "avatar" | "career" | "title" | "nickname">;
+  userPreview: Pick<User, "avatar" | "career" | "title" | "nickname" | "link">;
   setColors: Dispatch<
     SetStateAction<{
       background: {
@@ -118,36 +118,60 @@ type PreviewContextProps = {
       };
     }>
   >;
-  setLinks: Dispatch<SetStateAction<linkProps[]>>;
+  setLinks: Dispatch<SetStateAction<Link[]>>;
   setUserPreview: Dispatch<
-    SetStateAction<Pick<User, "avatar" | "career" | "title" | "nickname">>
+    SetStateAction<
+      Pick<User, "avatar" | "career" | "title" | "nickname" | "link">
+    >
   >;
 };
 
 const PreviewContext = createContext({} as PreviewContextProps);
 
 export default function PreviewProvider({ children }: any) {
-  const [links, setLinks] = useState<linkProps[]>([] as linkProps[]);
+  const [links, setLinks] = useState<Link[]>([] as Link[]);
   const [colors, setColors] = useState(colorsInitialValue);
   const [userPreview, setUserPreview] =
-    useState<Pick<User, "avatar" | "career" | "title" | "nickname">>(
+    useState<Pick<User, "avatar" | "career" | "title" | "nickname" | "link">>(
       initialValue
     );
 
   const getUser = async () => {
     const uid = auth.currentUser?.uid;
+    console.log(uid);
     try {
       const user = await getUserDataQuery(uid!);
+      console.log({ user });
       if (!user) return;
+
+      // setColors({
+      //   ...colors,
+      //   background:
+      //     user.background.type === "gradient"
+      //       ? user.background.gradient
+      //       : user.background.color,
+      // });
 
       setUserPreview({
         avatar: user.avatar,
-        career: { content: user.career },
-        nickname: { content: "" },
-        title: { content: "" },
+        career: user.career,
+        nickname: user.nickname,
+        title: user.title,
+        link: user.link,
+      });
+      setColors({
+        ...colors,
+        // title: {size: user.title.size, color: user.title.size, weight: user.title.weight} ,
+        background: user.background,
+        title: user.title,
+        career: user.career,
+        nickname: user.nickname,
+        link: user.link,
       });
       setLinks(user.link.links);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {

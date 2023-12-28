@@ -79,7 +79,7 @@ export default function Upload({ user }: DocumentData) {
 
   return (
     <div className="self-center flex flex-col gap-2 relative">
-      {userPreview.avatar && (
+      {userPreview?.avatar && (
         <button
           title="Remove this image"
           onClick={() => {
@@ -106,9 +106,9 @@ export default function Upload({ user }: DocumentData) {
           <UploadIcon className="text-blue-600 group-hover:text-blue-500" />
         </span>
 
-        {userPreview.avatar ? (
+        {userPreview?.avatar ? (
           <img
-            src={userPreview.avatar}
+            src={userPreview?.avatar}
             className="z-0 w-full h-full"
             alt="image"
           />

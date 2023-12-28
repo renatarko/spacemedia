@@ -8,7 +8,7 @@ import Select from "./Select";
 import Color from "./color";
 
 const titlesSizes = ["16", "24", "28", "32", "36"];
-const nicknameSizes = [12, 14, 16, 18, 20, 24];
+const nicknameSizes = [10, 12, 14, 16, 18, 20];
 
 const fontWeight = ["normal", "bold"];
 
@@ -55,8 +55,7 @@ export default function Appearance() {
         <div className="flex gap-4 mb-6">
           <fieldset
             className={`w-24 relative rounded-lg h-40 cursor-pointer bg-blue-800 border-[4px] ${
-              colors.background.type === "solid" ||
-              (backgroundType.background === "solid" && "border-blue-400")
+              colors.background.type === "solid" && "border-blue-400"
             } `}
           >
             <input
@@ -77,8 +76,7 @@ export default function Appearance() {
 
           <fieldset
             className={`w-24 relative rounded-lg h-40 cursor-pointer bg-blue-800 border-[4px] ${
-              colors.background.type === "gradient" ||
-              (backgroundType.background === "gradient" && "border-blue-400")
+              colors.background.type === "gradient" && "border-blue-400"
             } `}
             style={{
               background: "linear-gradient(to left, #0bc2ea, #175a73)",
@@ -100,8 +98,7 @@ export default function Appearance() {
           </fieldset>
         </div>
 
-        {colors.background.type === "gradient" ||
-        backgroundType.background === "gradient" ? (
+        {colors.background.type === "gradient" ? (
           <div className="mt-4">
             <Color
               label="First color"

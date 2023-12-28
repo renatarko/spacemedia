@@ -37,14 +37,14 @@ export default function Color({
       <label className="mb-2">{label}</label>
       <fieldset className="flex gap-2">
         <div
-          style={{ background: value ? value : "#000" }}
-          className="w-10 h-10 mt-2 rounded-full bg-transparent overflow-hidden flex justify-center items-center"
+          style={{ background: value ? value : "#0b89af" }}
+          className="w-10 h-10 mt-2 rounded-full border border-gray-200 bg-transparent overflow-hidden flex justify-center items-center"
         >
           <input
             title="Choose the color"
             type="color"
             className="w-10 h-10 opacity-0 bg-transparent border-transparent outline-none"
-            value={value || ""}
+            value={value || "#0b89af"}
             onChange={onChange}
             name={name}
             onBlur={saveColors}
@@ -60,7 +60,7 @@ export default function Color({
             type="text"
             id={labelFor}
             className="bg-transparent outline-none"
-            value={value || ""}
+            value={value || "#0b89af"}
           />
         </label>
       </fieldset>

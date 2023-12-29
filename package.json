@@ -12,6 +12,7 @@
     "@firebase/auth": "^1.5.0",
     "@firebase/firestore": "^4.4.0",
     "@firebase/storage": "^0.11.2",
+    "@hello-pangea/dnd": "^16.5.0",
     "firebase": "^10.7.1",
     "lucide-react": "^0.294.0",
     "next": "13.4.6",

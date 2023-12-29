@@ -2,12 +2,14 @@
 
 import { auth, db } from "@/config/firebase";
 import { usePreview } from "@/context/preview";
+import { Link } from "@/types/types";
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { DocumentData, doc, setDoc } from "firebase/firestore";
 import { LinkIcon } from "lucide-react";
 import { useState } from "react";
 import AddLink from "./addLink";
 import Button from "./button";
-import LinkList from "./linkList";
+import LinkEdit from "./linkEdit";
 import Text from "./title";
 import Upload from "./upload";
 
@@ -27,28 +29,42 @@ type ProfileProps = {
 };
 
 export default function Profile({ userRef }: ProfileProps) {
-  const { userPreview, setUserPreview, links } = usePreview();
+  const { userPreview, setUserPreview, links, setLinks } = usePreview();
   const [open, setOpen] = useState(false);
   const uid = auth.currentUser?.uid;
+
+  const reorderLinkList = (
+    linkList: Link[],
+    indexStart: number,
+    indexEnd: number
+  ) => {
+    const result = Array.from(linkList);
+    const [itemLink] = result.splice(indexStart, 1);
+    result.splice(indexEnd, 0, itemLink);
+    return result;
+  };
+
+  const onDragEnd = (result: any) => {
+    if (!result.destination) return;
+
+    const newList = reorderLinkList(
+      links,
+      result.source.index,
+      result.destination.index
+    );
+    setLinks(newList);
+  };
+
+  const onDragStart = () => {
+    if (window.navigator.vibrate) {
+      window.navigator.vibrate(100);
+    }
+  };
 
   return (
     <>
       <div className="relative h-full flex flex-col">
         <h3 className="mt-8 text-blue-600 font-bold">Hi, Renata</h3>
-        {/* <h1 className="font-bold text-3xl mt-4 z-10">
-          Start by choosing{" "}
-          <span className="relative before:w-full before:z-[-1] before:bottom-0 before:absolute before:bg-[#56B3C8]/60 before:left-0 before:h-4">
-            the link name
-          </span>
-          .
-        </h1>
-        <h2 className="text-4xl mt-8 mb-8 font-bold">
-          Now you decide on your{" "}
-          <span className="relative before:w-full before:z-[-1] before:bottom-0 before:absolute before:bg-[#56B3C8]/60 before:left-0 before:h-4">
-            media space
-          </span>{" "}
-          design.
-        </h2> */}
         <div className="flex flex-col customScrollNav overflow-y-auto md:px-12 px-1 h:[35rem] sm:h-[47rem] mt-8 divide pb-6 divide-y-2 divide-gray-400/20">
           {userRef?.linkName.content ? (
             <div className="flex flex-col gap-4 w-full rounded-lg">
@@ -191,14 +207,30 @@ export default function Profile({ userRef }: ProfileProps) {
             </Button>
           )}
 
-          {links.length > userRef?.link.links.length ? (
+          <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+            <Droppable droppableId="links" direction="vertical">
+              {(provided) => (
+                <ul
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className="mt-4 pt-6 w-full flex flex-col"
+                >
+                  {links.map((link, i) => (
+                    <LinkEdit link={link} key={i} index={i} />
+                  ))}
+
+                  {provided.placeholder}
+                </ul>
+              )}
+            </Droppable>
+          </DragDropContext>
+
+          {/* {
+                  links.length > userRef?.link.links.length ? (
             <LinkList links={links} />
           ) : (
             <LinkList links={userRef?.link.links} />
-          )}
-          {/* // ) : (
-          //   <LinkList links={links} />
-          // )} */}
+          )} */}
 
           <AddLink open={open} setOpen={setOpen} />
         </div>

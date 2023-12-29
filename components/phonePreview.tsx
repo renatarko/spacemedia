@@ -48,9 +48,9 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
     <div className="h-full md:px-12 px-1 flex flex-col items-center w-full max-w-xl">
       <LinkName linkNameSaved={data?.linkName} />
 
-      <aside className="px-6 overflow-x-hidden mt-20 relative pb-8 overflow-y-auto border-[12px] sm:border-[12px] lg:w-[75%] w-full flex flex-col items-center rounded-2xl border-gray-700">
+      <aside className="px-6 overflow-x-hidden shadow-2xl mt-20 relative pb-8 overflow-y-auto lg:w-[75%] w-full flex flex-col items-center rounded-2xl border-gray-700">
         <div
-          className={`absolute top-0 bottom-0 left-0 bg-transparent right-0 border-4 border-gray-600 z-[-1]`}
+          className={`absolute top-0 bottom-0 left-0 bg-transparent right-0 z-[-1]`}
           style={{
             background:
               colors?.background.type === "gradient"

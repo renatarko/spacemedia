@@ -17,7 +17,9 @@ export default function Base({ children }: BaseProps) {
 
       <div className="bg-white">
         <Container>
-          <footer>{/* <p>footer em breve</p> */}</footer>
+          <footer>
+            <p>footer em breve</p>
+          </footer>
         </Container>
       </div>
     </div>

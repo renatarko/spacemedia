@@ -162,7 +162,7 @@ export default function PreviewProvider({ children }: any) {
       setColors({
         ...colors,
         // title: {size: user.title.size, color: user.title.size, weight: user.title.weight} ,
-        background: user.background,
+        ...user,
         title: user.title,
         career: user.career,
         nickname: user.nickname,

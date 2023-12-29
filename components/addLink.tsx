@@ -15,27 +15,26 @@ import Button from "./button";
 type AddLinkProps = {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  field?: Link;
+  field?: Link | null;
 };
 
 export default function AddLink({ open, setOpen, field }: AddLinkProps) {
   const { links, setLinks } = usePreview();
 
-  const [link, setLink] = useState<Link | null>(null);
+  const [link, setLink] = useState<Link | null>(field || null);
   const [disabled, setDisabled] = useState(true);
   const [linksSaved, setLinksSaved] = useState<Link[] | []>([]);
   const [path, setPath] = useState("");
 
   const handleInputLink = (e: ChangeEvent<HTMLInputElement>) => {
+    if (link === null) setDisabled(true);
     const { name, value } = e.target;
+
     setLink((prevState) => {
       if (prevState) {
         return {
           ...prevState,
-          link: {
-            ...prevState,
-            [name]: value,
-          },
+          [name]: value,
         };
       }
       return null;
@@ -72,12 +71,15 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
       await AddLinkOnLinksMutation(uid!, data.link);
       setLink(null);
       setLinksSaved([...linksSaved, link]);
+      setLinks([...links, link]);
       setOpen(false);
       toast("Link created successfully");
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   };
+
+  console.log(link);
 
   return (
     <>
@@ -100,24 +102,23 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
                 // setLink({ ...link, url: unMask("") });
               }}
             >
-              {mediasType.map((media) => (
-                <option key={media.name} value={media.name.toLowerCase()}>
-                  {media.name}
-                </option>
-              ))}
+              {field?.type &&
+                mediasType.slice(1).map((media) => (
+                  <option
+                    key={media.name}
+                    value={media.name.toLowerCase()}
+                    selected={media.name.toLowerCase() === link?.type}
+                  >
+                    {media.name}
+                  </option>
+                ))}
             </select>
-
-            {/* <Select
-              label="Select the link type"
-              labelFor="linkType"
-              options={mediasType}
-            /> */}
 
             <Input
               name="name"
               label="Name"
               labelFor="link"
-              value={field ? field.name : link?.name}
+              value={link?.name}
               onChange={(e) => {
                 handleInputLink(e);
               }}
@@ -136,11 +137,7 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
                   handleInputLink(e);
                   setDisabled(false);
                 }}
-                value={
-                  field
-                    ? mask(field.url!, "99 99999-9999")
-                    : mask(link.url!, "99 99999-9999")
-                }
+                value={mask(link.url!, "99 99999-9999")}
               />
             ) : link?.type === "email" ? (
               <Input
@@ -149,7 +146,7 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
                 labelFor="url"
                 type="email"
                 required
-                value={field ? field.url : link?.url}
+                value={link?.url}
                 onChange={(e) => {
                   handleInputLink(e);
                   setDisabled(false);
@@ -161,7 +158,7 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
                 label="URL"
                 labelFor="url"
                 type="text"
-                value={field ? field.url : link?.url}
+                value={link?.url}
                 onChange={(e) => {
                   handleInputLink(e);
                   setDisabled(false);

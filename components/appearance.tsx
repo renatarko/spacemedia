@@ -14,6 +14,7 @@ const fontWeight = ["normal", "bold"];
 
 export default function Appearance() {
   const { colors, setColors } = usePreview();
+
   const [color, setColor] = useState({});
   const [backgroundType, setBackgroundType] = useState({
     background: "",
@@ -31,6 +32,7 @@ export default function Appearance() {
     setColors({
       ...colors,
       background: { ...colors.background, type: value },
+      // type: value,
     });
   }, []);
 
@@ -55,7 +57,7 @@ export default function Appearance() {
         <div className="flex gap-4 mb-6">
           <fieldset
             className={`w-24 relative rounded-lg h-40 cursor-pointer bg-blue-800 border-[4px] ${
-              colors.background.type === "solid" && "border-blue-400"
+              colors?.background.type === "solid" && "border-blue-400"
             } `}
           >
             <input
@@ -76,7 +78,7 @@ export default function Appearance() {
 
           <fieldset
             className={`w-24 relative rounded-lg h-40 cursor-pointer bg-blue-800 border-[4px] ${
-              colors.background.type === "gradient" && "border-blue-400"
+              colors?.background.type === "gradient" && "border-blue-400"
             } `}
             style={{
               background: "linear-gradient(to left, #0bc2ea, #175a73)",
@@ -98,7 +100,7 @@ export default function Appearance() {
           </fieldset>
         </div>
 
-        {colors.background.type === "gradient" ? (
+        {colors?.background.type === "gradient" ? (
           <div className="mt-4">
             <Color
               label="First color"
@@ -110,13 +112,13 @@ export default function Appearance() {
                   ...colors,
                   background: {
                     gradient: {
-                      ...colors.background.gradient,
+                      ...colors?.background.gradient,
                       firstColor: e.target.value,
                     },
                   },
                 });
               }}
-              value={colors.background.gradient?.firstColor}
+              value={colors?.background.gradient?.firstColor}
             />
             <Color
               label="Second color"
@@ -128,20 +130,22 @@ export default function Appearance() {
                   ...colors,
                   background: {
                     gradient: {
-                      ...colors.background.gradient,
+                      ...colors?.background.gradient,
                       secondColor: e.target.value,
                     },
                   },
                 });
               }}
-              value={colors.background.gradient?.secondColor}
+              value={colors?.background.gradient?.secondColor}
             />
 
             <div className="flex mt-6 gap-2">
               <label
                 htmlFor="left"
                 className={`py-2 px-4 cursor-pointer bg-blue-800 rounded-full text-white border-[4px] ${
-                  direction === "left" && "border-blue-500"
+                  direction &&
+                  colors.background.direction === "left" &&
+                  "border-blue-500"
                 }`}
               >
                 Left
@@ -156,7 +160,7 @@ export default function Appearance() {
                     setColors({
                       ...colors,
                       background: {
-                        ...colors.background,
+                        ...colors?.background,
                         direction: "left",
                       },
                     });
@@ -168,7 +172,9 @@ export default function Appearance() {
               <label
                 htmlFor="right"
                 className={`py-2 px-4 cursor-pointer bg-blue-800 rounded-full text-white border-[4px] ${
-                  direction === "right" && "border-blue-500"
+                  direction &&
+                  colors.background.direction === "right" &&
+                  "border-blue-500"
                 }`}
               >
                 Right
@@ -182,7 +188,7 @@ export default function Appearance() {
                     setColors({
                       ...colors,
                       background: {
-                        ...colors.background,
+                        ...colors,
                         direction: "right",
                       },
                     });
@@ -202,10 +208,13 @@ export default function Appearance() {
               handleChange(e);
               setColors({
                 ...colors,
-                background: { ...colors.background, color: e.target.value },
+                background: {
+                  ...colors,
+                  color: e.target.value,
+                },
               });
             }}
-            value={colors.background.color}
+            value={colors?.background.color}
           />
         )}
       </div>
@@ -223,12 +232,12 @@ export default function Appearance() {
               setColors({
                 ...colors,
                 title: {
-                  ...colors.title,
+                  ...colors?.title,
                   color: e.target.value,
                 },
               });
             }}
-            value={colors.title.color}
+            value={colors?.title?.color}
           />
           <div className="flex mt-2  sm:justify-normal sm:gap-6 gap-0 justify-between items-center">
             <Select
@@ -236,12 +245,12 @@ export default function Appearance() {
               label="Font Size"
               labelFor="fontSize"
               name="title.size"
-              value={colors.title.size && colors.title.size}
+              value={colors?.title?.size && colors?.title?.size}
               onChange={(e) => {
                 setColors({
                   ...colors,
                   title: {
-                    ...colors.title,
+                    ...colors?.title,
                     size: e.target.value,
                   },
                 });
@@ -254,12 +263,12 @@ export default function Appearance() {
               label="Font Weight"
               labelFor="fontWeight"
               name="title.weight"
-              value={colors.title.weight && colors.title.weight}
+              value={colors?.title?.weight && colors?.title?.weight}
               onChange={(e) => {
                 setColors({
                   ...colors,
                   title: {
-                    ...colors.career,
+                    ...colors?.career,
                     weight: e.target.value,
                   },
                 });
@@ -278,11 +287,11 @@ export default function Appearance() {
               setColors({
                 ...colors,
                 career: {
-                  ...colors.career,
+                  ...colors?.career,
                 },
               });
             }}
-            value={colors.career.color}
+            value={colors?.career?.color}
           />
           <div className="flex mt-2  sm:justify-normal sm:gap-6 gap-0 justify-between items-center">
             <Select
@@ -290,12 +299,12 @@ export default function Appearance() {
               label="Font Size"
               labelFor="fontSize"
               name="career.size"
-              value={colors.career.size && colors.career.size}
+              value={colors?.career?.size && colors?.career?.size}
               onChange={(e) => {
                 setColors({
                   ...colors,
                   career: {
-                    ...colors.career,
+                    ...colors?.career,
                     size: e.target.value,
                   },
                 });
@@ -307,7 +316,7 @@ export default function Appearance() {
               label="Font Weight"
               labelFor="fontWeight"
               name="career.weight"
-              value={colors.career.weight && colors.career.weight}
+              value={colors?.career?.weight && colors?.career?.weight}
               onChange={(e) => {
                 setColors({
                   ...colors,
@@ -336,7 +345,7 @@ export default function Appearance() {
               });
               handleChange(e);
             }}
-            value={colors.nickname.color}
+            value={colors?.nickname?.color}
           />
           <div className="flex mt-2  sm:justify-normal sm:gap-6 gap-0 justify-between items-center">
             <Select
@@ -344,7 +353,7 @@ export default function Appearance() {
               label="Font Size"
               labelFor="fontSize"
               name="nickname.size"
-              value={colors.nickname.size && colors.nickname.size}
+              value={colors?.nickname?.size && colors?.nickname?.size}
               onChange={(e) => {
                 setColors({
                   ...colors,
@@ -361,7 +370,7 @@ export default function Appearance() {
               label="Font Weight"
               labelFor="fontWeight"
               name="nickname.weight"
-              value={colors.nickname.weight && colors.nickname.weight}
+              value={colors?.nickname?.weight && colors?.nickname?.weight}
               onChange={(e) => {
                 setColors({
                   ...colors,
@@ -392,7 +401,7 @@ export default function Appearance() {
               },
             });
           }}
-          value={colors.link.background}
+          value={colors?.link?.background}
         />
         <Color
           label="Font color"
@@ -408,7 +417,7 @@ export default function Appearance() {
               },
             });
           }}
-          value={colors.link.color}
+          value={colors?.link?.color}
         />
 
         <div className="flex mt-2 sm:justify-normal sm:gap-6 gap-0 justify-between items-center">
@@ -417,7 +426,7 @@ export default function Appearance() {
             label="Font Size"
             labelFor="linkFontSize"
             name="link.size"
-            value={colors.link.size && colors.link.size}
+            value={colors?.link?.size && colors?.link?.size}
             onChange={(e) => {
               setColors({
                 ...colors,
@@ -434,7 +443,7 @@ export default function Appearance() {
             label="Font Weight"
             labelFor="fontWeight"
             name="link.weight"
-            value={colors.link.weight && colors.link.weight}
+            value={colors?.link?.weight && colors?.link?.weight}
             onChange={(e) => {
               setColors({
                 ...colors,

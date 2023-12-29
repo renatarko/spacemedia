@@ -8,6 +8,15 @@ export type User = {
     content: string;
     color?: string;
   };
+  background: {
+    color?: string;
+    type?: string;
+    direction?: string;
+    gradient?: {
+      firstColor?: string;
+      secondColor?: string;
+    };
+  };
   title: {
     content: string;
     color?: string;

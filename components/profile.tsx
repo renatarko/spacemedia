@@ -31,8 +31,6 @@ export default function Profile({ userRef }: ProfileProps) {
   const [open, setOpen] = useState(false);
   const uid = auth.currentUser?.uid;
 
-  console.log({ userRef });
-
   return (
     <>
       <div className="relative h-full flex flex-col">
@@ -193,7 +191,9 @@ export default function Profile({ userRef }: ProfileProps) {
             </Button>
           )}
 
-          {userRef?.link.links.length && (
+          {links.length > userRef?.link.links.length ? (
+            <LinkList links={links} />
+          ) : (
             <LinkList links={userRef?.link.links} />
           )}
           {/* // ) : (

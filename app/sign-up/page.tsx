@@ -3,10 +3,12 @@ import Image from "next/image";
 
 export default function SignUpPage() {
   return (
-    <main className="grid grid-cols-2 gap-12 bg-[#f8f8f8] items-center h-screen">
-      <article className="bg-blue-500 relative h-full flex items-center pl-12 pr-12 flex-col">
-        <h1 className="text-5xl font-bold mt-40">
-          Welcome to <b className="text-white font-extrabold">Media Space</b>
+    <main className="grid relative grid-cols-1 sm:grid-cols-2 sm:bg-[#f8f8f8] items-center h-screen ">
+      <article className="hidden sm:flex bg-gradient-to-l from-blue-500 to-blue-800 relative h-full p-8 flex-col">
+        <h1 className="text-5xl font-bold mt-40">Welcome to</h1>
+        <br />
+        <h1 className="text-white font-extrabold text-5xl mt-[-12px]">
+          Media Space
         </h1>
         <h4 className="text-2xl leading-8 mt-8 font-medium text-gray-100">
           Your journey begins now! Create an account to make your media space
@@ -23,8 +25,10 @@ export default function SignUpPage() {
         />
       </article>
 
-      <aside className="w-full pr-12 mt-20">
-        <h2 className="font-bold mb-8 text-3xl text-blue-500">Sign Up</h2>
+      <aside className="h-full pt-16 p-8 absolute sm:relative w-full sm:bg-none bg-gradient-to-l from-blue-500 to-blue-800">
+        <h2 className="font-bold mb-8 text-3xl text-blue-300 sm:text-blue-600">
+          Sign Up
+        </h2>
         <SignUp />
       </aside>
     </main>

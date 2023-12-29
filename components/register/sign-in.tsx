@@ -100,7 +100,7 @@ export default function SignIn() {
         {messageError}
       </p>
 
-      <p className="text-end font-bold text-blue-500 hover:text-blue-600 mt-8">
+      <p className="text-end font-bold sm:text-blue-500 text-white sm:hover:text-blue-600 mt-8">
         Forgot your password?
       </p>
 
@@ -120,7 +120,7 @@ export default function SignIn() {
 
       <Link
         href="/sign-up"
-        className="inline-block w-full text-center text-blue-500 hover:text-blue-600 font-bold"
+        className="inline-block w-full text-center sm:text-blue-500 text-white sm:hover:text-blue-600 font-bold"
       >
         Don&#8242;t have an account?
       </Link>

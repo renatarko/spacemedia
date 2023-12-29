@@ -31,7 +31,7 @@ export default function Home() {
 
           <aside className="sm:w-[40%] w-full flex justify-center items-center mt-24 sm:mt-12 relative">
             <div className="w-full max-w-max  self-center h-full flex bg-gradient-to-l shadow-xl shadow-cyan-200 from-blue-600 to-blue-800 rounded-2xl items-center flex-col">
-              <div className="w-24 h-24 overflow-auto rounded-full sm:mt-16 mt-8">
+              <div className="w-24 h-24 overflow-auto rounded-full sm:mt-16 mt-8 overflow-hidden">
                 <Image
                   src={"/imageRe.png"}
                   alt="image"

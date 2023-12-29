@@ -13,7 +13,7 @@ export default function Base({ children }: BaseProps) {
     >
       <Header />
 
-      <div className="relative mt-12 sm:mt-32 flex-1">{children}</div>
+      <div className="relative mt-12 sm:mt-20 flex-1">{children}</div>
 
       <div className="bg-white">
         <Container>

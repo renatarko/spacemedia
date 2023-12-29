@@ -4,52 +4,94 @@ import { auth } from "@/config/firebase";
 import { useAuth } from "@/context/authGoogle";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import Container from "./container";
 
-const headerLinks = [{ name: "product", path: "my-media-space" }];
+const headerLinks = [{ name: "my space", path: "my-media-space" }];
 
 export default function Header() {
   const { signed, user, logout } = useAuth();
   const currentUser = auth.currentUser;
+
+  const [dropdown, setDropdown] = useState(false);
   // console.log("header - usuario logado?", currentUser);
 
   return (
-    <header className="bg-blue-700">
-      <Container>
-        <menu className="flex z-50 justify-between items-center py-4">
-          <Link href={"/"} className="font-extrabold text-blue-300 text-lg">
-            <img src="/logo.svg" alt="Logo Space Media" className="w-16" />
-            {/* media space */}
-          </Link>
+    <>
+      <header className="fixed top-3 w-full z-50">
+        <Container>
+          <menu className="flex z-50 justify-between items-center border-4 shadow-lg border-blue-600 backdrop-blur-md rounded-full py-3 px-4">
+            <Link href={"/"} className="font-extrabold text-blue-300 text-lg">
+              <img src="/logo.svg" alt="Logo Space Media" className="w-16" />
+            </Link>
 
-          <nav className="inline-flex gap-4 items-center">
-            {headerLinks.map((link, i) => (
-              <Link
-                key={i}
-                href={`/${link.path}`}
-                className="font-medium hover:bg-blue-50 py-2 px-4 rounded-md"
+            <nav className="sm:inline-flex gap-4 items-center hidden">
+              {currentUser?.uid && (
+                <>
+                  <Link
+                    href={"/my-media-space"}
+                    className="p-2 bg-blue-600 text-blue-100 rounded-full font-semibold"
+                  >
+                    my space
+                  </Link>
+                </>
+              )}
+
+              <button
+                onClick={logout}
+                className="p-2 bg-yellow-500 font-bold text-gray-900 rounded-full"
               >
-                {link.name}
-              </Link>
-            ))}
+                Logout
+              </button>
+            </nav>
 
-            {currentUser?.uid ? (
-              <p className="text-blue-300">{currentUser?.displayName}</p>
-            ) : (
-              <Link
-                href={"/login"}
-                className="ml-10 bg-blue-600 font-medium py-2 px-4 text-white rounded-md"
+            <nav className="flex items-center gap-1 sm:hidden">
+              {!currentUser ? (
+                <Link
+                  href={"/login"}
+                  className="bg-yellow-500 flex py-2 px-4 rounded-full text-gray-900 font-bold"
+                >
+                  Login
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    href={"/my-media-space"}
+                    className="p-2 bg-blue-600 text-blue-100 rounded-full font-semibold"
+                  >
+                    my space
+                  </Link>
+
+                  <button
+                    className="p-2 bg-yellow-500 text-gray-900 rounded-full"
+                    onClick={logout}
+                  >
+                    <LogOut />
+                  </button>
+                </>
+              )}
+
+              {/* <button
+                onClick={() => setDropdown(!dropdown)}
+                className="p-2 rounded-full bg-blue-800 text-blue-300"
               >
-                Login
-              </Link>
-            )}
+                <Menu />
+              </button> */}
+            </nav>
+          </menu>
+        </Container>
+      </header>
 
-            <button onClick={logout}>
-              <LogOut />
-            </button>
-          </nav>
-        </menu>
-      </Container>
-    </header>
+      <div
+        className={`${
+          dropdown
+            ? "translate-y-12 opacity-100"
+            : "translate-y-6 opacity-0 pointer-events-none"
+        } bg-blue-600 duration-150 text-white font-semibold p-4 absolute right-0 m-6 z-50 flex flex-col rounded-lg divide-y-2 divide-blue-200 gap-2`}
+      >
+        <Link href={"/signup"}>Create my media space</Link>
+        <Link href={"/login"}>Login</Link>
+      </div>
+    </>
   );
 }

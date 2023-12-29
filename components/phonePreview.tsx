@@ -25,13 +25,14 @@ type PhonePreviewProps = {
 export default function PhonePreview({ data }: PhonePreviewProps) {
   const { links, colors, userPreview, setUserPreview, setColors, setLinks } =
     usePreview();
-  const gradient = `linear-gradient(to ${colors.background?.direction}, ${colors.background?.gradient?.firstColor}, ${colors.background?.gradient?.secondColor})`;
+  const gradient = `linear-gradient(to ${colors?.background?.direction}, ${colors?.background?.gradient?.firstColor}, ${colors?.background?.gradient?.secondColor})`;
 
   useEffect(() => {
     const updatedState: Pick<
       User,
-      "title" | "career" | "nickname" | "link" | "avatar"
+      "title" | "career" | "nickname" | "link" | "avatar" | "background"
     > = {
+      background: data?.background,
       title: data?.title,
       career: data?.career,
       nickname: data?.nickname,
@@ -39,7 +40,7 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
       avatar: data?.avatar,
     };
     setUserPreview(updatedState);
-    setColors(data!.background);
+    setColors(updatedState);
     setLinks(data?.link.links);
   }, []);
 
@@ -47,23 +48,21 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
     <div className="h-full md:px-12 px-1 flex flex-col items-center w-full max-w-xl">
       <LinkName linkNameSaved={data?.linkName} />
 
-      <aside className="px-6 overflow-x-hidden mt-20 relative pb-8 h-[40rem] overflow-y-auto border-[12px] sm:border-[12px] lg:w-[75%] w-full flex flex-col items-center rounded-2xl border-gray-700">
+      <aside className="px-6 overflow-x-hidden shadow-2xl min-h-[40rem] mt-20 relative pb-8 overflow-y-auto lg:w-[75%] w-full flex flex-col items-center rounded-2xl border-gray-700">
         <div
-          className={`absolute top-0 bottom-0 left-0 bg-transparent right-0 border-4 border-gray-600 z-[-1]`}
+          className={`absolute top-0 bottom-0 left-0 bg-transparent right-0 z-[-1]`}
           style={{
             background:
-              colors?.background?.type === "gradient"
+              colors?.background.type === "gradient"
                 ? gradient
-                : colors?.background?.color,
+                : colors?.background.color,
           }}
         />
         <div className="w-24 h-24 relative rounded-full border-4 border-white mt-8 z-10 shadow-lg overflow-hidden">
           <img
             src={data?.avatar ? data.avatar : userPreview.avatar!}
             alt={`image`}
-            className="w-full  "
-            // width={300}
-            // height={300}
+            className="w-full"
           />
 
           <div className="absolute bg-gray-200 w-full h-full animate-pulse" />
@@ -119,10 +118,10 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
           </p>
         </div>
 
-        <ul className="flex flex-col gap-4 mt-8 w-full overflow-auto h-[16rem]">
+        <ul className="flex flex-col gap-4 mt-8 w-full">
           {links.map((link, i) => {
-            console.log(link);
-            return <Link key={i} link={link} design={data?.link} />;
+            // console.log("link", { link });
+            return <Link key={i} link={link} design={colors.link} />;
           })}
           {/* {data?.link.links.length > 0
             ? data?.link.links.map((link: any, i: any) => (

@@ -11,7 +11,8 @@ import { getUserDataQuery } from "@/functions/query";
 export default async function MySpaceMedia() {
   const uid = "pc1L66IOBDNViKBZjWA5LsPDIVi2";
   const user = await getUserDataQuery(uid);
-  console.log({ user });
+
+  console.log(user?.links);
   return (
     <>
       {/* <Container> */}

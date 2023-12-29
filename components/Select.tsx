@@ -86,15 +86,15 @@ export default function Select({
         >
           {options.map((item) => (
             <li
-              key={item}
+              key={item.path}
               className={`flex justify-center items-center gap-2 p-3 relative group focus-within:bg-blue-600 focus-within:text-white focus-within:hover:bg-blue-800 group hover:bg-gray-200 ${
-                option === item && "text-white bg-blue-800"
+                option === item.name && "text-white bg-blue-800"
               }`}
             >
               <input
                 type="radio"
                 name={name}
-                value={item}
+                value={item.path}
                 className="absolute inset-0 opacity-0  cursor-pointer z-20 outline outline-1 hover:outline-blue-300 focus:outline-blue-300 hover:bg-gray-400"
                 onClick={() => {
                   setOption(item);

@@ -48,7 +48,7 @@ export default function Link({ link, design }: linkProps) {
     if (type === "email") return `mailto:${link?.url}`;
     if (type === "phone") return `tel:${link?.url}`;
     if (type === "link") return link?.url;
-    if (type === "facebook") return `http://facebook/${link.url}`;
+    if (type === "facebook") return `https://www.facebook.com/${link.url}`;
   };
 
   return (

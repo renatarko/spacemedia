@@ -55,6 +55,12 @@ export default function Profile({ userRef }: ProfileProps) {
     setLinks(newList);
   };
 
+  const onDragStart = () => {
+    if (window.navigator.vibrate) {
+      window.navigator.vibrate(100);
+    }
+  };
+
   return (
     <>
       <div className="relative h-full flex flex-col">
@@ -201,7 +207,7 @@ export default function Profile({ userRef }: ProfileProps) {
             </Button>
           )}
 
-          <DragDropContext onDragEnd={onDragEnd}>
+          <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
             <Droppable droppableId="links" direction="vertical">
               {(provided) => (
                 <ul

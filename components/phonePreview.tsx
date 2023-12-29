@@ -48,7 +48,7 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
     <div className="h-full md:px-12 px-1 flex flex-col items-center w-full max-w-xl">
       <LinkName linkNameSaved={data?.linkName} />
 
-      <aside className="px-6 overflow-x-hidden shadow-2xl mt-20 relative pb-8 overflow-y-auto lg:w-[75%] w-full flex flex-col items-center rounded-2xl border-gray-700">
+      <aside className="px-6 overflow-x-hidden shadow-2xl min-h-[40rem] mt-20 relative pb-8 overflow-y-auto lg:w-[75%] w-full flex flex-col items-center rounded-2xl border-gray-700">
         <div
           className={`absolute top-0 bottom-0 left-0 bg-transparent right-0 z-[-1]`}
           style={{
@@ -121,7 +121,7 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
         <ul className="flex flex-col gap-4 mt-8 w-full">
           {links.map((link, i) => {
             // console.log("link", { link });
-            return <Link key={i} link={link} design={data?.link} />;
+            return <Link key={i} link={link} design={colors.link} />;
           })}
           {/* {data?.link.links.length > 0
             ? data?.link.links.map((link: any, i: any) => (

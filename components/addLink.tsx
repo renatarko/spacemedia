@@ -102,16 +102,15 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
                 // setLink({ ...link, url: unMask("") });
               }}
             >
-              {field?.type &&
-                mediasType.slice(1).map((media) => (
-                  <option
-                    key={media.name}
-                    value={media.name.toLowerCase()}
-                    selected={media.name.toLowerCase() === link?.type}
-                  >
-                    {media.name}
-                  </option>
-                ))}
+              {mediasType.map((media) => (
+                <option
+                  key={media.name}
+                  value={media.name.toLowerCase()}
+                  selected={media.name.toLowerCase() === link?.type}
+                >
+                  {media.name}
+                </option>
+              ))}
             </select>
 
             <Input

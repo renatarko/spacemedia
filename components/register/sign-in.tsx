@@ -28,7 +28,7 @@ export default function SignIn() {
   };
 
   return (
-    <form className="mt-16">
+    <form className="mt-16 w-full">
       <button
         type="button"
         onClick={loginWithGoogle}

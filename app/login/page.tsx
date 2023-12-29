@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function Login() {
   return (
     <main className="grid grid-cols-2 gap-12 bg-[#f8f8f8] items-center h-screen">
-      <article className="bg-blue-500 relative h-full flex justify-center items-center pl-12 flex-col">
+      <article className="bg-gradient-to-l from-blue-500 to-blue-800 relative h-full flex pt-56 pl-12 flex-col">
         <h1 className="text-5xl font-bold">
           Welcome to <b className="text-white font-extrabold">Media Space</b>
         </h1>
@@ -28,7 +28,7 @@ export default function Login() {
       </article>
 
       <aside className="w-full pr-12">
-        <h2 className="font-bold mb-8 text-3xl text-blue-500">Login</h2>
+        <h2 className="font-bold mb-8 text-3xl text-blue-600">Login</h2>
         <SignIn />
       </aside>
     </main>

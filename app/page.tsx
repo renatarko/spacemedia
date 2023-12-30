@@ -55,7 +55,11 @@ export default function Home() {
                 {homeImagesCel.map((item, i) => (
                   <SwiperSlide key={i}>
                     <div
-                      className={`w-full self-center h-full flex bg-gradient-to-l shadow-xl rounded-2xl items-center flex-col ${item.background.first} ${item.background.second} ${item.background.shadow}`}
+                      className={`w-full self-center h-full flex bg-gradient-to-l shadow-xl rounded-2xl items-center flex-col ${item.background.shadow}`}
+                      style={{
+                        background: `linear-gradient(to left, ${item.background.first}, ${item.background.second})`,
+                        boxShadow: `-1px 5px 19px 3px ${item.background.shadow}`,
+                      }}
                     >
                       <div className="w-24 h-24 rounded-full sm:mt-16 mt-8 overflow-hidden">
                         <Image
@@ -78,7 +82,11 @@ export default function Home() {
                         {item.buttons.link.map((link, i) => (
                           <li
                             key={i}
-                            className={`w-full drop-shadow-lg mt-2 p-2 rounded-full text-center font-bold ${item.buttons.color} ${item.buttons.background}`}
+                            className={`w-full drop-shadow-lg mt-2 p-2 rounded-full text-center font-bold`}
+                            style={{
+                              background: item.buttons.background,
+                              color: item.buttons.color,
+                            }}
                           >
                             {link}
                           </li>
@@ -87,20 +95,33 @@ export default function Home() {
                     </div>
 
                     <div
-                      className={`absolute left-16 bottom-[-2rem] flex gap-3  p-2 rounded-lg shadow-xl ${item.icons.containerBg}`}
+                      className={`absolute left-16 bottom-[-2rem] flex gap-3 p-2 rounded-lg shadow-xl`}
+                      style={{ background: item.icons.containerBg }}
                     >
                       <span
-                        className={`p-3 rounded-full ${item.icons.background} ${item.icons.color}`}
+                        style={{
+                          background: item.icons.background,
+                          color: item.icons.color,
+                        }}
+                        className={`p-3 rounded-full`}
                       >
                         <Instagram />
                       </span>
                       <span
-                        className={`p-3 rounded-full ${item.icons.background} ${item.icons.color}`}
+                        style={{
+                          background: item.icons.background,
+                          color: item.icons.color,
+                        }}
+                        className={`p-3 rounded-full`}
                       >
                         <Youtube />
                       </span>
                       <span
-                        className={`p-3 rounded-full ${item.icons.background} ${item.icons.color}`}
+                        style={{
+                          background: item.icons.background,
+                          color: item.icons.color,
+                        }}
+                        className={`p-3 rounded-full`}
                       >
                         <Link2Icon />
                       </span>

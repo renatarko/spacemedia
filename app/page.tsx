@@ -4,11 +4,11 @@ import Base from "@/components/base";
 import Container from "@/components/container";
 import { Instagram, Link2Icon, Youtube } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { Tilt } from "react-tilt";
 import { Autoplay, EffectFlip } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import Button from "@/components/button";
 import { defaultOptions, homeImagesCel } from "@/functions/constant";
 import "swiper/css";
 import "swiper/css/effect-flip";
@@ -20,22 +20,30 @@ export default function Home() {
     <Base>
       <Container>
         <section className="flex flex-col sm:flex-row gap-4 justify-center sm:justify-between pb-28 mt-20 sm:mt-0">
-          <div className="sm:mt-16 md:w-[50%] sm:w-[80%] text-center sm:text-start">
-            <h1 className="text-xl font-bold text-blue-600">media space</h1>
-            <h2 className="sm:text-5xl text-3xl mt-6 font-bold sm:leading-normal mb-12">
-              The{" "}
-              <b className="relative before:w-full before:z-[-1] before:bottom-1 before:absolute before:bg-[#56B3C8]/60 before:left-0 before:h-4">
-                easier way
-              </b>{" "}
-              to have all your contacts linked.
-            </h2>
+          <div className="sm:mt-16 md:w-[50%] sm:w-[80%] text-center sm:text-start flex flex-col gap-6">
+            <div className="w-full mt-6">
+              <h1 className="text-xl font-bold text-blue-600 mb-6">
+                media space
+              </h1>
+              <h2 className="sm:text-5xl text-3xl font-bold sm:leading-normal ">
+                The{" "}
+                <b className="relative before:w-full before:z-[-1] before:bottom-2 before:absolute before:bg-[#EAB308] before:left-0 before:h-4">
+                  easier way
+                </b>{" "}
+                to have all your contacts linked.
+              </h2>
+            </div>
 
-            <Link
-              href="/login"
-              className="bg-blue-600 text-white rounded-md py-3 px-8"
-            >
+            <p className="text-lg">
+              Connect with ease by centralizing all your contact information and
+              social media links in one convenient place. Our platform empowers
+              you to effortlessly share and manage your contact details, making
+              it simpler for others to reach out to you.
+            </p>
+
+            <Button isAnchor path="/login" minWidth color="blue">
               Start now
-            </Link>
+            </Button>
           </div>
 
           <div className="max-w-[17rem] animate-float w-full mt-20 sm:mt-12 self-center ">

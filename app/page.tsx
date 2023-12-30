@@ -41,7 +41,7 @@ export default function Home() {
               it simpler for others to reach out to you.
             </p>
 
-            <Button isAnchor path="/login" minWidth color="blue">
+            <Button isAnchor path="/login" minWidth>
               Start now
             </Button>
           </div>

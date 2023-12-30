@@ -173,6 +173,7 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
                 Cancel
               </button>
               <Button
+                isAnchor={false}
                 onClick={saveLink}
                 disabled={disabled}
                 title={disabled ? "Fill the input to save" : "Save the link"}

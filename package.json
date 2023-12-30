@@ -16,11 +16,13 @@
     "firebase": "^10.7.1",
     "lucide-react": "^0.294.0",
     "next": "13.4.6",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-hot-toast": "^2.4.1",
-    "remask": "^1.2.2"
+    "react-tilt": "^1.0.2",
+    "remask": "^1.2.2",
+    "swiper": "^11.0.5"
   },
   "devDependencies": {
     "@types/node": "^20",

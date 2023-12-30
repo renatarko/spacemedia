@@ -202,7 +202,11 @@ export default function Profile({ userRef }: ProfileProps) {
           {/* <input placeholder="name" onChange={(e) => setUser({...user, name: e.target.value})} /> */}
 
           {userRef?.link.links.length === 0 && (
-            <Button onClick={() => setOpen(true)} icon={<LinkIcon size={20} />}>
+            <Button
+              isAnchor={false}
+              onClick={() => setOpen(true)}
+              icon={<LinkIcon size={20} />}
+            >
               create link
             </Button>
           )}

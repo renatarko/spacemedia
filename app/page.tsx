@@ -107,48 +107,6 @@ export default function Home() {
                     </div>
                   </SwiperSlide>
                 ))}
-
-                {/* <SwiperSlide>
-                  <div className="w-full max-w-max  self-center h-full flex bg-gradient-to-l shadow-xl shadow-green-200 from-green-600 to-green-900 rounded-2xl items-center flex-col">
-                    <div className="w-24 h-24 rounded-full sm:mt-16 mt-8 overflow-hidden">
-                      <Image
-                        src={"/imageRe.png"}
-                        alt="image"
-                        width={150}
-                        height={150}
-                        className=""
-                      />
-                    </div>
-
-                    <div className="mt-8 text-white px-8 md:px-20 text-center">
-                      <h1 className="text-xl font-bold">Fitness Air</h1>
-                      <h2>Gympass</h2>
-                    </div>
-
-                    <ul className="w-full px-4 mt-6 pb-10">
-                      {medias.map((item, i) => (
-                        <li
-                          key={i}
-                          className="w-full mt-2 bg-gray-300 p-2 rounded-full text-center text-green-900 font-semibold"
-                        >
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="absolute left-16 bottom-[-2rem] flex gap-3 bg-gray-900 p-2 rounded-lg shadow-xl">
-                    <span className="p-3 bg-green-500 rounded-full text-black">
-                      <Instagram />
-                    </span>
-                    <span className="p-3 bg-green-500 rounded-full text-black">
-                      <Youtube />
-                    </span>
-                    <span className="p-3 bg-green-500 rounded-full text-black">
-                      <Link2Icon />
-                    </span>
-                  </div>
-                </SwiperSlide> */}
               </Swiper>
             </Tilt>
           </div>

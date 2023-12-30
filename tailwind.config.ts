@@ -36,9 +36,14 @@ const config: Config = {
           "0%": { transform: "translateX(0%)" },
           "100%": { transform: "translateX(100%)" },
         },
+        float: {
+          "0%": { transform: "translateY(0) translateX(0)" },
+          "50%": { transform: "translateY(-3px) translateX(-3px)" },
+        },
       },
       animation: {
         marquee: "marquee .3s ease-in-out ",
+        float: "float 2.5s infinite ease-in-out",
       },
     },
   },

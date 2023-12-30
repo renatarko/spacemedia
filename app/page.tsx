@@ -38,7 +38,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="max-w-[17rem] w-full mt-20 sm:mt-12 self-center ">
+          <div className="max-w-[17rem] animate-float w-full mt-20 sm:mt-12 self-center ">
             <Tilt options={defaultOptions}>
               <Swiper
                 modules={[EffectFlip, Autoplay]}

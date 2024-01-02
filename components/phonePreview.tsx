@@ -48,7 +48,7 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
     <div className="h-full md:px-12 px-1 flex flex-col items-center w-full max-w-xl">
       <LinkName linkNameSaved={data?.linkName} />
 
-      <aside className="px-6 overflow-x-hidden shadow-2xl min-h-[40rem] mt-20 relative pb-8 overflow-y-auto lg:w-[75%] w-full flex flex-col items-center rounded-2xl border-gray-700">
+      <aside className="px-6 overflow-x-hidden shadow-2xl mt-20 relative pb-16 overflow-y-auto lg:w-[75%] w-full flex flex-col items-center rounded-2xl border-gray-700">
         <div
           className={`absolute top-0 bottom-0 left-0 bg-transparent right-0 z-[-1]`}
           style={{
@@ -58,11 +58,11 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
                 : colors?.background.color,
           }}
         />
-        <div className="w-24 h-24 relative rounded-full border-4 border-white mt-8 z-10 shadow-lg overflow-hidden">
+        <div className="w-24 relative h-24 rounded-full border-4 border-white mt-8 z-10 shadow-lg overflow-hidden">
           <img
-            src={data?.avatar ? data.avatar : userPreview.avatar!}
+            src={userPreview.avatar ? userPreview.avatar! : data?.avatar}
             alt={`image`}
-            className="w-full"
+            className="w-full object-cover"
           />
 
           <div className="absolute bg-gray-200 w-full h-full animate-pulse" />

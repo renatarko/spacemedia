@@ -1,20 +1,15 @@
 "use client";
 
-import { auth } from "@/config/firebase";
 import { useAuth } from "@/context/authGoogle";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import Button from "./button";
 import Container from "./container";
-
-const headerLinks = [{ name: "my space", path: "my-media-space" }];
 
 export default function Header() {
   const { signed, user, logout } = useAuth();
-  const currentUser = auth.currentUser;
-
   const [dropdown, setDropdown] = useState(false);
-  // console.log("header - usuario logado?", currentUser);
 
   return (
     <>
@@ -26,7 +21,7 @@ export default function Header() {
             </Link>
 
             <nav className="sm:inline-flex gap-4 items-center hidden">
-              {currentUser?.uid && (
+              {signed ? (
                 <>
                   <Link
                     href={"/my-media-space"}
@@ -34,19 +29,31 @@ export default function Header() {
                   >
                     my space
                   </Link>
+
+                  <button
+                    onClick={logout}
+                    className="p-2 bg-yellow-500 font-bold text-gray-900 rounded-full"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Button isAnchor path={"/sign-up"}>
+                    Sign Up
+                  </Button>
+                  <Link
+                    href={"/login"}
+                    className="bg-yellow-500 flex py-3 px-5 rounded-full text-gray-900 font-bold"
+                  >
+                    Login
+                  </Link>
                 </>
               )}
-
-              <button
-                onClick={logout}
-                className="p-2 bg-yellow-500 font-bold text-gray-900 rounded-full"
-              >
-                Logout
-              </button>
             </nav>
 
             <nav className="flex items-center gap-1 sm:hidden">
-              {!currentUser ? (
+              {!signed ? (
                 <Link
                   href={"/login"}
                   className="bg-yellow-500 flex py-2 px-4 rounded-full text-gray-900 font-bold"

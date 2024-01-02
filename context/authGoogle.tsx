@@ -2,7 +2,7 @@
 
 import { auth } from "@/config/firebase";
 import { createUser } from "@/functions/mutation";
-import { User, UserContext } from "@/types/types";
+import { UserContext } from "@/types/types";
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -37,8 +37,6 @@ export const AuthGoogleContext = createContext({} as AuthContext);
 
 export const AuthGoogleProvider = ({ children }: any) => {
   const [user, setUser] = useState<UserContext | null>(null);
-  const currentUser = auth.currentUser?.getIdToken();
-  // const token = currentUser?.then((result) => console.log(result));
 
   const router = useRouter();
 
@@ -62,7 +60,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
       const token = credential?.accessToken;
       const userAuth = result.user;
       const uid = userAuth.uid;
-
+      console.log(credential?.signInMethod);
       console.log({ result, credential, token });
       setUser({
         name: userAuth.displayName!,
@@ -77,8 +75,8 @@ export const AuthGoogleProvider = ({ children }: any) => {
       };
 
       setUserInLocalStorage(auth_user, token!);
-      // await createUser(auth_user, uid);
-      // redirectUserAuth(auth_user);
+      await createUser(auth_user, uid);
+      redirectUserAuth(auth_user);
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -159,9 +157,11 @@ export const AuthGoogleProvider = ({ children }: any) => {
     }
   };
 
-  const redirectUserAuth = (user: User) => {
-    console.log("redirect", user);
-    const slug = user.name;
+  const redirectUserAuth = (user: {
+    name: string;
+    email: string;
+    avatar: string;
+  }) => {
     if (user) {
       router.push(`/my-media-space`);
     }
@@ -174,7 +174,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
   useEffect(() => {
     const localStore = localStorage.getItem("@Auth:user");
     const isUser = JSON.parse(localStore!);
-    console.log({ isUser });
+
     if (isUser) {
       setUser(isUser);
     }

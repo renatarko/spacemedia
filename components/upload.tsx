@@ -28,7 +28,7 @@ export default function Upload({ user }: DocumentData) {
 
   const onDrop = useCallback((acceptFiles: any) => {
     const imageUrl = URL.createObjectURL(acceptFiles[0]);
-    setUserPreview({ ...user, avatar: imageUrl });
+    setUserPreview({ ...userPreview, avatar: imageUrl });
     setFile(acceptFiles[0]);
   }, []);
 
@@ -86,7 +86,7 @@ export default function Upload({ user }: DocumentData) {
             setUserPreview({ ...userPreview, avatar: "" });
             setFile(null);
           }}
-          className="absolute right-[-1.2rem] top-[-0.5rem] p-1 bg-blue-100/20 hover:bg-blue-100 text-blue-600 rounded-full"
+          className="absolute right-[-1.2rem] bottom-[-0.5rem] p-1 bg-blue-100/20 hover:bg-blue-100 text-blue-600 rounded-full"
         >
           <X size={20} />
         </button>
@@ -102,14 +102,24 @@ export default function Upload({ user }: DocumentData) {
           {...getInputProps()}
           className="bg-transparent outline-none z-10"
         />
-        <span className="absolute z-10 bg-gray-300/20 backdrop-blur-sm p-3 rounded-full">
-          <UploadIcon className="text-blue-600 group-hover:text-blue-500" />
-        </span>
+        {file !== null ? (
+          <button
+            title="Save this image as Avatar"
+            onClick={saveImageOnStorage}
+            className="absolute p-2 z-20 bg-blue-100/20 backdrop-blur-sm hover:bg-blue-600 hover:text-white text-blue-600 rounded-full"
+          >
+            <Check />
+          </button>
+        ) : (
+          <span className="absolute z-10 bg-gray-300/20 backdrop-blur-sm p-3 rounded-full">
+            <UploadIcon className="text-blue-600 group-hover:text-blue-500" />
+          </span>
+        )}
 
         {userPreview?.avatar ? (
           <img
             src={userPreview?.avatar}
-            className="z-0 w-full h-full"
+            className="z-0 w-full h-full object-cover"
             alt="image"
           />
         ) : (
@@ -117,7 +127,7 @@ export default function Upload({ user }: DocumentData) {
         )}
       </div>
 
-      {file !== null && (
+      {/* {file !== null && (
         <button
           title="Save this image as Avatar"
           onClick={saveImageOnStorage}
@@ -125,7 +135,7 @@ export default function Upload({ user }: DocumentData) {
         >
           <Check size={20} />
         </button>
-      )}
+      )} */}
       {messageError(isDragActive)}
     </div>
   );

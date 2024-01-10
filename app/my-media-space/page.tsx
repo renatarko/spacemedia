@@ -4,7 +4,6 @@
 //   };
 // };
 
-import PhonePreview from "@/components/phonePreview";
 import Profile from "@/components/profile";
 import { getUserDataQuery } from "@/functions/query";
 
@@ -12,7 +11,6 @@ export default async function MySpaceMedia() {
   const uid = "pc1L66IOBDNViKBZjWA5LsPDIVi2";
   const user = await getUserDataQuery(uid);
 
-  console.log(user?.links);
   return (
     <>
       {/* <Container> */}
@@ -23,7 +21,7 @@ export default async function MySpaceMedia() {
       {/* <main className="mt-16 relative w-full mb-8 grid md:grid-cols-2 grid-cols-1 gap-4"> */}
       <Profile userRef={user} />
 
-      <PhonePreview data={user} />
+      {/* <PhonePreview data={user} /> */}
       {/* <Phone data={user} /> */}
       {/* </main> */}
       {/* </Container> */}

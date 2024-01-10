@@ -24,13 +24,13 @@ export async function getUserDataQuery(uid: string) {
   try {
     const docRef = doc(db, "users", uid!);
     const docSnap = await getDoc(docRef);
-    console.log({ docSnap });
+    // console.log({ docSnap });
 
     if (!docSnap.exists()) return;
 
     const user = docSnap.data();
     return user;
-  } catch (error) {
-    console.log("getUserQuery", { error });
+  } catch (error: any) {
+    console.log("getUserQuery", error.message);
   }
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { auth } from "@/config/firebase";
+import { localStorageAuth, routesApp } from "@/functions/constant";
 import { createUser } from "@/functions/mutation";
 import { UserContext } from "@/types/types";
 import {
@@ -15,9 +16,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const provider = new GoogleAuthProvider();
-
-const LOCAL_AUTH_TOKEN = "@Auth:token";
-const LOCAL_AUTH_USER = "@Auth:user";
 
 export type AuthContext = {
   user: UserContext | null | undefined;
@@ -49,8 +47,8 @@ export const AuthGoogleProvider = ({ children }: any) => {
   };
 
   const setUserInLocalStorage = (auth_user: UserContext, token: string) => {
-    localStorage.setItem(LOCAL_AUTH_TOKEN, token!);
-    localStorage.setItem(LOCAL_AUTH_USER, JSON.stringify(auth_user));
+    localStorage.setItem(localStorageAuth.token, token!);
+    localStorage.setItem(localStorageAuth.user, JSON.stringify(auth_user));
   };
 
   const loginWithGoogle = async () => {
@@ -60,8 +58,9 @@ export const AuthGoogleProvider = ({ children }: any) => {
       const token = credential?.accessToken;
       const userAuth = result.user;
       const uid = userAuth.uid;
-      console.log(credential?.signInMethod);
-      console.log({ result, credential, token });
+
+      await setCookie(token!, uid);
+
       setUser({
         name: userAuth.displayName!,
         email: userAuth.email!,
@@ -76,12 +75,26 @@ export const AuthGoogleProvider = ({ children }: any) => {
 
       setUserInLocalStorage(auth_user, token!);
       await createUser(auth_user, uid);
-      redirectUserAuth(auth_user);
+      redirectUserAuth(uid);
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorMessage);
       toast.error(errorCode);
+    }
+  };
+
+  const setCookie = async (token: string, uid: string) => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: token, uid: uid }),
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -91,6 +104,8 @@ export const AuthGoogleProvider = ({ children }: any) => {
       const credential = result;
       const user = credential.user;
       const token = await user.getIdToken();
+
+      await setCookie(token!, user.uid);
 
       const auth_user = {
         name: user.displayName!,
@@ -157,22 +172,18 @@ export const AuthGoogleProvider = ({ children }: any) => {
     }
   };
 
-  const redirectUserAuth = (user: {
-    name: string;
-    email: string;
-    avatar: string;
-  }) => {
-    if (user) {
-      router.push(`/my-media-space`);
-    }
+  const redirectUserAuth = (uid: string) => {
+    if (!uid) return;
 
-    return;
+    router.push(
+      `${routesApp.private.my_media}?tab=${routesApp.private.tabs.profile}`
+    );
   };
 
   const notify = (message: string) => toast(message);
 
   useEffect(() => {
-    const localStore = localStorage.getItem("@Auth:user");
+    const localStore = localStorage.getItem(localStorageAuth.user);
     const isUser = JSON.parse(localStore!);
 
     if (isUser) {

@@ -61,6 +61,7 @@ export default function Color({
             id={labelFor}
             className="bg-transparent outline-none"
             value={value || "#0b89af"}
+            onChange={onChange}
           />
         </label>
       </fieldset>

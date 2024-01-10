@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/context/authGoogle";
+import { routesApp } from "@/functions/constant";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -24,7 +25,7 @@ export default function Header() {
               {signed ? (
                 <>
                   <Link
-                    href={"/my-media-space"}
+                    href={`${routesApp.private.my_media}?tab=${routesApp.private.tabs.profile}`}
                     className="p-2 bg-blue-600 text-blue-100 rounded-full font-semibold"
                   >
                     my space
@@ -63,7 +64,7 @@ export default function Header() {
               ) : (
                 <>
                   <Link
-                    href={"/my-media-space"}
+                    href={`${routesApp.private.my_media}?tab=${routesApp.private.tabs.profile}`}
                     className="p-2 bg-blue-600 text-blue-100 rounded-full font-semibold"
                   >
                     my space

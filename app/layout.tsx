@@ -1,8 +1,11 @@
 "use client";
 
+import PrivateRoute from "@/components/privateRoute";
 import { AuthGoogleProvider } from "@/context/authGoogle";
 import PreviewProvider from "@/context/preview";
+import { routesApp } from "@/functions/constant";
 import { Inter } from "next/font/google";
+import { usePathname } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
@@ -18,6 +21,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
+  const checkRoutesPublic = () => {
+    const isPublic = Object.values(routesApp.public);
+    return isPublic.includes(pathname);
+  };
+
+  const isPublicRouter = checkRoutesPublic();
+  console.log(isPublicRouter);
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -34,7 +46,9 @@ export default function RootLayout({
             />
             {/* <Header /> */}
             <main className="relative flex flex-col justify-between">
-              {children}
+              {isPublicRouter && children}
+
+              {!isPublicRouter && <PrivateRoute>{children}</PrivateRoute>}
             </main>
           </PreviewProvider>
         </AuthGoogleProvider>

@@ -1,3 +1,16 @@
+export const localStorageAuth = {
+  token: "@Auth:token",
+  user: "@Auth:user",
+};
+
+export const routesApp = {
+  private: {
+    my_media: "my-media-space",
+    tabs: { profile: "profile", view: "view", appearance: "appearance" },
+  },
+  public: { home: "/", login: "/login", signUp: "/sign-up" },
+};
+
 export const mediasType = [
   { name: "Select the link type", path: "" },
   { name: "Link", path: "" },

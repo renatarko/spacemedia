@@ -10,9 +10,8 @@ import {
   User2,
 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useState } from "react";
 
 const navLinks = [
   {
@@ -21,27 +20,40 @@ const navLinks = [
     name: "Home",
   },
   {
-    path: "/my-media-space/appearance",
+    path: "appearance",
     icon: <PaintBucket />,
     name: "Appearance",
   },
   {
-    path: "/my-media-space",
+    path: "profile",
     icon: <User2 />,
     name: "Profile",
   },
   {
-    path: "/renata-developer-1",
+    path: "view",
     icon: <Smartphone />,
     name: "View",
   },
 ];
 
 export default function NavBar() {
+  const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { logout, user } = useAuth();
 
   const [open, setOpen] = useState(false);
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      if (value === "/") return;
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   return (
     <>
@@ -62,11 +74,18 @@ export default function NavBar() {
       >
         <div>
           {navLinks.map((link) => (
-            <Link
-              href={link.path}
+            <button
               key={link.name}
+              onClick={() => {
+                if (link.path === "/") return router.push(link.path);
+
+                router.push(
+                  pathname + "?" + createQueryString("tab", link.path)
+                );
+              }}
               className={`flex group w-full justify-center items-center cursor-pointer relative py-4 duration-200 px-4 ${
-                pathname === link.path && "bg-blue-800 text-blue-500"
+                searchParams.get("tab") === link.path &&
+                "bg-blue-800 text-blue-500"
               }`}
             >
               {link.icon}
@@ -79,11 +98,11 @@ export default function NavBar() {
               >
                 {link.name}
               </span>
-            </Link>
+            </button>
           ))}
         </div>
 
-        <Link href="/renata-developer-1">Link</Link>
+        {/* <Link href="/renata-developer-1">Link</Link> */}
 
         <div className="flex flex-col items-center gap-4">
           <div className="w-9 h-9 overflow-hidden rounded-full border-4 border-white">

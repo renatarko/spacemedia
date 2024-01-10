@@ -56,63 +56,61 @@ export default function Select({
   }, [checked]);
 
   return (
-    <>
-      <div className="relative max-w-max mt-2" ref={selectRef}>
-        <label htmlFor={labelFor}>{label}</label>
-        <input
-          type="checkbox"
-          id={labelFor}
-          checked={checked}
-          className="absolute inset-0 border border-red-300 cursor-pointer opacity-0"
-          onChange={() => setChecked(!checked)}
-        />
-        <div
-          className={`flex mt-2 items-center justify-between rounded-full p-2 bg-gray-200 border ${
-            checked && "border-blue-500"
-          }`}
+    <div className="relative max-w-max mt-2" ref={selectRef}>
+      <label htmlFor={labelFor}>{label}</label>
+      <input
+        type="checkbox"
+        id={labelFor}
+        checked={checked}
+        className="absolute inset-0 border border-red-300 cursor-pointer opacity-0"
+        onChange={() => setChecked(!checked)}
+      />
+      <div
+        className={`flex mt-2 items-center justify-between rounded-full p-2 bg-gray-200 border ${
+          checked && "border-blue-500"
+        }`}
+      >
+        <div className="mr-2 font-bold">{option}</div>
+        <span
+          className={`${checked && "rotate-180 text-blue-600"} duration-150`}
         >
-          <div className="mr-2 font-bold">{option}</div>
-          <span
-            className={`${checked && "rotate-180 text-blue-600"} duration-150`}
-          >
-            <ChevronDown />
-          </span>
-        </div>
+          <ChevronDown />
+        </span>
+      </div>
 
-        <ul
-          className={`mt-2 border bg-gray-50 absolute w-full z-30 rounded-lg duration-200 border-blue-500 divide-y overflow-hidden divide-gray-200  ${
-            checked ? "block shadow-lg" : "hidden"
-          }`}
-        >
-          {options.map((item) => (
-            <li
-              key={item.path}
-              className={`flex justify-center items-center gap-2 p-3 relative group focus-within:bg-blue-600 focus-within:text-white focus-within:hover:bg-blue-800 group hover:bg-gray-200 ${
-                option === item.name && "text-white bg-blue-800"
+      <ul
+        className={`mt-2 border bg-gray-50 absolute w-full z-30 rounded-lg duration-200 border-blue-500 divide-y overflow-hidden divide-gray-200  ${
+          checked ? "block shadow-lg" : "hidden"
+        }`}
+      >
+        {options.map((item, i) => (
+          <li
+            key={i}
+            className={`flex justify-center items-center gap-2 p-3 relative group focus-within:bg-blue-600 focus-within:text-white focus-within:hover:bg-blue-800 group hover:bg-gray-200 ${
+              option === item.name && "text-white bg-blue-800"
+            }`}
+          >
+            <input
+              type="radio"
+              name={name}
+              value={item.path}
+              className="absolute inset-0 opacity-0  cursor-pointer z-20 outline outline-1 hover:outline-blue-300 focus:outline-blue-300 hover:bg-gray-400"
+              onClick={() => {
+                setOption(item);
+              }}
+              onChange={onChange}
+              onBlur={saveSelected}
+            />
+            <span
+              className={`${item === "bold" && "font-bold"} ${
+                item === "normal" && "font-normal"
               }`}
             >
-              <input
-                type="radio"
-                name={name}
-                value={item.path}
-                className="absolute inset-0 opacity-0  cursor-pointer z-20 outline outline-1 hover:outline-blue-300 focus:outline-blue-300 hover:bg-gray-400"
-                onClick={() => {
-                  setOption(item);
-                }}
-                onChange={onChange}
-                onBlur={saveSelected}
-              />
-              <span
-                className={`${item === "bold" && "font-bold"} ${
-                  item === "normal" && "font-normal"
-                }`}
-              >
-                {item}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
+              {item}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

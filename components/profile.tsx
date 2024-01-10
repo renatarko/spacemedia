@@ -61,6 +61,19 @@ export default function Profile({ userRef }: ProfileProps) {
     }
   };
 
+  const saveWhenInputBlur = async (field: string, value: string) => {
+    try {
+      const docRef = doc(db, "users", uid!);
+
+      const updateObject: { [key: string]: any } = {};
+      updateObject[field] = { content: value };
+
+      await setDoc(docRef, updateObject, { merge: true });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="relative h-full flex flex-col">
@@ -79,11 +92,7 @@ export default function Profile({ userRef }: ProfileProps) {
                   <input
                     id="title"
                     className="bg-transparent text-gray-950 outline-none flex items-center gap-2 mt-1 placeholder:text-sm placeholder:text-gray-400"
-                    value={
-                      userRef.title.content
-                        ? userRef.title.content
-                        : userPreview.title.content
-                    }
+                    value={userPreview.title.content}
                     onChange={(e) =>
                       setUserPreview({
                         ...userPreview,
@@ -94,18 +103,9 @@ export default function Profile({ userRef }: ProfileProps) {
                       })
                     }
                     placeholder="ex: Renata K."
-                    onBlur={async () => {
-                      try {
-                        const docRef = doc(db, "users", uid!);
-                        await setDoc(
-                          docRef,
-                          { title: { content: userPreview.title.content } },
-                          { merge: true }
-                        );
-                      } catch (error) {
-                        console.log(error);
-                      }
-                    }}
+                    onBlur={() =>
+                      saveWhenInputBlur("title", userPreview.title.content)
+                    }
                   />
                 </label>
               </div>
@@ -119,11 +119,7 @@ export default function Profile({ userRef }: ProfileProps) {
                   <input
                     id="career"
                     className="bg-transparent text-gray-950 outline-none flex items-center gap-2 mt-1 placeholder:text-sm placeholder:text-gray-400"
-                    value={
-                      userRef.career.content
-                        ? userRef.career.content
-                        : userPreview.career.content
-                    }
+                    value={userPreview.career.content}
                     onChange={(e) =>
                       setUserPreview({
                         ...userPreview,
@@ -133,18 +129,9 @@ export default function Profile({ userRef }: ProfileProps) {
                         },
                       })
                     }
-                    onBlur={async () => {
-                      try {
-                        const docRef = doc(db, "users", uid!);
-                        await setDoc(
-                          docRef,
-                          { career: { content: userPreview.career.content } },
-                          { merge: true }
-                        );
-                      } catch (error) {
-                        console.log(error);
-                      }
-                    }}
+                    onBlur={() =>
+                      saveWhenInputBlur("career", userPreview.career.content)
+                    }
                     placeholder="ex: Software Developer"
                   />
                 </label>
@@ -159,11 +146,7 @@ export default function Profile({ userRef }: ProfileProps) {
                   <input
                     id="nickname"
                     className="bg-transparent text-gray-950 outline-none flex items-center gap-2 mt-1 placeholder:text-sm placeholder:text-gray-400"
-                    value={
-                      userRef.nickname.content
-                        ? userRef.nickname.content
-                        : userPreview.nickname.content
-                    }
+                    value={userPreview.nickname.content}
                     onChange={(e) =>
                       setUserPreview({
                         ...userPreview,
@@ -174,18 +157,12 @@ export default function Profile({ userRef }: ProfileProps) {
                       })
                     }
                     placeholder="@renata_rko"
-                    onBlur={async () => {
-                      try {
-                        const docRef = doc(db, "users", uid!);
-                        await setDoc(
-                          docRef,
-                          { nickname: { title: userPreview.nickname.content } },
-                          { merge: true }
-                        );
-                      } catch (error) {
-                        console.log(error);
-                      }
-                    }}
+                    onBlur={() =>
+                      saveWhenInputBlur(
+                        "nickname",
+                        userPreview.nickname.content
+                      )
+                    }
                   />
                 </label>
               </div>

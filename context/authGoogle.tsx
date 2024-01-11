@@ -87,8 +87,8 @@ export const AuthGoogleProvider = ({ children }: any) => {
   const setCookie = async (token: string, uid: string) => {
     try {
       await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`, {
-        mode: "same-origin",
-        referrerPolicy: "same-origin",
+        // mode: "same-origin",
+        // referrerPolicy: "same-origin",
         method: "POST",
         headers: {
           "Content-Type": "application/json",

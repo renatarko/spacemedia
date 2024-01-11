@@ -139,8 +139,8 @@ export default function PreviewProvider({ children }: any) {
   const getUserUID = async () => {
     try {
       const data = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`, {
-        mode: "same-origin",
-        referrerPolicy: "same-origin",
+        // mode: "no-cors",
+        // referrerPolicy: "",
         method: "GET",
         headers: {
           "Access-Control-Allow-Headers": "Content-Type",

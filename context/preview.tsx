@@ -144,7 +144,8 @@ export default function PreviewProvider({ children }: any) {
         method: "GET",
         headers: {
           "Access-Control-Allow-Headers": "Content-Type",
-          // "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin":
+            "http://localhost:3000, https://spacemedia.vercel.app/",
         },
       });
       return await data.json();

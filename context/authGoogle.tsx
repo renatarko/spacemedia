@@ -93,7 +93,8 @@ export const AuthGoogleProvider = ({ children }: any) => {
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Headers": "Content-Type",
-          // "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin":
+            "http://localhost:3000, https://spacemedia.vercel.app/",
         },
         body: JSON.stringify({ token: token, uid: uid }),
       });

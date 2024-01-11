@@ -1,6 +1,7 @@
 "use client";
 
 import NavBar from "@/components/navbar";
+import { routesApp } from "@/functions/constant";
 import { useSearchParams } from "next/navigation";
 import { ReactNode } from "react";
 
@@ -17,9 +18,9 @@ export default function MediaSpaceLayout({
   preview,
   view,
 }: MediaSpaceLayoutProps) {
-  const query = useSearchParams().get("tab");
+  const tabParams = useSearchParams().get("tab");
 
-  if (query === "view") {
+  if (tabParams === "view") {
     return (
       <main className="grid sm:grid-cols-mediaSpace grid-cols-1 h-screen justify-items-center">
         <NavBar />
@@ -31,20 +32,20 @@ export default function MediaSpaceLayout({
 
   return (
     <>
-      {/* {isAuthenticate && ( */}
-      <section className="grid sm:grid-cols-mediaSpace grid-cols-1 h-screen justify-items-center">
+      <section className="grid sm:grid-cols-mediaSpace grid-cols-1 sm:h-screen justify-items-center">
         <NavBar />
 
         <div className="grid md:grid-cols-2 grid-cols-1 pb-4 w-full divide-y-2 divide divide-gray-300 px-4 xl:px-48">
-          {query === "profile" && <div>{children}</div>}
-          {query === "appearance" && <div>{appearance}</div>}
+          {tabParams === routesApp.private.tabs.profile && (
+            <div>{children}</div>
+          )}
+          {tabParams === routesApp.private.tabs.appearance && (
+            <div>{appearance}</div>
+          )}
 
-          <div>{query !== "view" && preview}</div>
+          <div>{tabParams !== routesApp.private.tabs.view && preview}</div>
         </div>
       </section>
-      {/* )} */}
-
-      {/* {!isAuthenticate && null} */}
     </>
   );
 }

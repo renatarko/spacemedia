@@ -33,7 +33,7 @@ export default function Header() {
 
                   <button
                     onClick={logout}
-                    className="p-2 bg-yellow-500 font-bold text-gray-900 rounded-full"
+                    className="p-2 bg-yellow-500 font-bold hover:text-yellow-900 text-gray-900 rounded-full"
                   >
                     Logout
                   </button>
@@ -45,7 +45,7 @@ export default function Header() {
                   </Button>
                   <Link
                     href={"/login"}
-                    className="bg-yellow-500 flex py-3 px-5 rounded-full text-gray-900 font-bold"
+                    className="bg-yellow-500 hover:text-yellow-900 flex py-3 px-5 rounded-full text-gray-900 font-bold"
                   >
                     Login
                   </Link>
@@ -57,7 +57,7 @@ export default function Header() {
               {!signed ? (
                 <Link
                   href={"/login"}
-                  className="bg-yellow-500 flex py-2 px-4 rounded-full text-gray-900 font-bold"
+                  className="bg-yellow-500 hover:text-yellow-900 flex py-3 px-5 rounded-full text-gray-900 font-bold"
                 >
                   Login
                 </Link>
@@ -71,7 +71,7 @@ export default function Header() {
                   </Link>
 
                   <button
-                    className="p-2 bg-yellow-500 text-gray-900 rounded-full"
+                    className="p-2 bg-yellow-500 hover:text-yellow-900 text-gray-900 rounded-full"
                     onClick={logout}
                   >
                     <LogOut />

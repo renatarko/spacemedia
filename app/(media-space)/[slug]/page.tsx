@@ -1,7 +1,5 @@
 import PhonePreview from "@/components/phonePreview";
 import { getUserByLinkNameQuery } from "@/functions/query";
-import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
 
 type MediaSpaceProps = {
   params: {
@@ -17,23 +15,25 @@ export default async function MediaSpace({
 
   return (
     <>
-      <main
+      <h1>ooi babaca</h1>
+      <section
         className={`h-screen w-full flex flex-col justify-center items-center relative`}
         style={{
           background:
             user?.background.type === "gradient" ? gradient : user?.color,
         }}
       >
-        <Link
-          href={"/my-media-space"}
-          className="absolute flex gap-1 top-0 left-0 m-6 text-white p-2 hover:shadow-md rounded-full backdrop-blur-md bg-white/5"
-        >
-          <ChevronLeft />
-          Back
-        </Link>
-
         <PhonePreview data={user} />
-      </main>
+
+        <a
+          href="https://spacemedia.vercel.app/"
+          target="_blank"
+          className="absolute m-3 bottom-0 mt-12 font-bold"
+          style={{ color: user?.title.color || "#ffff" }}
+        >
+          media space
+        </a>
+      </section>
     </>
   );
 }

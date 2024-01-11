@@ -5,7 +5,7 @@ export const localStorageAuth = {
 
 export const routesApp = {
   private: {
-    my_media: "my-media-space",
+    my_media: "/my-media-space",
     tabs: { profile: "profile", view: "view", appearance: "appearance" },
   },
   public: { home: "/", login: "/login", signUp: "/sign-up" },

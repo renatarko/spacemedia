@@ -3,6 +3,7 @@
 import { usePreview } from "@/context/preview";
 import { User } from "@/types/types";
 import { DocumentData } from "@firebase/firestore";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import Link from "./link";
 
@@ -26,6 +27,12 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
     usePreview();
   const gradient = `linear-gradient(to ${colors?.background?.direction}, ${colors?.background?.gradient?.firstColor}, ${colors?.background?.gradient?.secondColor})`;
 
+  const pathname = usePathname();
+
+  const searchParams = useSearchParams();
+  const isTabView = searchParams.has("tab", "view");
+  const isDynamicRoute = pathname + data?.linkName.content;
+
   useEffect(() => {
     const updatedState: Pick<
       User,
@@ -44,25 +51,28 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
   }, []);
 
   return (
-    // <div className="h-full md:px-12 px-1 flex flex-col items-center w-full max-w-xl">
-    //   <LinkName linkNameSaved={data?.linkName} />
-
-    <div className="px-6 overflow-x-hidden shadow-2xl mt-20 relative pb-16 overflow-y-auto lg:w-[75%] w-full flex flex-col items-center rounded-2xl border-gray-700">
+    <div
+      className={`px-4 sm:px-6 sm:mt-16 md:mt-20 overflow-x-hidden relative pb-16 overflow-y-auto md:w-[80%] sm:w-[90%] w-full flex flex-col items-center rounded-2xl border-gray-700 ${
+        isTabView || isDynamicRoute ? "shadow-none " : "shadow-2xl "
+      } ${isTabView || (isDynamicRoute && "mt-6 md:w-[60%] lg:max-w-[30rem]")}`}
+    >
       <div
         className={`absolute top-0 bottom-0 left-0 bg-transparent right-0 z-[-1]`}
         style={{
           background:
-            colors?.background.type === "gradient"
+            colors?.background?.type === "gradient"
               ? gradient
-              : colors?.background.color,
+              : colors?.background?.color,
         }}
       />
       <div className="w-24 relative h-24 rounded-full border-4 border-white mt-8 z-10 shadow-lg overflow-hidden">
-        <img
-          src={userPreview.avatar ? userPreview.avatar! : data?.avatar}
-          alt={""}
-          className=" w-full object-cover z-0"
-        />
+        {userPreview.avatar && (
+          <img
+            src={userPreview.avatar}
+            alt={``}
+            className=" w-full object-cover z-0"
+          />
+        )}
 
         <div className="absolute bg-gray-200 w-full h-full animate-pulse z-20" />
       </div>
@@ -75,9 +85,6 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
             fontSize: colors?.title?.size! ? colors?.title?.size! : "1.5rem",
           }}
         >
-          {/* {data?.title.content
-              ? data.title.content
-              : userPreview.title.content} */}
           {userPreview?.title?.content}
         </h1>
         <h2
@@ -87,10 +94,7 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
             fontSize: colors?.career?.size! ? colors?.career?.size! : "1.25rem",
           }}
         >
-          {/* {data?.career?.content
-              ? data.career?.content
-              : userPreview.career.content} */}
-          {userPreview.career.content!}
+          {userPreview?.career?.content}
         </h2>
 
         <p
@@ -100,60 +104,19 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
             fontSize: `${
               colors?.nickname?.size
                 ? colors?.nickname?.size + "px"
-                : userPreview.nickname.size! + "px"
-              // data?.title.size
-              //   ? data.title.size + "px"
-              //   : colors.title.size + "px"
+                : userPreview?.nickname?.size! + "px"
             } `,
           }}
         >
-          @
-          {/* {data?.nickname.content
-              ? data.nickname.content
-              : userPreview?.nickname.content} */}
-          {userPreview.nickname.content}
+          @{userPreview?.nickname?.content}
         </p>
       </div>
 
       <ul className="flex flex-col gap-4 mt-8 w-full">
-        {links.map((link, i) => {
-          // console.log("link", { link });
+        {links?.map((link, i) => {
           return <Link key={i} link={link} design={colors.link} />;
         })}
-        {/* {data?.link.links.length > 0
-            ? data?.link.links.map((link: any, i: any) => (
-                <Link
-                  key={i}
-                  link={link}
-                  background={
-                    colors.link.background
-                      ? colors.link.background
-                      : data.link.background
-                  }
-                  color={
-                    colors.link.color ? colors.link.color : data.link.color
-                  }
-                />
-              ))
-            : links.map((link, i) => (
-                <Link
-                  key={i}
-                  link={link.link}
-                  background={""}
-                  color={""}
-                  size={link.size}
-                  weight={link.size}
-                />
-              ))} */}
       </ul>
-
-      <p
-        className="font-light absolute m-2 bottom-0 text-sm mt-12"
-        style={{ color: colors?.title?.color }}
-      >
-        media space
-      </p>
     </div>
-    // {/* </div> */}
   );
 }

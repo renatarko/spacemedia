@@ -1,4 +1,5 @@
 import { ResponseCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -29,6 +30,17 @@ export async function POST(request: Request) {
     });
 
     return response;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function GET() {
+  try {
+    const uid = cookies().get(process.env.NEXT_PUBLIC_COOKIE_UID!)?.value;
+    if (!uid) return NextResponse.json({ message: "UID not found" });
+
+    return NextResponse.json({ uid });
   } catch (error) {
     console.log(error);
   }

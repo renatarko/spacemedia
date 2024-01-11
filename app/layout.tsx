@@ -5,7 +5,7 @@ import { AuthGoogleProvider } from "@/context/authGoogle";
 import PreviewProvider from "@/context/preview";
 import { routesApp } from "@/functions/constant";
 import { Inter } from "next/font/google";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
@@ -22,14 +22,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const checkRoutesPublic = () => {
-    const isPublic = Object.values(routesApp.public);
-    return isPublic.includes(pathname);
+  const checkRoutesPrivate = () => {
+    const hasTab = searchParams.has("tab");
+    const isPrivate =
+      (pathname === routesApp.private.my_media && hasTab) || hasTab;
+    return isPrivate;
   };
 
-  const isPublicRouter = checkRoutesPublic();
-  console.log(isPublicRouter);
+  const isPrivateRouter = checkRoutesPrivate();
+
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -44,11 +47,10 @@ export default function RootLayout({
                 },
               }}
             />
-            {/* <Header /> */}
             <main className="relative flex flex-col justify-between">
-              {isPublicRouter && children}
+              {!isPrivateRouter && children}
 
-              {!isPublicRouter && <PrivateRoute>{children}</PrivateRoute>}
+              {isPrivateRouter && <PrivateRoute>{children}</PrivateRoute>}
             </main>
           </PreviewProvider>
         </AuthGoogleProvider>

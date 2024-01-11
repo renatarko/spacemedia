@@ -22,7 +22,7 @@ export default async function ViewPage() {
           user?.background.type === "gradient" ? gradient : user?.color,
       }}
     >
-      <div className="w-full max-w-xl px-4">
+      <div className="w-full max-w-xl sm:px-4 flex justify-center">
         <PhonePreview data={user} />
       </div>
     </div>

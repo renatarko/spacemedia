@@ -4,9 +4,6 @@ import { localStorageAuth, routesApp } from "@/functions/constant";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 import toast from "react-hot-toast";
-import PhoneSkeleton from "./Skeletons/phone";
-import ProfileSkeleton from "./Skeletons/profile";
-import Container from "./container";
 
 type PrivateRouteProps = {
   children: ReactNode;
@@ -36,16 +33,16 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
 
   return (
     <>
-      {!isUserAuthenticated && (
-        // <Base>
+      {!isUserAuthenticated && null}
+      {/* <Base>
         <Container>
           <div className="grid grid-cols-2 gap-4">
             <ProfileSkeleton />
             <PhoneSkeleton />
           </div>
         </Container>
-        // </Base>
-      )}
+        //{" "}
+      </Base> */}
       {isUserAuthenticated && children}
     </>
   );

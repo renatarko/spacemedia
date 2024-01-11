@@ -140,6 +140,10 @@ export default function PreviewProvider({ children }: any) {
     try {
       const data = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`, {
         method: "GET",
+        headers: {
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+        },
       });
       return await data.json();
     } catch (error) {

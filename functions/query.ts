@@ -22,6 +22,8 @@ export async function getUserByLinkNameQuery(slug: string) {
 
 export async function getUserDataQuery(uid: string) {
   try {
+    if (!uid) throw new Error("uid undefined");
+
     const docRef = doc(db, "users", uid!);
     const docSnap = await getDoc(docRef);
     // console.log({ docSnap });

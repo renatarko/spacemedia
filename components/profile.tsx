@@ -78,7 +78,7 @@ export default function Profile({ userRef }: ProfileProps) {
     <>
       <div className="relative h-full flex flex-col">
         <h3 className="mt-8 text-blue-600 font-bold">Hi, Renata</h3>
-        <div className="flex flex-col customScrollNav overflow-y-auto md:px-12 px-1 h:[35rem] sm:h-[47rem] mt-8 divide pb-6 divide-y-2 divide-gray-400/20">
+        <div className="flex flex-col customScrollNav overflow-y-auto md:px-12 px-1 h:[35rem] sm:h-[47rem] mt-8 divide pb-12 divide-y-2 divide-gray-400/20">
           {userRef?.linkName.content ? (
             <div className="flex flex-col gap-4 w-full rounded-lg">
               <Upload user={userRef} />
@@ -176,8 +176,6 @@ export default function Profile({ userRef }: ProfileProps) {
             />
           )}
 
-          {/* <input placeholder="name" onChange={(e) => setUser({...user, name: e.target.value})} /> */}
-
           {userRef?.link.links.length === 0 && (
             <Button
               isAnchor={false}
@@ -190,28 +188,23 @@ export default function Profile({ userRef }: ProfileProps) {
 
           <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
             <Droppable droppableId="links" direction="vertical">
-              {(provided) => (
-                <ul
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className="mt-4 pt-6 w-full flex flex-col"
-                >
-                  {links.map((link, i) => (
-                    <LinkEdit link={link} key={i} index={i} />
-                  ))}
+              {(provided) =>
+                links.length > 0 && (
+                  <ul
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    className="mt-4 pt-6 w-full flex flex-col"
+                  >
+                    {links.map((link, i) => (
+                      <LinkEdit link={link} key={i} index={i} />
+                    ))}
 
-                  {provided.placeholder}
-                </ul>
-              )}
+                    {provided.placeholder}
+                  </ul>
+                )
+              }
             </Droppable>
           </DragDropContext>
-
-          {/* {
-                  links.length > userRef?.link.links.length ? (
-            <LinkList links={links} />
-          ) : (
-            <LinkList links={userRef?.link.links} />
-          )} */}
 
           <AddLink open={open} setOpen={setOpen} />
         </div>

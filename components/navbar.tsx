@@ -1,14 +1,7 @@
 "use client";
 
 import { useAuth } from "@/context/authGoogle";
-import {
-  Home,
-  LogOut,
-  MenuIcon,
-  PaintBucket,
-  Smartphone,
-  User2,
-} from "lucide-react";
+import { Home, LogOut, PaintBucket, Smartphone, User2 } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
@@ -55,24 +48,26 @@ export default function NavBar() {
     [searchParams]
   );
 
+  // ${
+  //           open
+  //             ? "opacity-0 pointer-events-auto left-[-2rem]"
+  //             : "translate-x-[0.03rem] duration-200 pointer-events-auto"
+  //         }
+
   return (
     <>
-      <button
+      {/* <button
         onClick={() => setOpen(!open)}
         className={`block sm:hidden absolute left-0 top-0 ${
           open ? "ml-2" : "ml-6"
         } mt-4 z-30`}
       >
         <MenuIcon />
-      </button>
+      </button> */}
       <nav
-        className={`${
-          open
-            ? "opacity-0 pointer-events-auto left-[-2rem]"
-            : "translate-x-[0.03rem] duration-200 pointer-events-auto"
-        } sm:w-full max-w-max left-0 flex flex-col justify-between text-white gap-6 z-20 items-center py-16 bg-blue-700 h-full fixed sm:relative`}
+        className={`w-full h-min top-0 left-0 right-0 flex sm:flex-col justify-between text-white gap-6 z-20 items-center sm:py-16 bg-blue-700 fixed sm:relative sm:h-full`}
       >
-        <div>
+        <div className="flex sm:flex-col">
           {navLinks.map((link) => (
             <button
               key={link.name}
@@ -83,14 +78,14 @@ export default function NavBar() {
                   pathname + "?" + createQueryString("tab", link.path)
                 );
               }}
-              className={`flex group w-full justify-center items-center cursor-pointer relative py-4 duration-200 px-4 ${
+              className={`flex group w-full justify-center items-center cursor-pointer relative py-6 sm:py-4 duration-200 px-6 sm:px-4 ${
                 searchParams.get("tab") === link.path &&
                 "bg-blue-800 text-blue-500"
               }`}
             >
               {link.icon}
               <span
-                className={`absolute group-hover:opacity-100 opacity-0 min-w-max group-hover:translate-x-2 duration-150 text-white bg-blue-800 left-[4rem] py-1 px-2 rounded-md before:w-3 before:top-2 before:h-3 before:absolute pointer-events-none  before:z-[-1] before:rounded-sm z-10 before:left-[-1.1rem] before:rotate-45 ${
+                className={`absolute hidden sm:flex group-hover:opacity-100 opacity-0 min-w-max group-hover:translate-x-2 duration-150 text-white bg-blue-800 sm:top-4 sm:left-[4rem] py-1 px-2 rounded-md before:hidden before:sm:block before:w-3 before:top-2 before:h-3 before:absolute pointer-events-none before:z-[-1] before:rounded-sm z-10 before:left-[-1.1rem] before:rotate-45 ${
                   pathname === link.path
                     ? "before:bg-blue-800"
                     : "before:bg-blue-700"
@@ -104,8 +99,8 @@ export default function NavBar() {
 
         {/* <Link href="/renata-developer-1">Link</Link> */}
 
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-9 h-9 overflow-hidden rounded-full border-4 border-white">
+        <div className="flex sm:flex-col items-center gap-4">
+          <div className="w-9 h-9 overflow-hidden rounded-full border-4 border-white hidden sm:block">
             {user?.avatar ? (
               <Image
                 className="w-full"

@@ -1,6 +1,6 @@
-import { auth } from "@/config/firebase";
 import { getUserDataQuery } from "@/functions/query";
 import { Link, User } from "@/types/types";
+import { DocumentData } from "@firebase/firestore";
 import {
   Dispatch,
   SetStateAction,
@@ -136,47 +136,53 @@ export default function PreviewProvider({ children }: any) {
       initialValue
     );
 
-  const getUser = async () => {
-    const uid = auth.currentUser?.uid;
-    console.log(uid);
+  const getUserUID = async () => {
     try {
-      const user = await getUserDataQuery(uid!);
-      console.log({ user });
-      if (!user) return;
-
-      // setColors({
-      //   ...colors,
-      //   background:
-      //     user.background.type === "gradient"
-      //       ? user.background.gradient
-      //       : user.background.color,
-      // });
-
-      setUserPreview({
-        avatar: user.avatar,
-        career: user.career,
-        nickname: user.nickname,
-        title: user.title,
-        link: user.link,
+      const data = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`, {
+        method: "GET",
       });
-      setColors({
-        ...colors,
-        // title: {size: user.title.size, color: user.title.size, weight: user.title.weight} ,
-        ...user,
-        title: user.title,
-        career: user.career,
-        nickname: user.nickname,
-        link: user.link,
-      });
-      setLinks(user.link.links);
+      return await data.json();
     } catch (error) {
       console.log(error);
     }
   };
 
+  const getUser = async () => {
+    try {
+      const { uid } = await getUserUID();
+      const user = await getUserDataQuery(uid!);
+      if (!user) return;
+
+      setUserAndColors(user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  function setUserAndColors(user: DocumentData) {
+    setUserPreview({
+      avatar: user.avatar,
+      career: user.career,
+      nickname: user.nickname,
+      title: user.title,
+      link: user.link,
+    });
+    setColors({
+      ...colors,
+      ...user,
+      title: user.title,
+      career: user.career,
+      nickname: user.nickname,
+      link: user.link,
+    });
+    setLinks(user.link.links);
+  }
+
+  const isUndefined = Object.values(userPreview)[0];
+
   useEffect(() => {
     getUser();
-  }, []);
+  }, [!!isUndefined]);
 
   return (
     <PreviewContext.Provider

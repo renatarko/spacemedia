@@ -52,13 +52,14 @@ export default function Appearance() {
 
   return (
     <>
-      <div className="mt-12 flex flex-col gap-2">
+      <div className="sm:mt-12 mt-16 flex flex-col gap-2">
         <h1 className="text-2xl font-bold pb-4">Backgrounds</h1>
         <div className="flex gap-4 mb-6">
           <fieldset
             className={`w-24 relative rounded-lg h-40 cursor-pointer bg-blue-800 border-[4px] ${
               colors?.background.type === "solid" && "border-blue-400"
-            } `}
+            }
+            `}
           >
             <input
               type="radio"

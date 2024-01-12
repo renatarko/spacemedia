@@ -1,4 +1,3 @@
-import { getUserDataQuery } from "@/functions/query";
 import { Link, User } from "@/types/types";
 import { DocumentData } from "@firebase/firestore";
 import {
@@ -139,6 +138,8 @@ export default function PreviewProvider({ children }: any) {
   const getUserUID = async () => {
     try {
       const data = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`);
+      const res = await data.json();
+      console.log({ res });
       return await data.json();
     } catch (error) {
       console.log(error);
@@ -147,11 +148,13 @@ export default function PreviewProvider({ children }: any) {
 
   const getUser = async () => {
     try {
-      const { uid } = await getUserUID();
-      const user = await getUserDataQuery(uid!);
-      if (!user) return;
+      const data = await getUserUID();
+      console.log({ data });
 
-      setUserAndColors(user);
+      // const user = await getUserDataQuery(uid!);
+      // if (!user) return;
+
+      // setUserAndColors(user);
     } catch (error) {
       console.log(error);
     }

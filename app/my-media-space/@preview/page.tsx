@@ -1,16 +1,18 @@
 import LinkName from "@/components/linkName";
 import PhonePreview from "@/components/phonePreview";
 import { getUserDataQuery } from "@/functions/query";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { cookies } from "next/headers";
 
 export default async function PreviewPage() {
   const cookiesStore = cookies();
   const cookieUID = cookiesStore.get(process.env.NEXT_PUBLIC_COOKIE_UID!);
-  let uid: string;
+  // let uid: string;
   if (cookieUID !== undefined) {
-    uid = (cookieUID as RequestCookie).value;
+    // uid = (cookieUID as RequestCookie).value;
   }
+
+  console.log({ cookieUID });
+  const uid = "pc1L66IOBDNViKBZjWA5LsPDIVi2";
 
   const user = await getUserDataQuery(uid!);
 

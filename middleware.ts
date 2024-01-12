@@ -1,25 +1,30 @@
 import { NextResponse } from "next/server";
 
-const allowedOrigins =
-  process.env.NODE_ENV === "production"
-    ? ["https://spacemedia.vercel.app", "https://www.spacemedia.vercel.app"]
-    : [
-        "https://spacemedia.vercel.app",
-        "https://www.spacemedia.vercel.app",
-        "http://localhost:3000",
-        "https://google.com.br",
-        "https://www.google.com.br",
-      ];
+const allowedOrigins = [
+  "https://spacemedia.vercel.app",
+  "https://www.spacemedia.vercel.app",
+];
 
-const allowedMethod = ["GET"];
 export function middleware(req: Request) {
   const origin = req.headers.get("origin");
+
+  if (process.env.NODE_ENV === "development") {
+    return new NextResponse(null, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Content-Type": "application/json",
+      },
+    });
+  }
 
   if (origin && allowedOrigins.includes(origin)) {
     return new NextResponse(null, {
       headers: {
         "Access-Control-Allow-Origin": origin,
         "Access-Control-Allow-Methods": "GET, POST",
+        "Access-Control-Allow-Headers": "Content-Type",
         "Content-Type": "application/json",
       },
     });

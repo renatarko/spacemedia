@@ -189,7 +189,7 @@ export default function Profile({ userRef }: ProfileProps) {
           <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
             <Droppable droppableId="links" direction="vertical">
               {(provided) =>
-                links.length > 0 && (
+                links?.length > 0 && (
                   <ul
                     ref={provided.innerRef}
                     {...provided.droppableProps}

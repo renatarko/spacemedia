@@ -1,3 +1,4 @@
+import { getUserDataQuery } from "@/functions/query";
 import { Link, User } from "@/types/types";
 import { DocumentData } from "@firebase/firestore";
 import {
@@ -135,26 +136,27 @@ export default function PreviewProvider({ children }: any) {
       initialValue
     );
 
-  const getUserUID = async () => {
-    try {
-      const data = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`);
-      const res = await data.json();
-      console.log({ res });
-      return await data.json();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getUserUID = async () => {
+  //   try {
+  //     const data = await fetch(`/api/auth`);
+  //     const res = await data.json();
+  //     console.log({ res });
+  //     return await data.json();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const getUser = async () => {
     try {
-      const data = await getUserUID();
-      console.log({ data });
+      const data = await fetch(`/api/auth`);
+      const uid = await data.json();
+      console.log({ uid });
 
-      // const user = await getUserDataQuery(uid!);
-      // if (!user) return;
+      const user = await getUserDataQuery(uid!);
+      if (!user) return;
 
-      // setUserAndColors(user);
+      setUserAndColors(user);
     } catch (error) {
       console.log(error);
     }

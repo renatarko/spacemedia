@@ -85,10 +85,18 @@ export const AuthGoogleProvider = ({ children }: any) => {
   };
 
   const setCookie = async (token: string, uid: string) => {
+    console.log("passou pelo setCookie");
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`, {
+      await fetch(`/api/auth`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Access-Control-Allow-Origin": origin || "*",
+          "Access-Control-Allow-Methods": "GET, POST",
+          "Referrer-Policy": "strict-origin-when-cross-origin",
+          "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ token: token, uid: uid }),
       });
     } catch (error) {

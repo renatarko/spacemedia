@@ -7,6 +7,7 @@ export async function POST(req: Request, res: Request) {
 
   try {
     const { token, uid } = await req.json();
+    console.log(token, uid);
 
     if (!token || !uid)
       return NextResponse.json({ message: "Not token found" }, { status: 400 });
@@ -23,6 +24,7 @@ export async function POST(req: Request, res: Request) {
       status: 200,
       headers: {
         "Access-Control-Allow-Origin": origin || "*",
+        "Access-Control-Allow-Headers": "Content-Type",
         "Content-Type": "application/json",
       },
     });
@@ -49,11 +51,13 @@ export async function GET(req: Request, res: Response) {
 
   try {
     const uid = cookies().get(process.env.NEXT_PUBLIC_COOKIE_UID!)?.value;
+
     if (!uid) return NextResponse.json({ message: "UID not found" });
 
     return new NextResponse(JSON.stringify(uid), {
       headers: {
         "Access-Control-Allow-Origin": origin || "*",
+        "Access-Control-Allow-Headers": "Content-Type",
         "Content-Type": "application/json",
       },
     });

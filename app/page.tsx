@@ -16,6 +16,21 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 export default function Home() {
+  const getCookie = async () => {
+    try {
+      const data = await fetch(`/api/auth`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: "token", uid: "uid" }),
+      });
+      const res = await data.json();
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Base>
       <Container>
@@ -25,6 +40,7 @@ export default function Home() {
               <h1 className="text-xl font-bold text-blue-600 mb-6">
                 media space
               </h1>
+              <button onClick={getCookie}>chamar</button>
               <h2 className="sm:text-5xl text-3xl font-bold">
                 The{" "}
                 <b className="relative before:w-full before:z-[-1] before:bottom-0 sm:before:bottom-2 before:absolute before:bg-[#EAB308] before:left-0 before:h-4">

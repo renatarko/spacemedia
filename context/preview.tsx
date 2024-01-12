@@ -138,15 +138,7 @@ export default function PreviewProvider({ children }: any) {
 
   const getUserUID = async () => {
     try {
-      const data = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`, {
-        // mode: "no-cors",
-        // referrerPolicy: "",
-        method: "GET",
-        headers: {
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Access-Control-Allow-Origin": "https://spacemedia.vercel.app/",
-        },
-      });
+      const data = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`);
       return await data.json();
     } catch (error) {
       console.log(error);

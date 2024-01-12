@@ -87,14 +87,8 @@ export const AuthGoogleProvider = ({ children }: any) => {
   const setCookie = async (token: string, uid: string) => {
     try {
       await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth`, {
-        // mode: "cors",
-        // referrerPolicy: "same-origin",
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Access-Control-Allow-Origin": "https://spacemedia.vercel.app/",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: token, uid: uid }),
       });
     } catch (error) {

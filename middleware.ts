@@ -20,7 +20,7 @@ export function middleware(req: Request) {
       headers: {
         "Access-Control-Allow-Origin": origin,
         "Access-Control-Allow-Methods": "GET, POST",
-        "Content-Type": "text/plain",
+        "Content-Type": "application/json",
       },
     });
   } else {
@@ -28,7 +28,7 @@ export function middleware(req: Request) {
       status: 400,
       statusText: "Bad Request",
       headers: {
-        "Content-Type": "text/plain",
+        "Content-Type": "application/json",
       },
     });
   }

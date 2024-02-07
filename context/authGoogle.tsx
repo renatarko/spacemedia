@@ -35,6 +35,7 @@ export const AuthGoogleContext = createContext({} as AuthContext);
 
 export const AuthGoogleProvider = ({ children }: any) => {
   const [user, setUser] = useState<UserContext | null>(null);
+  const [signed, setSigned] = useState(false);
 
   const router = useRouter();
 
@@ -189,6 +190,16 @@ export const AuthGoogleProvider = ({ children }: any) => {
 
   const notify = (message: string) => toast(message);
 
+  const getCookie = async () => {
+    const data = await fetch("/api/auth");
+    const result: string = await data.json();
+    if (!result) {
+      setSigned(false);
+      return;
+    }
+    setSigned(true);
+  };
+
   useEffect(() => {
     const localStore = localStorage.getItem(localStorageAuth.user);
     const isUser = JSON.parse(localStore!);
@@ -196,9 +207,8 @@ export const AuthGoogleProvider = ({ children }: any) => {
     if (isUser) {
       setUser(isUser);
     }
+    getCookie();
   }, []);
-
-  console.log(auth.currentUser?.uid);
 
   return (
     <AuthGoogleContext.Provider
@@ -208,8 +218,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
         signUpWithEmailAndPassword,
         logout,
         user,
-        signed:
-          auth.currentUser?.uid !== null && auth.currentUser?.uid !== undefined,
+        signed,
         notify,
       }}
     >

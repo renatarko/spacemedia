@@ -151,7 +151,6 @@ export default function PreviewProvider({ children }: any) {
     try {
       const data = await fetch(`/api/auth`);
       const uid = await data.json();
-      console.log({ uid });
 
       const user = await getUserDataQuery(uid!);
       if (!user) return;
@@ -181,7 +180,6 @@ export default function PreviewProvider({ children }: any) {
     if (user?.link) {
       setLinks(user.link.links);
     }
-    console.log({ user });
   }
 
   const isUndefined = Object.values(userPreview)[0];

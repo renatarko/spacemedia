@@ -4,10 +4,7 @@ export type User = {
   name: string;
   email: string;
   avatar?: string;
-  linkName: {
-    content: string;
-    color?: string;
-  };
+  linkName: string;
   background: {
     color?: string;
     type?: string;

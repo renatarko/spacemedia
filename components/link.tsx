@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export type LinkProps = {
   children?: string;
   background?: string;
@@ -37,6 +39,8 @@ export type LinkPropss = {
 };
 
 export default function Link({ link, design }: linkProps) {
+  const [clicked, setClicked] = useState(false);
+
   const setPathLink = () => {
     const type = link?.type;
 
@@ -51,9 +55,19 @@ export default function Link({ link, design }: linkProps) {
     if (type === "facebook") return `https://www.facebook.com/${link.url}`;
   };
 
+  const clickStyle = () => {
+    setClicked(true);
+
+    setTimeout(() => {
+      setClicked(false);
+    }, 500);
+  };
+
   return (
     <a
-      className={`w-full group flex items-center gap-2 p-3 rounded-lg hover:shadow-md duration-150 
+      className={`w-full group flex items-center gap-2 p-3 rounded-lg hover:shadow-md duration-150 ${
+        clicked && "animate-click"
+      }
         `}
       style={{
         background: design?.background ? design?.background : "#f8f8f8",
@@ -63,6 +77,7 @@ export default function Link({ link, design }: linkProps) {
       }}
       target="_blank"
       href={setPathLink()}
+      onClick={clickStyle}
     >
       {link?.icon && (
         <span

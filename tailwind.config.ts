@@ -40,10 +40,15 @@ const config: Config = {
           "0%": { transform: "translateY(0) translateX(0)" },
           "50%": { transform: "translateY(-3px) translateX(-3px)" },
         },
+        click: {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(0.98)" },
+        },
       },
       animation: {
         marquee: "marquee .3s ease-in-out ",
         float: "float 2.5s infinite ease-in-out",
+        click: "click 100ms ease-in-out",
       },
     },
   },

@@ -89,7 +89,7 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
       <div className="flex flex-col items-center z-10 mt-8">
         <h1
           style={{
-            color: colors?.title?.color! || "white",
+            color: colors?.title?.color! || "black",
             fontSize: colors?.title?.size!
               ? colors?.title?.size + "px"
               : "1.5rem",
@@ -104,7 +104,7 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
         </h1>
         <h2
           style={{
-            color: colors?.career?.color || "white",
+            color: colors?.career?.color || "black",
             fontSize: colors?.career?.size
               ? colors?.career?.size + "px"
               : "1.25rem",

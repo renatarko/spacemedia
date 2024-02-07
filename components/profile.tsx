@@ -168,7 +168,7 @@ export default function Profile({ userRef }: ProfileProps) {
                       },
                     })
                   }
-                  placeholder="@renata_rko"
+                  placeholder="renata_rko"
                   onBlur={() => {
                     if (!userPreview?.nickname?.content) return;
                     saveWhenInputBlur(

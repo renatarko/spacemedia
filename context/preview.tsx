@@ -20,16 +20,16 @@ const LINKS = [
 
 const initialValue = {
   title: {
-    content: "",
+    content: "Title",
     color: "",
   },
   avatar: "",
   career: {
-    content: "",
+    content: "career",
     color: "",
   },
   nickname: {
-    content: "",
+    content: "your nickname",
     color: "",
   },
   link: {},
@@ -178,7 +178,10 @@ export default function PreviewProvider({ children }: any) {
       nickname: user.nickname,
       link: user.link,
     });
-    setLinks(user.link.links);
+    if (user?.link) {
+      setLinks(user.link.links);
+    }
+    console.log({ user });
   }
 
   const isUndefined = Object.values(userPreview)[0];

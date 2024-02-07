@@ -12,14 +12,14 @@ export default async function ViewPage() {
   }
 
   const user = await getUserDataQuery(uid!);
-  const gradient = `linear-gradient(to ${user?.background.direction}, ${user?.background.gradient.firstColor}, ${user?.background.gradient.secondColor})`;
+  const gradient = `linear-gradient(to ${user?.background?.direction}, ${user?.background?.gradient?.firstColor}, ${user?.background?.gradient?.secondColor})`;
 
   return (
     <div
       className={`h-screen w-full flex flex-col justify-center items-center relative`}
       style={{
         background:
-          user?.background.type === "gradient" ? gradient : user?.color,
+          user?.background?.type === "gradient" ? gradient : user?.color,
       }}
     >
       <div className="w-full max-w-xl sm:px-4 flex justify-center">

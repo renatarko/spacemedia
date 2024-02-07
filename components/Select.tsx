@@ -41,6 +41,8 @@ export default function Select({
     }
   };
 
+  console.log({ option, checked });
+
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       if (

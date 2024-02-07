@@ -4,7 +4,10 @@ import Input from "@/components/input";
 import { auth } from "@/config/firebase";
 import { usePreview } from "@/context/preview";
 import { mediasType } from "@/functions/constant";
-import { AddLinkOnLinksMutation } from "@/functions/mutation";
+import {
+  AddLinkOnLinksMutation,
+  updateLinksFieldMutation,
+} from "@/functions/mutation";
 import { Link } from "@/types/types";
 import { Plus } from "lucide-react";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
@@ -25,6 +28,7 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
   const [disabled, setDisabled] = useState(true);
   const [linksSaved, setLinksSaved] = useState<Link[] | []>([]);
   const [path, setPath] = useState("");
+  const [loading, setLoading] = useState("initial");
 
   const handleInputLink = (e: ChangeEvent<HTMLInputElement>) => {
     if (link === null) setDisabled(true);
@@ -39,16 +43,16 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
       }
       return null;
     });
-    // setLinks((prevState) => {
-    //   if (prevState) {
-    //     return [
-    //       ...prevState,
-    //       {link: {[name]: value}}
-    //     ]
-    //   }
-    // })
-    // setLinks([...links, {link: {...link, [name]:value}}])
-    // setLinks({ ...links, [name]: value });
+  };
+
+  const linkExist = () => {
+    const exist = links?.filter((link) => link.url === field?.url);
+
+    if (exist !== undefined && exist.length > 0) {
+      const newLinksArray = links.filter((link) => link.url !== field?.url);
+      return newLinksArray;
+    }
+    return null;
   };
 
   const saveLink = async () => {
@@ -63,19 +67,41 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
       link: {
         name: link.name,
         type: link.type,
-        url: unmask(link.url!),
+        url:
+          link.type === "phone" || link.type === "whatsapp"
+            ? unmask(link.url!)
+            : link.url,
       },
     };
 
+    setLoading("loading");
+
     try {
+      const isLinkExist = linkExist();
+
+      if (isLinkExist !== null) {
+        const linksUpdated = [...isLinkExist, data.link];
+        setLinks(linksUpdated);
+        setLinksSaved(linksUpdated);
+
+        await updateLinksFieldMutation(uid!, linksUpdated);
+        setOpen(false);
+        toast("Link updated successfully");
+
+        return;
+      }
+
       await AddLinkOnLinksMutation(uid!, data.link);
       setLink(null);
+      links?.length > 0 ? setLinks([...links, link]) : setLinks([link]);
+
       setLinksSaved([...linksSaved, link]);
-      setLinks([...links, link]);
       setOpen(false);
       toast("Link created successfully");
     } catch (e) {
       console.error("Error adding document: ", e);
+    } finally {
+      setLoading("initial");
     }
   };
 
@@ -177,6 +203,7 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
                 onClick={saveLink}
                 disabled={disabled}
                 title={disabled ? "Fill the input to save" : "Save the link"}
+                loading={loading}
               >
                 Save
               </Button>
@@ -187,12 +214,14 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
       )}
       {/* <LinkList links={linksSaved} /> */}
 
-      <button
-        onClick={() => setOpen(true)}
-        className="mt-3 m-2 p-2 absolute bottom-0 w-max bg-blue-100/50 self-center text-blue-600 rounded-full hover:bg-blue-100 duration-150"
-      >
-        <Plus />
-      </button>
+      {links?.length > 0 && (
+        <button
+          onClick={() => setOpen(true)}
+          className="mt-3 m-2 p-2 absolute bottom-0 w-max bg-blue-100/50 self-center text-blue-600 rounded-full hover:bg-blue-100 duration-150"
+        >
+          <Plus />
+        </button>
+      )}
     </>
   );
 }

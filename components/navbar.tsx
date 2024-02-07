@@ -47,6 +47,11 @@ export default function NavBar() {
     },
     [searchParams]
   );
+  console.log(user);
+
+  const letters =
+    user && user?.name.split(" ").forEach((name) => name[0].toUpperCase());
+  console.log({ letters, user });
 
   // ${
   //           open
@@ -97,10 +102,8 @@ export default function NavBar() {
           ))}
         </div>
 
-        {/* <Link href="/renata-developer-1">Link</Link> */}
-
         <div className="flex sm:flex-col items-center gap-4">
-          <div className="w-9 h-9 overflow-hidden rounded-full border-4 border-white hidden sm:block">
+          <div className="w-9 h-9 overflow-hidden rounded-full border-4 border-white hidden sm:flex justify-center items-center">
             {user?.avatar ? (
               <Image
                 className="w-full"
@@ -109,8 +112,10 @@ export default function NavBar() {
                 src={user?.avatar}
                 alt={`Profile image ${user.name}`}
               />
+            ) : user ? (
+              <span className="text-white">{letters!}</span>
             ) : (
-              <p className="w-full">RK</p>
+              <User2 className="text-gray-400 bg-gray-100 w-full h-full" />
             )}
           </div>
 

@@ -3,6 +3,7 @@
 import { usePreview } from "@/context/preview";
 import { User } from "@/types/types";
 import { DocumentData } from "@firebase/firestore";
+import { User2 } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import Link from "./link";
@@ -31,7 +32,7 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
 
   const searchParams = useSearchParams();
   const isTabView = searchParams.has("tab", "view");
-  const isDynamicRoute = pathname + data?.linkName.content;
+  const isDynamicRoute = pathname + data?.linkName;
 
   useEffect(() => {
     const updatedState: Pick<
@@ -47,8 +48,10 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
     };
     setUserPreview(updatedState);
     setColors(updatedState);
-    setLinks(data?.link.links);
+    setLinks(data?.link?.links);
   }, []);
+
+  console.log({ links });
 
   return (
     <div
@@ -59,48 +62,58 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
       <div
         className={`absolute top-0 bottom-0 left-0 bg-transparent right-0 z-[-1]`}
         style={{
-          background:
-            colors?.background?.type === "gradient"
+          background: colors
+            ? colors?.background?.type === "gradient"
               ? gradient
-              : colors?.background?.color,
+              : colors?.background?.color
+            : "#97CEDB",
         }}
       />
-      <div className="w-24 relative h-24 rounded-full border-4 border-white mt-8 z-10 shadow-lg overflow-hidden">
-        {userPreview.avatar && (
-          <img
-            src={userPreview.avatar}
-            alt={``}
-            className=" w-full object-cover z-0"
-          />
-        )}
 
-        <div className="absolute bg-gray-200 w-full h-full animate-pulse z-20" />
-      </div>
+      {userPreview.avatar ? (
+        <div className="w-24 relative h-24 rounded-full border-4 border-white mt-8 z-10 shadow-lg overflow-hidden">
+          <img
+            src={userPreview?.avatar}
+            alt={``}
+            className="w-full h-full object-cover z-0"
+          />
+
+          <div className="absolute bg-gray-200 w-full h-full animate-pulse z-20" />
+        </div>
+      ) : (
+        <div className="w-24 h-24 rounded-full border-4 overflow-hidden bg-gray-100 border-white mt-8 z-10 shadow-lg flex justify-center items-center">
+          <User2 size={60} className="text-gray-400 bg-gray-100" />
+        </div>
+      )}
 
       <div className="flex flex-col items-center z-10 mt-8">
         <h1
           className="text-2xl font-bold"
           style={{
-            color: colors?.title?.color!,
+            color: colors?.title?.color! || "white",
             fontSize: colors?.title?.size! ? colors?.title?.size! : "1.5rem",
           }}
         >
-          {userPreview?.title?.content}
+          {userPreview?.title?.content
+            ? userPreview?.title?.content
+            : "Your title"}
         </h1>
         <h2
           className="text-xl"
           style={{
-            color: colors?.career?.color!,
-            fontSize: colors?.career?.size! ? colors?.career?.size! : "1.25rem",
+            color: colors?.career?.color || "white",
+            fontSize: colors?.career?.size ? colors?.career?.size : "1.25rem",
           }}
         >
-          {userPreview?.career?.content}
+          {userPreview?.career?.content
+            ? userPreview?.career?.content
+            : "Your career"}
         </h2>
 
         <p
           className="mt-4 text-base font-bold text-gray-500"
           style={{
-            color: colors?.nickname?.color,
+            color: colors?.nickname?.color || "gray",
             fontSize: `${
               colors?.nickname?.size
                 ? colors?.nickname?.size + "px"
@@ -108,14 +121,28 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
             } `,
           }}
         >
-          @{userPreview?.nickname?.content}
+          @
+          {userPreview?.nickname?.content
+            ? userPreview?.nickname?.content
+            : "Your nickname"}
         </p>
       </div>
 
       <ul className="flex flex-col gap-4 mt-8 w-full">
-        {links?.map((link, i) => {
-          return <Link key={i} link={link} design={colors.link} />;
-        })}
+        {links !== undefined
+          ? links?.map((link, i) => {
+              return <Link key={i} link={link} design={colors?.link} />;
+            })
+          : Array(3)
+              .fill(0)
+              .map((_, i) => (
+                <li
+                  key={i}
+                  className="p-2 w-full bg-gray-200 rounded-lg text-gray-600 text-center font-bold"
+                >
+                  Your Link
+                </li>
+              ))}
       </ul>
     </div>
   );

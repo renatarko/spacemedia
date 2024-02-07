@@ -12,6 +12,9 @@ export default function Header() {
   const { signed, user, logout } = useAuth();
   const [dropdown, setDropdown] = useState(false);
 
+  // const signed = user !== null;
+  console.log({ signed });
+
   return (
     <>
       <header className="fixed top-3 w-full z-50">
@@ -24,16 +27,16 @@ export default function Header() {
             <nav className="sm:inline-flex gap-4 items-center hidden">
               {signed ? (
                 <>
-                  <Link
-                    href={`${routesApp.private.my_media}?tab=${routesApp.private.tabs.profile}`}
-                    className="p-2 bg-blue-600 text-blue-100 rounded-full font-semibold"
+                  <Button
+                    isAnchor
+                    path={`${routesApp.private.my_media}?tab=${routesApp.private.tabs.profile}`}
                   >
                     my space
-                  </Link>
+                  </Button>
 
                   <button
                     onClick={logout}
-                    className="p-2 bg-yellow-500 font-bold hover:text-yellow-900 text-gray-900 rounded-full"
+                    className="py-2 font-semibold px-5 text-lg bg-yellow-500 hover:bg-yellow-400 text-gray-900 rounded-full"
                   >
                     Logout
                   </button>

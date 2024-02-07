@@ -5,7 +5,7 @@ import { usePreview } from "@/context/preview";
 import { saveAvatarMutation } from "@/functions/mutation";
 import { DocumentData } from "@firebase/firestore";
 import { deleteObject, ref, uploadBytes } from "firebase/storage";
-import { Check, Upload as UploadIcon, X } from "lucide-react";
+import { Check, Upload as UploadIcon, User2, X } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
@@ -116,14 +116,16 @@ export default function Upload({ user }: DocumentData) {
           </span>
         )}
 
-        {userPreview?.avatar ? (
+        {userPreview?.avatar && (
           <img
             src={userPreview?.avatar}
             className="z-0 w-full h-full object-cover"
             alt="image"
           />
-        ) : (
-          <img src={user.avatar} className="z-0 w-full h-full" alt="image" />
+        )}
+
+        {!userPreview?.avatar && (
+          <User2 className="z-0 w-full h-full absolute text-gray-400" />
         )}
       </div>
 

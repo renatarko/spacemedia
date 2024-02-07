@@ -3,7 +3,6 @@
 import { usePreview } from "@/context/preview";
 import { Link as LinkDB } from "@/types/types";
 import Image from "next/image";
-import LinkName from "./linkName";
 
 type PhoneProps = {
   data: {
@@ -20,7 +19,7 @@ export default function Phone({ data }: PhoneProps) {
   const { links, colors, userPreview } = usePreview();
   return (
     <div className="h-full px-12 flex flex-col items-center  w-full ">
-      <LinkName linkNameSaved={data.linkName} />
+      {/* <LinkName linkNameSaved={data.linkName} /> */}
 
       <aside className="px-6 overflow-x-hidden mt-20 relative pb-8 h-[44rem] overflow-y-auto border-[12px] sm:border-[12px] lg:w-[75%] w-full flex flex-col items-center rounded-2xl border-black">
         <div

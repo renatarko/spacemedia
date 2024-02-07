@@ -28,8 +28,6 @@ export default function Select({
   const selectRef = useRef<HTMLDivElement>(null);
 
   const saveSelected = async () => {
-    console.log(name, value);
-
     const uid = auth.currentUser?.uid!;
     try {
       const docRef = doc(db, "users", uid);
@@ -40,8 +38,6 @@ export default function Select({
       console.log(error);
     }
   };
-
-  console.log({ option, checked });
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
@@ -81,7 +77,7 @@ export default function Select({
       </div>
 
       <ul
-        className={`mt-2 border bg-gray-50 absolute w-full z-30 rounded-lg duration-200 border-blue-500 divide-y overflow-hidden divide-gray-200  ${
+        className={`mt-2 border bg-gray-50 absolute w-full z-[200] rounded-lg duration-200 border-blue-500 divide-y overflow-hidden divide-gray-200  ${
           checked ? "block shadow-lg" : "hidden"
         }`}
       >
@@ -89,13 +85,13 @@ export default function Select({
           <li
             key={i}
             className={`flex justify-center items-center gap-2 p-3 relative group focus-within:bg-blue-600 focus-within:text-white focus-within:hover:bg-blue-800 group hover:bg-gray-200 ${
-              option === item.name && "text-white bg-blue-800"
+              option === item && "text-white bg-blue-800"
             }`}
           >
             <input
               type="radio"
               name={name}
-              value={item.path}
+              value={item}
               className="absolute inset-0 opacity-0  cursor-pointer z-20 outline outline-1 hover:outline-blue-300 focus:outline-blue-300 hover:bg-gray-400"
               onClick={() => {
                 setOption(item);
@@ -103,13 +99,7 @@ export default function Select({
               onChange={onChange}
               onBlur={saveSelected}
             />
-            <span
-              className={`${item === "bold" && "font-bold"} ${
-                item === "normal" && "font-normal"
-              }`}
-            >
-              {item}
-            </span>
+            <span>{item}</span>
           </li>
         ))}
       </ul>

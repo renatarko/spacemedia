@@ -59,7 +59,7 @@ export default function Link({ link, design }: linkProps) {
         background: design?.background ? design?.background : "#f8f8f8",
         color: design?.color ? design?.color : "#000",
         fontWeight: design?.weight ? design?.weight : "normal",
-        fontSize: design?.size ? design?.size : "16px",
+        fontSize: design?.size ? design?.size + "px" : "16px",
       }}
       target="_blank"
       href={setPathLink()}

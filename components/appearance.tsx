@@ -248,16 +248,16 @@ export default function Appearance() {
               label="Font Size"
               labelFor="fontSize"
               name="title.size"
-              value={colors?.title?.size && colors?.title?.size}
-              // onChange={(e) => {
-              //   setColors({
-              //     ...colors,
-              //     title: {
-              //       ...colors?.title,
-              //       size: e.target.value,
-              //     },
-              //   });
-              // }}
+              value={colors?.title?.size}
+              onChange={(e) => {
+                setColors({
+                  ...colors,
+                  title: {
+                    ...colors?.title,
+                    size: e.target.value,
+                  },
+                });
+              }}
             />
 
             <Select
@@ -265,7 +265,7 @@ export default function Appearance() {
               label="Font Weight"
               labelFor="fontWeight"
               name="title.weight"
-              value={colors?.title?.weight && colors?.title?.weight}
+              value={colors?.title?.weight}
               onChange={(e) => {
                 setColors({
                   ...colors,
@@ -301,7 +301,7 @@ export default function Appearance() {
               label="Font Size"
               labelFor="fontSize"
               name="career.size"
-              value={colors?.career?.size && colors?.career?.size}
+              value={colors?.career?.size}
               onChange={(e) => {
                 setColors({
                   ...colors,
@@ -318,7 +318,7 @@ export default function Appearance() {
               label="Font Weight"
               labelFor="fontWeight"
               name="career.weight"
-              value={colors?.career?.weight && colors?.career?.weight}
+              value={colors?.career?.weight}
               onChange={(e) => {
                 setColors({
                   ...colors,
@@ -355,7 +355,7 @@ export default function Appearance() {
               label="Font Size"
               labelFor="fontSize"
               name="nickname.size"
-              value={colors?.nickname?.size && colors?.nickname?.size}
+              value={colors?.nickname?.size}
               onChange={(e) => {
                 setColors({
                   ...colors,
@@ -372,7 +372,7 @@ export default function Appearance() {
               label="Font Weight"
               labelFor="fontWeight"
               name="nickname.weight"
-              value={colors?.nickname?.weight && colors?.nickname?.weight}
+              value={colors?.nickname?.weight}
               onChange={(e) => {
                 setColors({
                   ...colors,
@@ -428,7 +428,7 @@ export default function Appearance() {
             label="Font Size"
             labelFor="linkFontSize"
             name="link.size"
-            value={colors?.link?.size && colors?.link?.size}
+            value={colors?.link?.size}
             onChange={(e) => {
               setColors({
                 ...colors,
@@ -445,7 +445,7 @@ export default function Appearance() {
             label="Font Weight"
             labelFor="fontWeight"
             name="link.weight"
-            value={colors?.link?.weight && colors?.link?.weight}
+            value={colors?.link?.weight || "bold"}
             onChange={(e) => {
               setColors({
                 ...colors,

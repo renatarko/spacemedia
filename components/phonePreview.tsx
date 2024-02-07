@@ -88,10 +88,14 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
 
       <div className="flex flex-col items-center z-10 mt-8">
         <h1
-          className="text-2xl font-bold"
           style={{
             color: colors?.title?.color! || "white",
-            fontSize: colors?.title?.size! ? colors?.title?.size! : "1.5rem",
+            fontSize: colors?.title?.size!
+              ? colors?.title?.size + "px"
+              : "1.5rem",
+            fontWeight: `${
+              colors?.title?.weight ? colors?.title?.weight : "bold"
+            }`,
           }}
         >
           {userPreview?.title?.content
@@ -99,10 +103,14 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
             : "Your title"}
         </h1>
         <h2
-          className="text-xl"
           style={{
             color: colors?.career?.color || "white",
-            fontSize: colors?.career?.size ? colors?.career?.size : "1.25rem",
+            fontSize: colors?.career?.size
+              ? colors?.career?.size + "px"
+              : "1.25rem",
+            fontWeight: `${
+              colors?.career?.weight ? colors?.career?.weight : "normal"
+            }`,
           }}
         >
           {userPreview?.career?.content
@@ -118,7 +126,10 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
               colors?.nickname?.size
                 ? colors?.nickname?.size + "px"
                 : userPreview?.nickname?.size! + "px"
-            } `,
+            }`,
+            fontWeight: `${
+              colors?.nickname?.weight ? colors?.nickname?.weight : "normal"
+            }`,
           }}
         >
           @

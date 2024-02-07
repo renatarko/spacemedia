@@ -4,6 +4,7 @@ import { auth } from "@/config/firebase";
 import { saveLinkNameMutation } from "@/functions/mutation";
 import { getUserDataQuery } from "@/functions/query";
 import { Check, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -16,6 +17,8 @@ export default function LinkName({ linkNameSaved }: LinkNameProps) {
   const [linkName, setLinkName] = useState("");
   const [linkNameSave, setLinkNameSave] = useState("");
 
+  const route = useRouter();
+
   const saveLinkName = async () => {
     if (!linkName) {
       toast("Choose your link name to continue");
@@ -23,12 +26,13 @@ export default function LinkName({ linkNameSaved }: LinkNameProps) {
     }
 
     const uid = auth.currentUser?.uid;
-    if (!uid) return console.log("não encontrou uia", uid);
+    if (!uid) return;
     try {
       await saveLinkNameMutation(uid, linkName);
       setShowInput(false);
       getLinkNameSaved();
       toast("Link name created successfully");
+      route.refresh();
     } catch (e) {
       console.error("Error adding document: ", e);
       toast.error("Something it's wrong, please try again!");
@@ -48,7 +52,7 @@ export default function LinkName({ linkNameSaved }: LinkNameProps) {
 
   if (linkNameSaved) {
     return (
-      <div className="flex items-center mt-8">
+      <div className="flex items-center mt-8 z-[100]">
         <p className="text-blue-500/50 text-sm">http://mediaspace/</p>
         <p className="ml-1 text-blue-500">{linkNameSaved}</p>
       </div>
@@ -57,7 +61,7 @@ export default function LinkName({ linkNameSaved }: LinkNameProps) {
 
   if (linkNameSave) {
     return (
-      <div className="flex items-center mt-8">
+      <div className="flex items-center mt-8 z-[100]">
         <p className="text-blue-500/50 text-sm">http://mediaspace/</p>
         <p className="ml-1 text-blue-500">{linkNameSave}</p>
       </div>
@@ -65,12 +69,12 @@ export default function LinkName({ linkNameSaved }: LinkNameProps) {
   }
 
   return (
-    <div className="flex flex-col gap-4 mt-8">
+    <div className="flex flex-col gap-4 mt-8 z-[200]">
       <div className="flex items-center">
-        <p className="text-blue-600 text-sm">http://mediaspace/</p>
+        <p className="text-blue-600 font-bold text-md">http://mediaspace/</p>
 
         {showInput ? (
-          <div className="bg-gray-100 ml-2 p-1 focus-within:border-b-blue-500 border border-transparent flex items-center">
+          <div className="bg-gray-50 ml-2 p-1 rounded-sm focus-within:border-b-blue-500 border-[4px] border-transparent flex items-center">
             <input
               className={`bg-transparent  outline-none text-blue-600 `}
               onChange={(e) => setLinkName(e.target.value)}
@@ -83,17 +87,18 @@ export default function LinkName({ linkNameSaved }: LinkNameProps) {
                 <Check size={20} />
               </button>
             ) : (
-              <X
+              <button
                 onClick={() => setShowInput(false)}
-                size={20}
-                className="hover:text-blue-600 text-blue-500 cursor-pointer"
-              />
+                className="hover:text-blue-600 text-blue-500 cursor-pointer p-1"
+              >
+                <X size={20} />
+              </button>
             )}
           </div>
         ) : (
           <button
             onClick={() => setShowInput(true)}
-            className="text-blue-600 p-1 bg-blue-300/20 hover:bg-blue-300 hover:text-blue-800 duration-150 rounded-full"
+            className="text-blue-600 p-1 bg-white/70 hover:bg-blue-400 hover:text-white duration-150 rounded-full"
           >
             add link name
           </button>

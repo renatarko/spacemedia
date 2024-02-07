@@ -22,11 +22,10 @@ export async function getUserByLinkNameQuery(slug: string) {
 
 export async function getUserDataQuery(uid: string) {
   try {
-    if (!uid) throw new Error("uid undefined");
+    if (!uid) return;
 
     const docRef = doc(db, "users", uid!);
     const docSnap = await getDoc(docRef);
-    // console.log({ docSnap });
 
     if (!docSnap.exists()) return;
 
@@ -50,11 +49,9 @@ export async function verifyLinkExist(uid: string, url: string | undefined) {
 
     if (docSnap.exists()) {
       const data = docSnap.get("link.links");
-      console.log(data.map((item: any) => item));
 
       return;
     }
-    // console.log(querySnapshot.docs);
 
     return "doc not exist";
   } catch (error) {

@@ -34,7 +34,6 @@ export default function NavBar() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { logout, user } = useAuth();
-
   const [open, setOpen] = useState(false);
 
   const createQueryString = useCallback(
@@ -47,11 +46,9 @@ export default function NavBar() {
     },
     [searchParams]
   );
-  console.log(user);
 
   const letters =
     user && user?.name.split(" ").forEach((name) => name[0].toUpperCase());
-  console.log({ letters, user });
 
   // ${
   //           open
@@ -73,6 +70,14 @@ export default function NavBar() {
         className={`w-full h-min top-0 left-0 right-0 flex sm:flex-col justify-between text-white gap-6 z-20 items-center sm:py-16 bg-blue-700 fixed sm:relative sm:h-full`}
       >
         <div className="flex sm:flex-col">
+          <Image
+            src="/logo.svg"
+            alt="Media Space logo"
+            width={60}
+            height={60}
+            className="mb-10 p-1 hidden sm:block"
+          />
+
           {navLinks.map((link) => (
             <button
               key={link.name}

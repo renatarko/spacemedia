@@ -105,8 +105,6 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
     }
   };
 
-  console.log(link);
-
   return (
     <>
       {open && (

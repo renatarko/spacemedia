@@ -7,7 +7,7 @@ import { Link } from "@/types/types";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { DocumentData, doc, setDoc } from "firebase/firestore";
 import { LinkIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddLink from "./addLink";
 import Button from "./button";
 import LinkEdit from "./linkEdit";
@@ -31,6 +31,7 @@ type ProfileProps = {
 export default function Profile({ userRef }: ProfileProps) {
   const { userPreview, setUserPreview, links, setLinks } = usePreview();
   const [open, setOpen] = useState(false);
+  const [hasLinkName, setHasLinkName] = useState(null);
 
   const uid = auth.currentUser?.uid;
 
@@ -83,6 +84,10 @@ export default function Profile({ userRef }: ProfileProps) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    setHasLinkName(userRef?.linkName);
+  }, [userRef]);
 
   return (
     <>
@@ -187,7 +192,7 @@ export default function Profile({ userRef }: ProfileProps) {
               onClick={() => setOpen(true)}
               icon={<LinkIcon size={20} />}
             >
-              create my first link
+              Create my first link
             </Button>
           )}
 
@@ -235,6 +240,10 @@ export default function Profile({ userRef }: ProfileProps) {
           <AddLink open={open} setOpen={setOpen} />
         </div>
       </div>
+
+      {!hasLinkName && (
+        <div className="fixed bg-gray-900/20 top-0 bottom-0 left-0 right-0" />
+      )}
     </>
   );
 }

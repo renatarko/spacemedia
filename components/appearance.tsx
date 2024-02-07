@@ -36,6 +36,8 @@ export default function Appearance() {
     });
   }, []);
 
+  console.log(colors.link);
+
   const saveBackgroundData = async (e: any) => {
     const { name, value } = e.target;
     const uid = auth.currentUser?.uid!;
@@ -57,7 +59,7 @@ export default function Appearance() {
         <div className="flex gap-4 mb-6">
           <fieldset
             className={`w-24 relative rounded-lg h-40 cursor-pointer bg-blue-800 border-[4px] ${
-              colors?.background.type === "solid" && "border-blue-400"
+              colors?.background?.type === "solid" && "border-blue-400"
             }
             `}
           >
@@ -79,7 +81,7 @@ export default function Appearance() {
 
           <fieldset
             className={`w-24 relative rounded-lg h-40 cursor-pointer bg-blue-800 border-[4px] ${
-              colors?.background.type === "gradient" && "border-blue-400"
+              colors?.background?.type === "gradient" && "border-blue-400"
             } `}
             style={{
               background: "linear-gradient(to left, #0bc2ea, #175a73)",
@@ -101,7 +103,7 @@ export default function Appearance() {
           </fieldset>
         </div>
 
-        {colors?.background.type === "gradient" ? (
+        {colors?.background?.type === "gradient" ? (
           <div className="mt-4">
             <Color
               label="First color"
@@ -113,13 +115,13 @@ export default function Appearance() {
                   ...colors,
                   background: {
                     gradient: {
-                      ...colors?.background.gradient,
+                      ...colors?.background?.gradient,
                       firstColor: e.target.value,
                     },
                   },
                 });
               }}
-              value={colors?.background.gradient?.firstColor}
+              value={colors?.background?.gradient?.firstColor}
             />
             <Color
               label="Second color"
@@ -131,13 +133,13 @@ export default function Appearance() {
                   ...colors,
                   background: {
                     gradient: {
-                      ...colors?.background.gradient,
+                      ...colors?.background?.gradient,
                       secondColor: e.target.value,
                     },
                   },
                 });
               }}
-              value={colors?.background.gradient?.secondColor}
+              value={colors?.background?.gradient?.secondColor}
             />
 
             <div className="flex mt-6 gap-2">
@@ -145,7 +147,7 @@ export default function Appearance() {
                 htmlFor="left"
                 className={`py-2 px-4 cursor-pointer bg-blue-800 rounded-full text-white border-[4px] ${
                   direction &&
-                  colors.background.direction === "left" &&
+                  colors?.background?.direction === "left" &&
                   "border-blue-500"
                 }`}
               >
@@ -174,7 +176,7 @@ export default function Appearance() {
                 htmlFor="right"
                 className={`py-2 px-4 cursor-pointer bg-blue-800 rounded-full text-white border-[4px] ${
                   direction &&
-                  colors.background.direction === "right" &&
+                  colors?.background?.direction === "right" &&
                   "border-blue-500"
                 }`}
               >
@@ -215,7 +217,7 @@ export default function Appearance() {
                 },
               });
             }}
-            value={colors?.background.color}
+            value={colors?.background?.color}
           />
         )}
       </div>
@@ -247,16 +249,15 @@ export default function Appearance() {
               labelFor="fontSize"
               name="title.size"
               value={colors?.title?.size && colors?.title?.size}
-              onChange={(e) => {
-                setColors({
-                  ...colors,
-                  title: {
-                    ...colors?.title,
-                    size: e.target.value,
-                  },
-                });
-                console.log(e.target.value);
-              }}
+              // onChange={(e) => {
+              //   setColors({
+              //     ...colors,
+              //     title: {
+              //       ...colors?.title,
+              //       size: e.target.value,
+              //     },
+              //   });
+              // }}
             />
 
             <Select
@@ -322,7 +323,7 @@ export default function Appearance() {
                 setColors({
                   ...colors,
                   career: {
-                    ...colors.career,
+                    ...colors?.career,
                     weight: e.target.value,
                   },
                 });
@@ -340,7 +341,7 @@ export default function Appearance() {
               setColors({
                 ...colors,
                 nickname: {
-                  ...colors.nickname,
+                  ...colors?.nickname,
                   color: e.target.value,
                 },
               });
@@ -359,7 +360,7 @@ export default function Appearance() {
                 setColors({
                   ...colors,
                   nickname: {
-                    ...colors.nickname,
+                    ...colors?.nickname,
                     size: e.target.value,
                   },
                 });
@@ -376,7 +377,7 @@ export default function Appearance() {
                 setColors({
                   ...colors,
                   nickname: {
-                    ...colors.nickname,
+                    ...colors?.nickname,
                     weight: e.target.value,
                   },
                 });
@@ -397,7 +398,7 @@ export default function Appearance() {
             setColors({
               ...colors,
               link: {
-                ...colors.link,
+                ...colors?.link,
                 background: e.target.value,
               },
             });
@@ -413,7 +414,7 @@ export default function Appearance() {
             setColors({
               ...colors,
               link: {
-                ...colors.link,
+                ...colors?.link,
                 color: e.target.value,
               },
             });
@@ -432,7 +433,7 @@ export default function Appearance() {
               setColors({
                 ...colors,
                 link: {
-                  ...colors.link,
+                  ...colors?.link,
                   size: e.target.value,
                 },
               });
@@ -449,7 +450,7 @@ export default function Appearance() {
               setColors({
                 ...colors,
                 link: {
-                  ...colors.link,
+                  ...colors?.link,
                   weight: e.target.value,
                 },
               });

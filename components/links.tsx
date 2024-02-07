@@ -7,7 +7,6 @@ import Input from "./input";
 import { LinkProps } from "./link";
 
 export default function Links() {
-  // const { user, logout } = useAuth();
   const { links, setLinks, colors, setColors, userPreview, setUserPreview } =
     usePreview();
 
@@ -23,8 +22,6 @@ export default function Links() {
     const { value, name } = e.target;
     setLinkPrev({ ...linkPrev, children: value, url: value });
   };
-
-  console.log({ linkPrev });
 
   const pushLink = () => {
     if (!linkPrev) return;

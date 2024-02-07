@@ -65,3 +65,18 @@ export async function GET(req: Request, res: Response) {
     console.log(error);
   }
 }
+
+export async function DELETE() {
+  try {
+    const tokenSaved = process.env.NEXT_PUBLIC_COOKIE_UID!;
+    const uidSaved = process.env.NEXT_PUBLIC_COOKIE_KEY!;
+    cookies().delete(tokenSaved);
+    cookies().delete(uidSaved);
+
+    return new NextResponse(null, {
+      statusText: "Cookie removed successful",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}

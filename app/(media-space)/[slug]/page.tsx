@@ -11,11 +11,10 @@ export default async function MediaSpace({
   params: { slug },
 }: MediaSpaceProps) {
   const user = await getUserByLinkNameQuery(slug);
-  const gradient = `linear-gradient(to ${user?.background.direction}, ${user?.background.gradient.firstColor}, ${user?.background.gradient.secondColor})`;
+  const gradient = `linear-gradient(to ${user?.background?.direction}, ${user?.background?.gradient?.firstColor}, ${user?.background?.gradient?.secondColor})`;
 
   return (
     <>
-      <h1>ooi babaca</h1>
       <section
         className={`h-screen w-full flex flex-col justify-center items-center relative`}
         style={{

@@ -6,6 +6,7 @@ import PreviewProvider from "@/context/preview";
 import { routesApp } from "@/functions/constant";
 import { Inter } from "next/font/google";
 import { usePathname, useSearchParams } from "next/navigation";
+import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
@@ -36,6 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <NextTopLoader showSpinner={false} color="#26c9ea" height={4} />
         <AuthGoogleProvider>
           <PreviewProvider>
             <Toaster

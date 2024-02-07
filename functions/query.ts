@@ -36,3 +36,28 @@ export async function getUserDataQuery(uid: string) {
     console.log("getUserQuery", error.message);
   }
 }
+
+export async function verifyLinkExist(uid: string, url: string | undefined) {
+  try {
+    const docRef = doc(db, "users", uid!);
+
+    // const linkRef = doc(db, "users", uid);
+    // await updateDoc(linkRef, { link: { links: [] } });
+
+    // const querySnapshot = await getDocs(collection(db, "users", uid, "link"));
+
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.get("link.links");
+      console.log(data.map((item: any) => item));
+
+      return;
+    }
+    // console.log(querySnapshot.docs);
+
+    return "doc not exist";
+  } catch (error) {
+    console.log({ error });
+  }
+}

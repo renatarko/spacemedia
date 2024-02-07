@@ -8,10 +8,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 type LinkNameProps = {
-  linkNameSaved: {
-    content: string;
-    color?: string;
-  };
+  linkNameSaved: string;
 };
 
 export default function LinkName({ linkNameSaved }: LinkNameProps) {
@@ -49,11 +46,11 @@ export default function LinkName({ linkNameSaved }: LinkNameProps) {
     }
   };
 
-  if (linkNameSaved?.content) {
+  if (linkNameSaved) {
     return (
       <div className="flex items-center mt-8">
         <p className="text-blue-500/50 text-sm">http://mediaspace/</p>
-        <p className="ml-1 text-blue-500">{linkNameSaved?.content}</p>
+        <p className="ml-1 text-blue-500">{linkNameSaved}</p>
       </div>
     );
   }

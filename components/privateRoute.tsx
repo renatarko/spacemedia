@@ -1,6 +1,7 @@
 "use client";
 
-import { localStorageAuth, routesApp } from "@/functions/constant";
+import { auth } from "@/config/firebase";
+import { routesApp } from "@/functions/constant";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 import toast from "react-hot-toast";
@@ -14,7 +15,7 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
 
   const checkUserAuthenticate = () => {
     if (typeof window !== "undefined") {
-      const userAuth = localStorage.getItem(localStorageAuth.token);
+      const userAuth = auth.currentUser?.uid !== null;
       return !!userAuth;
     }
     return false;

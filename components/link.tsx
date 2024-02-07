@@ -56,10 +56,10 @@ export default function Link({ link, design }: linkProps) {
       className={`w-full group flex items-center gap-2 p-3 rounded-lg hover:shadow-md duration-150 
         `}
       style={{
-        background: design.background ? design.background : "#f8f8f8",
-        color: design.color ? design.color : "#000",
-        fontWeight: design.weight ? design.weight : "normal",
-        fontSize: design.size ? design.size : "16px",
+        background: design?.background ? design?.background : "#f8f8f8",
+        color: design?.color ? design?.color : "#000",
+        fontWeight: design?.weight ? design?.weight : "normal",
+        fontSize: design?.size ? design?.size : "16px",
       }}
       target="_blank"
       href={setPathLink()}
@@ -67,7 +67,7 @@ export default function Link({ link, design }: linkProps) {
       {link?.icon && (
         <span
           className="group-hover:scale-105 duration-200"
-          style={{ color: design.color }}
+          style={{ color: design?.color }}
         >
           {link?.icon}
         </span>

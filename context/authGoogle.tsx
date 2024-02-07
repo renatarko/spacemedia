@@ -85,7 +85,6 @@ export const AuthGoogleProvider = ({ children }: any) => {
   };
 
   const setCookie = async (token: string, uid: string) => {
-    console.log("passou pelo setCookie");
     try {
       await fetch(`/api/auth`, {
         method: "POST",
@@ -122,7 +121,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
       // setUserState(auth_user);
       // setUserInLocalStorage(auth_user, token);
       // redirectUserAuth(auth_user);
-
+      redirectUserAuth(user.uid);
       alert("user logged with email and password");
     } catch (error: any) {
       const errorCode = error.code;
@@ -155,6 +154,7 @@ export const AuthGoogleProvider = ({ children }: any) => {
       };
 
       setUserState(auth_user);
+      redirectUserAuth(user.uid);
       setUserInLocalStorage(auth_user, token);
       await createUser(auth_user, user.uid);
     } catch (error: any) {
@@ -167,10 +167,11 @@ export const AuthGoogleProvider = ({ children }: any) => {
 
   const logout = async () => {
     try {
+      router.push("/");
       await signOut(auth);
       localStorage.clear();
       setUser(() => null);
-      router.push("/");
+      await fetch("/api/auth", { method: "DELETE" });
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -197,6 +198,8 @@ export const AuthGoogleProvider = ({ children }: any) => {
     }
   }, []);
 
+  console.log(auth.currentUser?.uid);
+
   return (
     <AuthGoogleContext.Provider
       value={{
@@ -205,7 +208,8 @@ export const AuthGoogleProvider = ({ children }: any) => {
         signUpWithEmailAndPassword,
         logout,
         user,
-        signed: user !== null,
+        signed:
+          auth.currentUser?.uid !== null && auth.currentUser?.uid !== undefined,
         notify,
       }}
     >

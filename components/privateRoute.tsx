@@ -51,17 +51,4 @@ export default function PrivateRoute({ children }: PrivateRouteProps) {
       {currentUser && children}
     </>
   )
-  if (!currentUser) {
-    return (
-      <Base>
-        <div className="flex justify-center items-center h-full">
-          <Spinner color="#0bc2ea" />
-        </div>
-      </Base>
-    )
-  }
-
-  return (
-    { children }
-  )
 }

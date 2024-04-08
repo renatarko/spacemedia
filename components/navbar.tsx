@@ -104,7 +104,7 @@ export default function NavBar() {
                 alt={`Profile image ${user.name}`}
               />
             ) : (
-              <span className="text-blue-500">{formatName(currentUser?.displayName)}</span>
+              <span className="text-blue-500">{currentUser?.displayName && formatName(currentUser?.displayName)}</span>
             )
             }
           </div>

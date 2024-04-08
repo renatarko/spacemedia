@@ -22,7 +22,7 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
   const pathname = usePathname();
 
   const searchParams = useSearchParams();
-  const isTabView = searchParams.has("tab", "view");
+  const isTabView = searchParams.has("view");
   const isDynamicRoute = pathname + data?.linkName;
 
   useEffect(() => {
@@ -42,16 +42,13 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
     setLinks(data?.link?.links);
     setHasLinkName(data?.linkName);
   }, [data]);
-  console.log(hasLinkName);
 
   return (
     <>
       <div
-        className={`px-4 sm:px-6 sm:mt-16 md:mt-20 overflow-x-hidden relative pb-16 overflow-y-auto md:w-[80%] sm:w-[90%] w-full flex flex-col items-center rounded-2xl border-gray-700 ${
-          isTabView || isDynamicRoute ? "shadow-none " : "shadow-2xl "
-        } ${
-          isTabView || (isDynamicRoute && "mt-6 md:w-[60%] lg:max-w-[30rem]")
-        }`}
+        className={`px-4 sm:px-6 sm:mt-16 md:mt-20 overflow-x-hidden relative pb-16 overflow-y-auto md:w-[80%] sm:w-[90%] w-full flex flex-col items-center rounded-2xl border-gray-700 ${isTabView || isDynamicRoute ? "shadow-none " : "shadow-2xl "
+          } ${isTabView || (isDynamicRoute && "mt-6 md:w-[60%] lg:max-w-[30rem]")
+          }`}
       >
         <div
           className={`absolute top-0 bottom-0 left-0 bg-transparent right-0 z-[-1]`}
@@ -87,9 +84,8 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
               fontSize: colors?.title?.size!
                 ? colors?.title?.size + "px"
                 : "1.5rem",
-              fontWeight: `${
-                colors?.title?.weight ? colors?.title?.weight : "bold"
-              }`,
+              fontWeight: `${colors?.title?.weight ? colors?.title?.weight : "bold"
+                }`,
             }}
           >
             {userPreview?.title?.content
@@ -102,9 +98,8 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
               fontSize: colors?.career?.size
                 ? colors?.career?.size + "px"
                 : "1.25rem",
-              fontWeight: `${
-                colors?.career?.weight ? colors?.career?.weight : "normal"
-              }`,
+              fontWeight: `${colors?.career?.weight ? colors?.career?.weight : "normal"
+                }`,
             }}
           >
             {userPreview?.career?.content
@@ -116,14 +111,12 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
             className="mt-4 text-base font-bold text-gray-500"
             style={{
               color: colors?.nickname?.color || "gray",
-              fontSize: `${
-                colors?.nickname?.size
-                  ? colors?.nickname?.size + "px"
-                  : userPreview?.nickname?.size! + "px"
-              }`,
-              fontWeight: `${
-                colors?.nickname?.weight ? colors?.nickname?.weight : "normal"
-              }`,
+              fontSize: `${colors?.nickname?.size
+                ? colors?.nickname?.size + "px"
+                : userPreview?.nickname?.size! + "px"
+                }`,
+              fontWeight: `${colors?.nickname?.weight ? colors?.nickname?.weight : "normal"
+                }`,
             }}
           >
             @
@@ -136,18 +129,18 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
         <ul className="flex flex-col gap-4 mt-8 w-full">
           {links !== undefined
             ? links?.map((link, i) => {
-                return <Link key={i} link={link} design={colors?.link} />;
-              })
+              return <Link key={i} link={link} design={colors?.link} />;
+            })
             : Array(3)
-                .fill(0)
-                .map((_, i) => (
-                  <li
-                    key={i}
-                    className="p-2 w-full bg-gray-200 rounded-lg text-gray-600 text-center font-bold"
-                  >
-                    Your Link
-                  </li>
-                ))}
+              .fill(0)
+              .map((_, i) => (
+                <li
+                  key={i}
+                  className="p-2 w-full bg-gray-200 rounded-lg text-gray-600 text-center font-bold"
+                >
+                  Your Link
+                </li>
+              ))}
         </ul>
       </div>
 
@@ -156,9 +149,8 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
       )}
 
       <div
-        className={`p-3 min-w-min flex flex-col font-bold items-center absolute z-[200] duration-150 top-24 opacity-0 bg-slate-50 rounded-lg shadow-lg shadow-blue-400/30 ${
-          !hasLinkName && "opacity-100"
-        }`}
+        className={`p-3 min-w-min flex flex-col font-bold items-center absolute z-[200] duration-150 top-24 opacity-0 bg-slate-50 rounded-lg shadow-lg shadow-blue-400/30 ${!hasLinkName && "opacity-100"
+          }`}
       >
         <div className="absolute w-6 h-6 bg-slate-50 top-[-10px] right-4 rotate-45 rounded-sm" />
 

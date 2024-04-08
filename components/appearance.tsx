@@ -36,8 +36,6 @@ export default function Appearance() {
     });
   }, []);
 
-  console.log(colors.link);
-
   const saveBackgroundData = async (e: any) => {
     const { name, value } = e.target;
     const uid = auth.currentUser?.uid!;
@@ -58,9 +56,8 @@ export default function Appearance() {
         <h1 className="text-2xl font-bold pb-4">Backgrounds</h1>
         <div className="flex gap-4 mb-6">
           <fieldset
-            className={`w-24 relative rounded-lg h-40 cursor-pointer bg-blue-800 border-[4px] ${
-              colors?.background?.type === "solid" && "border-blue-400"
-            }
+            className={`w-24 relative rounded-lg h-40 cursor-pointer bg-blue-800 border-[4px] ${colors?.background?.type === "solid" && "border-blue-400"
+              }
             `}
           >
             <input
@@ -80,9 +77,8 @@ export default function Appearance() {
           </fieldset>
 
           <fieldset
-            className={`w-24 relative rounded-lg h-40 cursor-pointer bg-blue-800 border-[4px] ${
-              colors?.background?.type === "gradient" && "border-blue-400"
-            } `}
+            className={`w-24 relative rounded-lg h-40 cursor-pointer bg-blue-800 border-[4px] ${colors?.background?.type === "gradient" && "border-blue-400"
+              } `}
             style={{
               background: "linear-gradient(to left, #0bc2ea, #175a73)",
             }}
@@ -145,11 +141,10 @@ export default function Appearance() {
             <div className="flex mt-6 gap-2">
               <label
                 htmlFor="left"
-                className={`py-2 px-4 cursor-pointer bg-blue-800 rounded-full text-white border-[4px] ${
-                  direction &&
+                className={`py-2 px-4 cursor-pointer bg-blue-800 rounded-full text-white border-[4px] ${direction &&
                   colors?.background?.direction === "left" &&
                   "border-blue-500"
-                }`}
+                  }`}
               >
                 Left
                 <input
@@ -174,11 +169,10 @@ export default function Appearance() {
 
               <label
                 htmlFor="right"
-                className={`py-2 px-4 cursor-pointer bg-blue-800 rounded-full text-white border-[4px] ${
-                  direction &&
+                className={`py-2 px-4 cursor-pointer bg-blue-800 rounded-full text-white border-[4px] ${direction &&
                   colors?.background?.direction === "right" &&
                   "border-blue-500"
-                }`}
+                  }`}
               >
                 Right
                 <input

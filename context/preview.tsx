@@ -5,6 +5,7 @@ import {
   Dispatch,
   SetStateAction,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -147,19 +148,35 @@ export default function PreviewProvider({ children }: any) {
   //   }
   // };
 
-  const getUser = async () => {
+  // const getUser = async () => {
+  //   try {
+  //     const data = await fetch(`/api/auth`);
+  //     const uid = await data.json();
+
+  //     const user = await getUserDataQuery(uid!);
+  //     console.log("getUser", user)
+  //     if (!user) return;
+
+  //     setUserAndColors(user);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const getUser = useCallback(async () => {
     try {
       const data = await fetch(`/api/auth`);
       const uid = await data.json();
 
       const user = await getUserDataQuery(uid!);
+      console.log("getUser", user)
       if (!user) return;
 
       setUserAndColors(user);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [userPreview]);
 
   function setUserAndColors(user: DocumentData) {
     setUserPreview({

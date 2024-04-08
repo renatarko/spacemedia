@@ -7,6 +7,7 @@ import { cookies } from "next/headers";
 export default async function PreviewPage() {
   const cookiesStore = cookies();
   const cookieUID = cookiesStore.get(process.env.NEXT_PUBLIC_COOKIE_UID!);
+  console.log({ cookieUID })
   let uid: string;
   if (cookieUID !== undefined) {
     uid = (cookieUID as RequestCookie).value;

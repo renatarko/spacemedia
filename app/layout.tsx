@@ -5,7 +5,7 @@ import { AuthGoogleProvider } from "@/context/authGoogle";
 import PreviewProvider from "@/context/preview";
 import { routesApp } from "@/functions/constant";
 import { Inter } from "next/font/google";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
@@ -22,17 +22,21 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter()
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const checkRoutesPrivate = () => {
     const hasTab = searchParams.has("tab");
-    const isPrivate =
-      (pathname === routesApp.private.my_media && hasTab) || hasTab;
+    const isPrivate = pathname.includes(routesApp.private.my_media) || hasTab
     return isPrivate;
   };
 
   const isPrivateRouter = checkRoutesPrivate();
+
+  // if (isPrivateRouter) {
+  //   router.push(routesApp.public.home)
+  // }
 
   return (
     <html lang="en">
@@ -51,7 +55,6 @@ export default function RootLayout({
             />
             <main className="relative flex flex-col justify-between">
               {!isPrivateRouter && children}
-
               {isPrivateRouter && <PrivateRoute>{children}</PrivateRoute>}
             </main>
           </PreviewProvider>

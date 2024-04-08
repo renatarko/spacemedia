@@ -1,10 +1,12 @@
 "use client";
 
-import { auth } from "@/config/firebase";
 import { routesApp } from "@/functions/constant";
 import { useRouter } from "next/navigation";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { Spinner } from "./Spinner";
+import Base from "./base";
+
 
 type PrivateRouteProps = {
   children: ReactNode;
@@ -12,39 +14,41 @@ type PrivateRouteProps = {
 
 export default function PrivateRoute({ children }: PrivateRouteProps) {
   const router = useRouter();
+  const [currentUser, setCurrentUser] = useState(false)
 
-  const checkUserAuthenticate = () => {
-    if (typeof window !== "undefined") {
-      const userAuth = auth.currentUser?.uid !== null;
-      return !!userAuth;
-    }
-    return false;
-  };
+  const getCookie = async () => {
+    const data = await fetch('/api/auth')
+    const token = await data.json();
+    setCurrentUser(!!token)
 
-  const isUserAuthenticated = checkUserAuthenticate();
+    return !!token
+  }
 
   useEffect(() => {
-    if (!isUserAuthenticated) {
-      toast.error("Log in to continue", {
-        style: { background: "rgb(234, 179, 8)", color: "black" },
-      });
-      router.push(routesApp.public.home);
-    }
-  }, [isUserAuthenticated, router]);
+    const fetchData = async () => {
+      const isAuth = await getCookie();
+
+      if (!isAuth) {
+        toast.error("Please log in to continue", {
+          style: { background: "rgb(234, 179, 8)", color: "black" },
+        });
+        router.push(routesApp.public.home);
+      }
+    };
+
+    fetchData();
+  }, [currentUser, router]);
 
   return (
     <>
-      {!isUserAuthenticated && null}
-      {/* <Base>
-        <Container>
-          <div className="grid grid-cols-2 gap-4">
-            <ProfileSkeleton />
-            <PhoneSkeleton />
+      {!currentUser && (
+        <Base>
+          <div className="flex justify-center items-center h-full">
+            <Spinner color="#0bc2ea" />
           </div>
-        </Container>
-        //{" "}
-      </Base> */}
-      {isUserAuthenticated && children}
+        </Base>
+      )}
+      {currentUser && children}
     </>
-  );
+  )
 }

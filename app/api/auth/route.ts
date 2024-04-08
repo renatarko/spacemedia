@@ -47,7 +47,6 @@ export async function POST(req: Request, res: Request) {
 
 export async function GET(req: Request, res: Response) {
   const origin = req.headers.get("origin");
-
   try {
     const uid = cookies().get(process.env.NEXT_PUBLIC_COOKIE_UID!)?.value;
 

@@ -47,11 +47,6 @@ export const AuthGoogleProvider = ({ children }: any) => {
     });
   };
 
-  const setUserInLocalStorage = (auth_user: UserContext, token: string) => {
-    localStorage.setItem(localStorageAuth.token, token!);
-    localStorage.setItem(localStorageAuth.user, JSON.stringify(auth_user));
-  };
-
   const loginWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
@@ -74,7 +69,6 @@ export const AuthGoogleProvider = ({ children }: any) => {
         avatar: userAuth.photoURL!,
       };
 
-      setUserInLocalStorage(auth_user, token!);
       await createUser(auth_user, uid);
       redirectUserAuth(uid);
     } catch (error: any) {
@@ -120,7 +114,6 @@ export const AuthGoogleProvider = ({ children }: any) => {
       };
 
       // setUserState(auth_user);
-      // setUserInLocalStorage(auth_user, token);
       // redirectUserAuth(auth_user);
       redirectUserAuth(user.uid);
       alert("user logged with email and password");
@@ -151,15 +144,12 @@ export const AuthGoogleProvider = ({ children }: any) => {
         name,
         email: user.email!,
         avatar: user.photoURL!,
-        // links: [],
       };
 
       setUserState(auth_user);
       redirectUserAuth(user.uid);
-      setUserInLocalStorage(auth_user, token);
       await createUser(auth_user, user.uid);
     } catch (error: any) {
-      const errorCode = error.code;
       const errorMessage = error.message;
       toast.error(errorMessage);
       console.log(errorMessage);
@@ -170,11 +160,9 @@ export const AuthGoogleProvider = ({ children }: any) => {
     try {
       router.push("/");
       await signOut(auth);
-      localStorage.clear();
       setUser(() => null);
       await fetch("/api/auth", { method: "DELETE" });
     } catch (error: any) {
-      const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorMessage);
     }
@@ -201,12 +189,6 @@ export const AuthGoogleProvider = ({ children }: any) => {
   };
 
   useEffect(() => {
-    const localStore = localStorage.getItem(localStorageAuth.user);
-    const isUser = JSON.parse(localStore!);
-
-    if (isUser) {
-      setUser(isUser);
-    }
     getCookie();
   }, []);
 

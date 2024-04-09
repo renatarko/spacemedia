@@ -46,7 +46,7 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
   return (
     <>
       <div
-        className={`px-4 sm:px-6 sm:mt-16 md:mt-20 overflow-x-hidden relative pb-16 overflow-y-auto md:w-[80%] sm:w-[90%] w-full flex flex-col items-center rounded-2xl border-gray-700 ${isTabView || isDynamicRoute ? "shadow-none " : "shadow-2xl "
+        className={`relative px-4 sm:px-6 sm:mt-16 md:mt-20 overflow-x-hidden pb-16 overflow-y-auto md:w-full sm:w-[90%] w-full flex flex-col items-center rounded-2xl border-gray-700 ${isTabView || isDynamicRoute ? "shadow-none " : "shadow-2xl "
           } ${isTabView || (isDynamicRoute && "mt-6 md:w-[60%] lg:max-w-[30rem]")
           }`}
       >

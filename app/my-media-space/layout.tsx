@@ -32,15 +32,28 @@ export default function MediaSpaceLayout({
 
   return (
     <>
-      <section className="grid sm:grid-cols-mediaSpace grid-cols-1 sm:h-screen justify-items-center">
+      <section className=" sm:h-screen justify-items-center relative">
         <NavBar />
 
-        <div className="grid md:grid-cols-2 grid-cols-1 pb-4 w-full divide-y-2 divide divide-gray-300 px-4 xl:px-48">
+        {/* <div className="grid md:grid-cols-2 grid-cols-1 pb-4 w-full divide-y-2 divide divide-gray-300 px-4 xl:px-48">
           {tabParams === routesApp.private.tabs.profile && (
             <div>{children}</div>
           )}
           {tabParams === routesApp.private.tabs.appearance && (
             <div>{appearance}</div>
+          )}
+
+          <div>{tabParams !== routesApp.private.tabs.view && preview}</div>
+        </div> */}
+
+        <div className="grid md:grid-cols-2 grid-cols-1 pb-4 sm:pl-16 w-full px-4 xl:px-48 mt-16 sm:mt-0">
+          {tabParams === routesApp.private.tabs.profile &&
+            <>
+              {children}
+            </>
+          }
+          {tabParams === routesApp.private.tabs.appearance && (
+            <>{appearance}</>
           )}
 
           <div>{tabParams !== routesApp.private.tabs.view && preview}</div>

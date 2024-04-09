@@ -16,7 +16,7 @@ export default async function PreviewPage() {
   const user = await getUserDataQuery(uid!);
 
   return (
-    <aside className="h-full md:px-12 px-1 flex flex-col items-center w-full max-w-xl">
+    <aside className="h-full md:fixed md:px-8 px-1 flex flex-col items-center w-full max-w-xl">
       <LinkName linkNameSaved={user?.linkName} />
 
       <PhonePreview data={user} />

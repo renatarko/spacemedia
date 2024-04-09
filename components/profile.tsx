@@ -93,8 +93,8 @@ export default function Profile({ userRef }: ProfileProps) {
     <>
       <div className="relative h-full flex flex-col">
         <h3 className="mt-8 text-blue-600 font-bold">Hi, {userRef?.name}</h3>
-        <div className="flex flex-col customScrollNav overflow-y-auto md:px-12 px-1 h:[35rem] sm:h-[47rem] mt-8 divide pb-12 divide-y-2 divide-gray-400/20">
-          <div className="flex flex-col gap-4 w-full rounded-lg mb-12">
+        <div className="flex flex-col md:px-8 px-2 mt-4">
+          <div className="flex flex-col gap-4 w-full rounded-lg mb-6">
             <Upload user={userRef} />
 
             <div className="border flex py-3 px-5 w-full bg-blue-950/5 hover:bg-blue-950/10 rounded-lg duration-150">
@@ -217,25 +217,28 @@ export default function Profile({ userRef }: ProfileProps) {
           </div> */}
 
           {links?.length > 0 && (
-            <div>
-              <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-                <Droppable droppableId="links" direction="vertical">
-                  {(provided) => (
-                    <ul
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className="mt-4 pt-6 w-full flex flex-col"
-                    >
-                      {links.map((link, i) => (
-                        <LinkEdit link={link} key={i} index={i} />
-                      ))}
+            <>
+              <h2 className="text-lg ml-1 pl-2 font-bold text-black">Links</h2>
+              <div>
+                <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+                  <Droppable droppableId="links" direction="vertical">
+                    {(provided) => (
+                      <ul
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        className="pt-4 w-full flex flex-col"
+                      >
+                        {links.map((link, i) => (
+                          <LinkEdit link={link} key={i} index={i} />
+                        ))}
 
-                      {provided.placeholder}
-                    </ul>
-                  )}
-                </Droppable>
-              </DragDropContext>
-            </div>
+                        {provided.placeholder}
+                      </ul>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              </div>
+            </>
           )}
           <AddLink open={open} setOpen={setOpen} />
         </div>

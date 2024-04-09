@@ -169,7 +169,7 @@ export default function PreviewProvider({ children }: any) {
       const uid = await data.json();
 
       const user = await getUserDataQuery(uid!);
-      console.log("getUser", user)
+      // console.log("getUser", user)
       if (!user) return;
 
       setUserAndColors(user);

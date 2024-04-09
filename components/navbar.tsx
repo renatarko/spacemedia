@@ -56,7 +56,7 @@ export default function NavBar() {
   return (
     <>
       <nav
-        className={`w-full h-min top-0 left-0 right-0 flex sm:flex-col justify-between text-white gap-6 z-20 items-center sm:py-16 bg-blue-700 fixed sm:relative sm:h-full`}
+        className={`min-w-min h-min top-0 left-0 right-0 sm:right-auto flex sm:flex-col justify-between text-white gap-6 z-20 items-center sm:py-16 bg-blue-700 fixed sm:h-full`}
       >
         <div className="flex sm:flex-col">
           <Image

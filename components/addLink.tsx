@@ -216,7 +216,7 @@ export default function AddLink({ open, setOpen, field }: AddLinkProps) {
       {links?.length > 0 && (
         <button
           onClick={() => setOpen(true)}
-          className="mt-3 m-2 p-2 absolute bottom-0 w-max bg-blue-100/50 self-center text-blue-600 rounded-full hover:bg-blue-100 duration-150"
+          className="mt-3 m-2 p-2  bottom-0 w-max bg-blue-100/50 self-center text-blue-600 rounded-full hover:bg-blue-100 duration-150"
         >
           <Plus />
         </button>

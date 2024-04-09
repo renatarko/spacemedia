@@ -42,9 +42,8 @@ export default function LinkEdit({ link, index }: LinkEditProps) {
             {...provided.dragHandleProps}
             {...provided.draggableProps}
             ref={provided.innerRef}
-            className={`border flex flex-col mb-3 bg-[#ffff]  border-blue-500 rounded-full py-3 px-5 w-full hover:border-blue-600 hover:shadow-md hover:shadow-blue-100 duration-150 ${
-              openModal && "shadow-md shadow-blue-300 pointer-events-none"
-            }`}
+            className={`border flex flex-col mb-3 bg-[#ffff] border-blue-500 rounded-full py-3 px-5 w-full hover:border-blue-600 hover:shadow-md hover:shadow-blue-100 duration-150 ${openModal && "shadow-md shadow-blue-300 pointer-events-none"
+              }`}
             title="Move"
           >
             <div className="flex justify-between">

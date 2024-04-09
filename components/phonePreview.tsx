@@ -144,7 +144,7 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
         </ul>
       </div>
 
-      {!hasLinkName && (
+      {/* {!hasLinkName && (
         <div className="fixed z-50 bg-gray-900/20 top-0 bottom-0 left-0 right-0" />
       )}
 
@@ -157,7 +157,7 @@ export default function PhonePreview({ data }: PhonePreviewProps) {
         <Lightbulb color="#d6bd04" className="mb-2" />
         <p>To start building your media space</p>
         <p>create your link name!</p>
-      </div>
+      </div> */}
     </>
   );
 }

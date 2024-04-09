@@ -11,8 +11,8 @@ export default async function MediaSpace({
   params: { slug },
 }: MediaSpaceProps) {
   const user = await getUserByLinkNameQuery(slug);
+  if (!user) return
   const gradient = `linear-gradient(to ${user?.background?.direction}, ${user?.background?.gradient?.firstColor}, ${user?.background?.gradient?.secondColor})`;
-
   return (
     <>
       <section

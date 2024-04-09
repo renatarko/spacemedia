@@ -2,19 +2,13 @@ import { db } from "@/config/firebase";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
 export async function getUserByLinkNameQuery(slug: string) {
-  const uid = "pc1L66IOBDNViKBZjWA5LsPDIVi2";
   try {
     const query = await getDocs(collection(db, "users"));
+    const users = query.docs.map((item) => item.data())
+    const user = users.filter((user) => user.linkName === slug)
 
-    const linkNameBySlug = query.docs
-      .map((item) => item.data())
-      .map((item) => item)
-      .filter((user) => user.linkName?.content === slug);
-    // console.log(quey.docs.map((item) => item.data()));
-    // const userRef = collection(db, "users");
-    // const user = query(userRef, where("linkName", "array-contains", slug));
-    // const queryGet = await getDocs(user)
-    return linkNameBySlug[0];
+    if (user.length) return user[0]
+    return null
   } catch (error) {
     console.log(error);
   }
